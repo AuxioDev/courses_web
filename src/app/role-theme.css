@@ -1,0 +1,110 @@
+/* Public website: the notice board in the school corridor. The weekly timetable is pinned to
+   it, and each course is written in one of the family's pen colours (Student green, Teacher
+   teal, Admin indigo, and this site's own berry). Loaded after globals.css, which is identical
+   in all four apps, so everything that differs lives here.
+   Contrast is checked by src/lib/__tests__/contrast.test.ts. */
+:root {
+  --bg: #fbfcff;
+  --surface: #ffffff;
+  --surface-2: #eef1f9;
+  --ink: #1b2750;
+  --muted: #515d86;
+  --line: #cfd6ea;
+  --accent: #a32a5c;
+  --accent-ink: #ffffff;
+  --accent-soft: #f9e6ee;
+  --rule: #e4e9f6;
+  --marker: #ffd84d;
+  --marker-ink: #3d2f00;
+  --hue-0: #16794c;
+  --hue-1: #0b6e8f;
+  --hue-2: #3f4fa8;
+  --hue-3: #a32a5c;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0f1830;
+    --surface: #17223f;
+    --surface-2: #1f2d52;
+    --ink: #e8edfb;
+    --muted: #a4b1d6;
+    --line: #2c3b66;
+    --accent: #f29bc0;
+    --accent-ink: #3a0d22;
+    --accent-soft: #47203a;
+    --rule: #22305a;
+    --marker: #ffd84d;
+    --marker-ink: #3d2f00;
+    --hue-0: #52c78f;
+    --hue-1: #5cc0e0;
+    --hue-2: #9aa8f0;
+    --hue-3: #f29bc0;
+  }
+}
+
+/* Headings are the board's lettering: wide and heavy. Body text stays the family's Onest. */
+h1,
+h2,
+.display {
+  font-family: var(--font-display), var(--font-geist-sans), system-ui, sans-serif;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+h1 {
+  font-size: clamp(1.6rem, 1.1rem + 2.6vw, 3rem);
+  font-weight: 600;
+  line-height: 1.12;
+}
+h2 {
+  font-size: clamp(1.15rem, 1rem + 0.7vw, 1.5rem);
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+/* Hours, prices and seats line up in columns. */
+.num {
+  font-variant-numeric: tabular-nums;
+}
+
+/* The yellow marker: seats left, and the numbers of the three steps. */
+.marked {
+  background: var(--marker);
+  color: var(--marker-ink);
+}
+
+/* One course, one pen colour. Set on anything that belongs to a course. */
+[data-hue="0"] { --hue: var(--hue-0); }
+[data-hue="1"] { --hue: var(--hue-1); }
+[data-hue="2"] { --hue: var(--hue-2); }
+[data-hue="3"] { --hue: var(--hue-3); }
+
+/* The timetable sheet: an hour is 3.75rem tall, with a rule at each hour. */
+.sheet {
+  --hour: 3.75rem;
+  background-image: linear-gradient(var(--rule) 1px, transparent 1px);
+  background-size: 100% var(--hour);
+}
+.slot {
+  background: color-mix(in srgb, var(--hue) 11%, var(--surface));
+  border-left: 3px solid var(--hue);
+}
+.slot:hover,
+.slot:focus-visible {
+  background: color-mix(in srgb, var(--hue) 20%, var(--surface));
+}
+.pen {
+  color: var(--hue);
+}
+.pen-edge {
+  border-left: 3px solid var(--hue);
+}
+
+/* Browsers hide this from people; scripts fill it in. See src/lib/apply.ts. */
+.hp {
+  position: absolute;
+  left: -200vw;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
