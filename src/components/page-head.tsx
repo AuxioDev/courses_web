@@ -4,7 +4,7 @@ import { ChevronLeft } from "./icons";
 
 export function BackLink({ href, children }: { href: string; children: ReactNode }) {
   return (
-    <Link href={href} className="mb-3 inline-flex items-center gap-1 text-sm text-muted hover:text-ink">
+    <Link href={href} className="mb-0 inline-flex min-h-11 items-center gap-1 text-sm text-muted sm:mb-3 sm:min-h-6 hover:text-ink">
       <ChevronLeft width={18} height={18} /> {children}
     </Link>
   );

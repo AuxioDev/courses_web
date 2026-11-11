@@ -189,7 +189,7 @@ export function ApplyForm({ locale, groups, chosen, labels }: Props) {
           <div className="cf-turnstile" data-sitekey={TURNSTILE_SITE_KEY} data-theme="auto" data-language={locale} />
         </>
       )}
-      <button type="submit" disabled={pending} className="btn w-full px-5 py-3 text-[15px] sm:w-auto">
+      <button type="submit" disabled={pending} className="btn w-full px-5 py-3 text-[0.9375rem] sm:w-auto">
         {pending ? labels.sending : labels.submit}
       </button>
     </form>

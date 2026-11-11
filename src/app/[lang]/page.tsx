@@ -46,7 +46,7 @@ export default async function HomePage() {
       />
       <section className="max-w-3xl">
         <h1>{h.title}</h1>
-        <p className="mt-4 max-w-[62ch] text-[17px] leading-relaxed text-muted">{h.lead}</p>
+        <p className="mt-4 max-w-[62ch] text-[1.0625rem] leading-relaxed text-muted">{h.lead}</p>
       </section>
 
       {groups.length === 0 ? (
@@ -117,7 +117,7 @@ export default async function HomePage() {
         <section className="mt-14" aria-labelledby="teachers">
           <div className="mb-4 flex items-end justify-between gap-4">
             <h2 id="teachers">{h.teachersTitle}</h2>
-            <Link href={localePath(locale, "/teachers")} className="text-sm font-medium text-accent underline-offset-4 hover:underline">
+            <Link href={localePath(locale, "/teachers")} className="inline-flex min-h-11 items-center text-sm font-medium text-accent underline-offset-4 hover:underline sm:min-h-6">
               {h.allTeachers}
             </Link>
           </div>

@@ -50,10 +50,10 @@ export function Timetable({ groups, locale }: { groups: PublicGroup[]; locale: L
                     data-hue={hueOf(slot.group.course.id)}
                     className={`slot flex h-full flex-col overflow-hidden rounded-lg py-1 text-xs leading-tight ${slot.lanes > 1 ? "px-1.5" : "px-2"}`}
                   >
-                    <span className={`num whitespace-nowrap text-muted ${slot.lanes > 1 ? "text-[11px]" : ""}`}>
+                    <span className={`num whitespace-nowrap text-muted ${slot.lanes > 1 ? "text-[0.6875rem]" : ""}`}>
                       {slot.startTime}–{slot.endTime}
                     </span>
-                    <span className={`mt-0.5 font-semibold [overflow-wrap:anywhere] ${slot.lanes > 1 ? "text-[11.5px]" : "text-[13px]"}`}>
+                    <span className={`mt-0.5 font-semibold [overflow-wrap:anywhere] ${slot.lanes > 1 ? "text-[0.71875rem]" : "text-[0.8125rem]"}`}>
                       {slot.group.course.title}
                     </span>
                     <span className="truncate text-muted">

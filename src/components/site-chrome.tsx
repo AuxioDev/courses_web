@@ -4,6 +4,7 @@ import { localePath, type Locale } from "@/i18n/config";
 import { contacts, SCHOOL_NAME } from "@/lib/site";
 import { Mark } from "./icons";
 import { LanguageSwitch } from "./language-switch";
+import { LinkPending } from "./link-pending";
 
 type Props = { locale: Locale; t: Dictionary };
 
@@ -17,13 +18,13 @@ export function SiteHeader({ locale, t }: Props) {
   return (
     <header className="sticky top-0 z-20 border-b border-line bg-bg/90 backdrop-blur">
       <div className="mx-auto flex max-w-6xl flex-wrap items-center gap-x-5 gap-y-1 px-4 py-2 sm:px-6">
-        <Link href={localePath(locale, "/")} className="display mr-auto flex items-center gap-2 text-[15px] font-semibold">
+        <Link href={localePath(locale, "/")} className="display mr-auto flex items-center gap-2 text-[0.9375rem] font-semibold">
           <Mark />
           {SCHOOL_NAME}
         </Link>
         <div className="flex items-center gap-2 md:order-3">
           <LanguageSwitch locale={locale} label={t.nav.language} />
-          <Link href={localePath(locale, "/apply")} className="btn h-9 py-0">
+          <Link href={localePath(locale, "/apply")} className="btn h-11 py-0 md:h-9">
             {t.nav.apply}
           </Link>
         </div>
@@ -33,6 +34,7 @@ export function SiteHeader({ locale, t }: Props) {
               <li key={path}>
                 <Link href={localePath(locale, path)} className="flex h-9 items-center rounded-lg px-2 text-muted hover:text-ink">
                   {t.nav[key]}
+                  <LinkPending />
                 </Link>
               </li>
             ))}
@@ -49,7 +51,7 @@ export function SiteFooter({ locale, t }: Props) {
     <footer id="contact" className="mt-16 border-t border-line bg-surface-2">
       <div className="mx-auto grid max-w-6xl gap-8 px-4 py-10 sm:px-6 md:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)_minmax(0,1fr)]">
         <div>
-          <p className="display flex items-center gap-2 text-[15px] font-semibold">
+          <p className="display flex items-center gap-2 text-[0.9375rem] font-semibold">
             <Mark />
             {SCHOOL_NAME}
           </p>

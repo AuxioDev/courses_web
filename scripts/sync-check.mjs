@@ -11,6 +11,8 @@ const FILES = [
   "prisma/schema.prisma",
   "src/app/globals.css",
   "src/components/ui.tsx",
+  "src/app/motion.css",
+  "src/components/link-pending.tsx",
   "src/i18n/config.ts",
   "src/i18n/format.ts",
   "src/instrumentation.ts",

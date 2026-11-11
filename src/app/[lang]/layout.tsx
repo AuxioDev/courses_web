@@ -3,10 +3,12 @@ import { Onest, Unbounded } from "next/font/google";
 import { lang } from "next/root-params";
 import { locales } from "@/i18n/config";
 import { getI18n } from "@/i18n";
+import { ogLocale } from "@/lib/meta";
 import { SCHOOL_NAME, siteUrl } from "@/lib/site";
 import { SiteFooter, SiteHeader } from "@/components/site-chrome";
 import "../globals.css";
 import "../role-theme.css";
+import "../motion.css";
 
 const bodyFont = Onest({
   // The shared stylesheet names its sans variable after Geist, so this keeps that name.
@@ -35,7 +37,7 @@ export async function generateMetadata(): Promise<Metadata> {
     description: t.meta.description,
     applicationName: SCHOOL_NAME,
     icons: { icon: "/icon.svg" },
-    openGraph: { type: "website", siteName: SCHOOL_NAME, locale, description: t.meta.description },
+    openGraph: { type: "website", siteName: SCHOOL_NAME, locale: ogLocale(locale), description: t.meta.description },
   };
 }
 
