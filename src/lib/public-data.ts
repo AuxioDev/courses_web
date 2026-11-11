@@ -1,8 +1,7 @@
 import "server-only";
 import { cacheLife } from "next/cache";
 import { db } from "./db";
-import { dateOfDayKey, dayKey } from "./school-time";
-import { schoolTimezone } from "./site";
+import { publicCourseWhere, publicGroupWhere, publicTeacherWhere } from "./public-filters";
 
 // EVERYTHING the public website reads from the database goes through this file.
 //
@@ -19,19 +18,6 @@ import { schoolTimezone } from "./site";
 const NEXT_LESSONS = 4;
 
 const activeEnrolments = { enrollments: { where: { status: "active" as const, student: { active: true } } } };
-
-// A group is public when it is open for applications, its course is shown on the website and
-// not archived, and its term is neither locked nor over.
-function publicGroupWhere() {
-  const today = dateOfDayKey(dayKey(new Date(), schoolTimezone()));
-  return {
-    enrollmentOpen: true,
-    course: { showOnWebsite: true, archived: false },
-    term: { locked: false, endDate: { gte: today } },
-  };
-}
-
-const publicTeacherWhere = { role: "teacher" as const, active: true, showOnWebsite: true };
 
 const groupSelect = {
   id: true,
@@ -124,7 +110,7 @@ export async function getCourses() {
   cacheLife("minutes");
   const [courses, groups] = await Promise.all([
     db.course.findMany({
-      where: { showOnWebsite: true, archived: false },
+      where: publicCourseWhere,
       orderBy: { title: "asc" },
       select: { id: true, title: true, description: true, level: true },
     }),
@@ -140,7 +126,7 @@ export async function getCourse(id: string) {
   "use cache";
   cacheLife("minutes");
   const course = await db.course.findFirst({
-    where: { id, showOnWebsite: true, archived: false },
+    where: { id, ...publicCourseWhere },
     select: { id: true, title: true, description: true, level: true },
   });
   if (!course) return null;
@@ -175,7 +161,7 @@ export async function getPublicIds() {
   "use cache";
   cacheLife("hours");
   const [courses, groups, teachers] = await Promise.all([
-    db.course.findMany({ where: { showOnWebsite: true, archived: false }, select: { id: true } }),
+    db.course.findMany({ where: publicCourseWhere, select: { id: true } }),
     db.group.findMany({ where: publicGroupWhere(), select: { id: true } }),
     db.user.findMany({ where: publicTeacherWhere, select: { id: true } }),
   ]);

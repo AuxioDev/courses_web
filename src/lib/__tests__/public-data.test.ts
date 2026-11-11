@@ -46,11 +46,18 @@ describe("public data", () => {
   });
 
   it("is the only place pages and components reach the database", () => {
-    const allowed = new Set(["lib/db.ts", "lib/public-data.ts", "lib/apply.ts", "lib/apply-email.ts"]);
+    const allowed = new Set(["lib/db.ts", "lib/public-data.ts", "lib/public-exists.ts", "lib/apply.ts", "lib/apply-email.ts"]);
     const offenders = files(src)
       .map((file) => path.relative(src, file))
       .filter((file) => !allowed.has(file) && /from "(@\/lib\/db|\.\/db)"/.test(read(file)));
     expect(offenders).toEqual([]);
+  });
+
+  it("the existence check for the proxy only counts: it cannot read a column", () => {
+    const source = code(readFileSync(path.join(src, "lib/public-exists.ts"), "utf8"));
+    const calls = [...source.matchAll(/db\.(\w+)\.(\w+)\(/g)].map((m) => m[2]);
+    expect(calls.length).toBeGreaterThanOrEqual(3);
+    expect(new Set(calls)).toEqual(new Set(["count"]));
   });
 
   it("the website writes to the applications table and nothing else", () => {
