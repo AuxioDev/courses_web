@@ -7,12 +7,13 @@ import { getRequestLocale } from "@/i18n";
 import { localePath } from "@/i18n/config";
 import { readApplyForm, submitApplication, type ApplyError, type ApplyField } from "@/lib/apply";
 import { sendApplicationEmails } from "@/lib/apply-email";
+import { pickClientIp } from "@/lib/client-ip";
 
 export type ApplyState = { fieldErrors: Partial<Record<ApplyField, true>>; formError?: Exclude<ApplyError, ApplyField> } | undefined;
 
 async function clientIp() {
   const h = await headers();
-  return h.get("x-forwarded-for")?.split(",")[0].trim() || h.get("x-real-ip") || "unknown";
+  return pickClientIp((name) => h.get(name), !!process.env.VERCEL);
 }
 
 // The site's only write. Whatever happened to the application (saved, a repeat, or a script's
