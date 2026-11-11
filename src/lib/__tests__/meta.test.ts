@@ -45,6 +45,14 @@ describe("pageMeta", () => {
     expect(og.description).toBe(en.meta.description);
   });
 
+  it("always sets the page's own meta description, the school's when the page has none (search results show it)", () => {
+    for (const locale of ["az", "en", "ru"] as const) {
+      expect(pageMeta(locale, "/groups/x", "Math, M-1").description).toBe(dictionaries[locale].meta.description);
+    }
+    expect(pageMeta("en", "/teachers/x", "Aysel", null).description).toBe(en.meta.description);
+    expect(pageMeta("en", "/courses", "Courses", "All our courses.").description).toBe("All our courses.");
+  });
+
   it("keeps a long description to 200 characters, as before", () => {
     const meta = pageMeta("en", "/courses/x", "Long", "x".repeat(500));
     expect(meta.description).toHaveLength(200);

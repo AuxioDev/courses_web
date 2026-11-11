@@ -19,7 +19,8 @@ export function pageMeta(locale: Locale, path: string, title?: string, descripti
   const text = description ? description.slice(0, 200) : SITE_DESCRIPTION[locale];
   return {
     ...(title ? { title } : {}),
-    ...(description ? { description: description.slice(0, 200) } : {}),
+    // Never empty: a page with nothing of its own to say (a group, a teacher without a bio) uses the school's.
+    description: text,
     alternates: {
       canonical: localePath(locale, path),
       // "x-default" is the page for a visitor whose language is none of these.

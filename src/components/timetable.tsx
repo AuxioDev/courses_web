@@ -1,10 +1,8 @@
 import Link from "next/link";
 import { localePath, type Locale } from "@/i18n/config";
 import type { PublicGroup } from "@/lib/public-data";
-import { buildWeek, hueOf, type Slot } from "@/lib/schedule";
+import { buildWeek, hueOf } from "@/lib/schedule";
 import { weekdayName } from "@/lib/school-time";
-
-const label = (slot: Slot) => `${slot.group.course.title}, ${slot.group.name}`;
 
 // The school's week. On a wide screen it is a real timetable with hours down the side; on a
 // phone the same lessons are listed day by day. Every lesson opens its group.
@@ -81,7 +79,6 @@ export function Timetable({ groups, locale }: { groups: PublicGroup[]; locale: L
                     <Link
                       href={localePath(locale, `/groups/${slot.group.id}`)}
                       data-hue={hueOf(slot.group.course.id)}
-                      aria-label={`${slot.startTime}–${slot.endTime}, ${label(slot)}`}
                       className="slot flex items-baseline gap-3 rounded-lg px-3 py-2.5"
                     >
                       <span className="num w-24 shrink-0 text-sm text-muted">

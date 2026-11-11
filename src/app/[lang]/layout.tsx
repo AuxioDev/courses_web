@@ -15,6 +15,8 @@ const bodyFont = Onest({
   variable: "--font-geist-sans",
   subsets: ["latin", "latin-ext", "cyrillic"],
   display: "swap",
+  // Preloading would fetch all three alphabets on every visit; the browser fetches only the ranges the text uses.
+  preload: false,
 });
 
 // Headings only: the wide lettering of a notice board.
@@ -23,6 +25,7 @@ const displayFont = Unbounded({
   subsets: ["latin", "latin-ext", "cyrillic"],
   weight: ["500", "600"],
   display: "swap",
+  preload: false,
 });
 
 export function generateStaticParams() {
