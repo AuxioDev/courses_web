@@ -1,5 +1,5 @@
 // The website's only write, against a real database.
-import { afterAll, beforeEach, describe, expect, it, vi } from "vitest";
+import { afterAll, afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 vi.mock("next/cache", () => ({ cacheLife: vi.fn() }));
 
@@ -114,5 +114,57 @@ describe("applying for a place", () => {
     await db.application.updateMany({ where: { email: "p0@example.org" }, data: { status: "rejected" } });
     for (let i = 0; i < 4; i++) await db.application.create({ data: { groupId: group.id, name: "X", email: "p0@example.org", phone: "1", locale: "az", ipHash: `h${i}`, privacyAcceptedAt: new Date(), status: "rejected" } });
     expect(await send(group.id, { email: "p0@example.org" }, "192.0.2.1")).toEqual({ ok: false, fieldErrors: {}, formError: "tooMany" });
+  });
+});
+
+describe("bot check (Turnstile)", () => {
+  const cloudflare = (success: boolean) => vi.fn(async () => ({ ok: true, json: async () => ({ success }) }) as Response);
+
+  beforeEach(() => vi.stubEnv("TURNSTILE_SECRET_KEY", "s3cret"));
+  afterEach(() => {
+    vi.unstubAllEnvs();
+    vi.unstubAllGlobals();
+  });
+
+  it("saves nothing without a token, and tells the visitor to try again", async () => {
+    const { group } = await world();
+    vi.stubGlobal("fetch", cloudflare(true));
+    expect(await send(group.id)).toEqual({ ok: false, fieldErrors: {}, formError: "captcha" });
+    expect(await db.application.count()).toBe(0);
+  });
+
+  it("saves nothing when Cloudflare rejects the token", async () => {
+    const { group } = await world();
+    vi.stubGlobal("fetch", cloudflare(false));
+    expect(await send(group.id, { "cf-turnstile-response": "forged" })).toMatchObject({ ok: false, formError: "captcha" });
+    expect(await db.application.count()).toBe(0);
+  });
+
+  it("saves the application when Cloudflare approves the token", async () => {
+    const { group } = await world();
+    const fetchMock = cloudflare(true);
+    vi.stubGlobal("fetch", fetchMock);
+    expect(await send(group.id, { "cf-turnstile-response": "good" })).toMatchObject({ ok: true, created: { email: "aysel@example.org" } });
+    expect(await db.application.count()).toBe(1);
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+  });
+
+  it("does not spend the one-time token on a form with mistakes, or on a script's honeypot", async () => {
+    const { group } = await world();
+    const fetchMock = cloudflare(true);
+    vi.stubGlobal("fetch", fetchMock);
+    await send(group.id, { name: "A", "cf-turnstile-response": "good" });
+    expect(await send(group.id, { website: "http://spam", "cf-turnstile-response": "good" })).toMatchObject({ ok: true, created: null });
+    expect(fetchMock).not.toHaveBeenCalled();
+  });
+
+  it("is skipped entirely when no secret is configured", async () => {
+    vi.unstubAllEnvs();
+    vi.stubEnv("TURNSTILE_SECRET_KEY", "");
+    const { group } = await world();
+    const fetchMock = cloudflare(false);
+    vi.stubGlobal("fetch", fetchMock);
+    expect(await send(group.id)).toMatchObject({ ok: true });
+    expect(fetchMock).not.toHaveBeenCalled();
   });
 });

@@ -2,10 +2,19 @@
 
 import { startTransition, useActionState, useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import Script from "next/script";
 import type { Dictionary } from "@/i18n/dictionaries/en";
 import { localePath, type Locale } from "@/i18n/config";
 import { apply } from "@/app/actions";
 import type { ApplyField } from "@/lib/apply";
+
+// Cloudflare Turnstile (src/lib/turnstile.ts). Without a site key there is no widget and nothing changes.
+const TURNSTILE_SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
+declare global {
+  interface Window {
+    turnstile?: { reset: () => void };
+  }
+}
 
 export type GroupOption = { id: string; label: string; detail: string; full: boolean };
 
@@ -22,7 +31,10 @@ export function ApplyForm({ locale, groups, chosen, labels }: Props) {
     openedAt.current = Date.now();
   }, []);
   useEffect(() => {
-    if (state) summary.current?.focus();
+    if (!state) return;
+    summary.current?.focus();
+    // A Turnstile token works once, whatever the answer: a corrected form needs a fresh one.
+    window.turnstile?.reset();
   }, [state]);
 
   const errors = state?.fieldErrors ?? {};
@@ -169,6 +181,13 @@ export function ApplyForm({ locale, groups, chosen, labels }: Props) {
         <p ref={summary} tabIndex={-1} role="alert" className="rounded-xl bg-bad-soft px-3 py-2 text-sm text-bad">
           {state?.formError ? labels.errors[state.formError] : labels.errors.summary}
         </p>
+      )}
+      {TURNSTILE_SITE_KEY && (
+        <>
+          <Script src="https://challenges.cloudflare.com/turnstile/v0/api.js" strategy="afterInteractive" />
+          {/* The script finds this element, renders the check into it and adds the token to the form as cf-turnstile-response. */}
+          <div className="cf-turnstile" data-sitekey={TURNSTILE_SITE_KEY} data-theme="auto" data-language={locale} />
+        </>
       )}
       <button type="submit" disabled={pending} className="btn w-full px-5 py-3 text-[15px] sm:w-auto">
         {pending ? labels.sending : labels.submit}

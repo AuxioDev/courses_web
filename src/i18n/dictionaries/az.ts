@@ -126,6 +126,7 @@ export const az: Dictionary = {
       groupClosed: "Bu qrup artıq müraciət qəbul etmir. Başqa qrup seçin.",
       groupFull: "Bu qrupda son yer indicə tutuldu. Başqa qrup seçin.",
       tooMany: "Buradan həddən çox müraciət göndərilib. Bir saatdan sonra yenidən cəhd edin və ya məktəbə zəng edin.",
+      captcha: "Robot olmadığınızı təsdiq edə bilmədik. Yuxarıdakı yoxlamanın bitməsini gözləyin və yenidən göndərin.",
       summary: "İşarələnmiş xanaları yoxlayın və yenidən göndərin.",
     },
   },

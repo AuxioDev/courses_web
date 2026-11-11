@@ -4,13 +4,18 @@ const isDev = process.env.NODE_ENV === "development";
 
 // No nonces: they are incompatible with Partial Prerendering. Inline scripts stay
 // allowed, everything else is locked to this site.
+// The Turnstile widget (the application form's bot check) loads a script and a frame from Cloudflare, and
+// only exists when a site key is set, so the policy only opens up then.
+const turnstile = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ? " https://challenges.cloudflare.com" : "";
+
 const contentSecurityPolicy = [
   "default-src 'self'",
-  `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ""}`,
+  `script-src 'self' 'unsafe-inline'${turnstile}${isDev ? " 'unsafe-eval'" : ""}`,
+  ...(turnstile ? [`frame-src${turnstile}`] : []),
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data:",
   "font-src 'self'",
-  `connect-src 'self'${isDev ? " ws:" : ""}`,
+  `connect-src 'self'${turnstile}${isDev ? " ws:" : ""}`,
   "object-src 'none'",
   "base-uri 'self'",
   "form-action 'self'",

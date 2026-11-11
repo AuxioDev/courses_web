@@ -127,6 +127,7 @@ export const en = {
       groupClosed: "This group is no longer taking applications. Choose another group.",
       groupFull: "The last seat in this group has just been taken. Choose another group.",
       tooMany: "Too many applications were sent from here. Try again in an hour, or call the school.",
+      captcha: "We could not confirm you are not a robot. Wait a moment for the check above to finish, then send again.",
       summary: "Check the marked fields and send again.",
     },
   },

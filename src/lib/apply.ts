@@ -4,13 +4,14 @@ import { z } from "zod";
 import { db } from "./db";
 import { hasLocale, type Locale } from "@/i18n/config";
 import { getSeatsLeft } from "./public-data";
+import { verifyTurnstile } from "./turnstile";
 
 // The only place the public website writes to the database: one row in `applications`.
 
 export const APPLY_FIELDS = ["name", "email", "phone", "guardianName", "guardianPhone", "note", "privacy", "group"] as const;
 export type ApplyField = (typeof APPLY_FIELDS)[number];
 // Keys into the dictionary's apply.errors, so the form shows them in the visitor's language.
-export type ApplyError = ApplyField | "groupClosed" | "groupFull" | "tooMany";
+export type ApplyError = ApplyField | "groupClosed" | "groupFull" | "tooMany" | "captcha";
 
 export type ApplyResult =
   | { ok: true; created: { id: string; name: string; email: string; groupId: string; locale: Locale } | null }
@@ -69,6 +70,8 @@ export function readApplyForm(formData: FormData) {
     // Hidden from people; anything typed here came from a script.
     honeypot: text("website"),
     elapsedMs: Number(formData.get("elapsed") ?? Number.NaN),
+    // Put in the form by the Turnstile widget (see src/lib/turnstile.ts).
+    turnstile: text("cf-turnstile-response"),
     locale: text("locale"),
   };
 }
@@ -89,6 +92,9 @@ export async function submitApplication(input: ApplyInput, ip: string, now = new
 
   // A script gets the same "sent" page as a person, and nothing is saved.
   if (input.honeypot !== "" || !(input.elapsedMs >= MIN_FILL_MS)) return { ok: true, created: null };
+
+  // After the field checks, so a typo does not spend the one-time token; before anything is counted or saved.
+  if (!(await verifyTurnstile(input.turnstile, ip))) return { ok: false, fieldErrors: {}, formError: "captcha" };
 
   const ipHash = hashIp(ip);
   const [fromIp, fromEmail] = await Promise.all([
