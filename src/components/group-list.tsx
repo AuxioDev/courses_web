@@ -53,7 +53,7 @@ export function GroupList({ groups, locale, t, showCourse = true }: { groups: Pu
           <li
             key={group.id}
             data-hue={hueOf(group.course.id)}
-            className="pen-edge grid gap-x-6 gap-y-3 px-4 py-4 sm:grid-cols-[minmax(0,1.3fr)_minmax(0,1.2fr)] lg:grid-cols-[minmax(0,1.3fr)_minmax(0,1.4fr)_minmax(0,0.9fr)_14rem] lg:items-center"
+            className="reveal pen-edge grid gap-x-6 gap-y-3 px-4 py-4 sm:grid-cols-[minmax(0,1.3fr)_minmax(0,1.2fr)] lg:grid-cols-[minmax(0,1.3fr)_minmax(0,1.4fr)_minmax(0,0.9fr)_14rem] lg:items-center"
           >
             <div className="min-w-0">
               <h3 className="display text-base font-semibold leading-snug">

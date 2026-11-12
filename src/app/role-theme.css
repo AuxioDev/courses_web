@@ -108,3 +108,61 @@ h2 {
   height: 1px;
   overflow: hidden;
 }
+
+/* Motion. The board's own gestures, in the shared tokens (motion.css): the marker is drawn under each page title,
+   and the lines of a list are written onto the board one after another. Transform and opacity only; reduced motion
+   (globals.css) turns it all off. */
+main h1::after {
+  content: "";
+  display: block;
+  width: 3.5rem;
+  height: 0.3rem;
+  margin-top: 0.75rem;
+  border-radius: 9999px;
+  background: var(--marker);
+  transform-origin: left;
+  animation: marker-draw var(--dur-slow) var(--ease-out) 0.15s both;
+}
+@keyframes marker-draw {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: none;
+  }
+}
+
+.reveal {
+  animation: rise var(--dur-base) var(--ease-out) both;
+}
+.reveal:nth-child(2) { animation-delay: 40ms; }
+.reveal:nth-child(3) { animation-delay: 80ms; }
+.reveal:nth-child(4) { animation-delay: 120ms; }
+.reveal:nth-child(5) { animation-delay: 160ms; }
+.reveal:nth-child(6) { animation-delay: 200ms; }
+.reveal:nth-child(7) { animation-delay: 240ms; }
+.reveal:nth-child(8) { animation-delay: 280ms; }
+.reveal:nth-child(n + 9) { animation-delay: 320ms; }
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(0.5rem);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* A line of the board answers the pointer: a little of its pen colour washes in. */
+.pen-edge {
+  transition: background-color var(--dur-fast) ease;
+}
+li.pen-edge:hover {
+  background: color-mix(in srgb, var(--hue) 6%, var(--surface));
+}
+.slot {
+  transition:
+    background-color var(--dur-fast) ease,
+    transform var(--dur-fast) var(--ease-out);
+}

@@ -21,7 +21,9 @@ export default async function SentPage() {
   return (
     <div className="max-w-2xl">
       <h1>{s.title}</h1>
-      <p className="mt-3 text-muted">{s.body}</p>
+      <p role="status" className="mt-4 rounded-xl bg-good-soft px-4 py-3 text-good">
+        {s.body}
+      </p>
       <ol className="mt-8 space-y-5">
         {steps.map(([title, body], i) => (
           <li key={title} className="flex gap-3">
