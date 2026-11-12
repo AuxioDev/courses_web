@@ -17,7 +17,7 @@ function Links({ locale, label, path }: { locale: Locale; label: string; path: s
             hrefLang={l}
             lang={l}
             aria-current={l === locale ? "true" : undefined}
-            className={`flex h-9 min-w-9 items-center justify-center rounded-lg px-2 ${l === locale ? "bg-surface-2 text-ink" : "text-muted hover:text-ink"}`}
+            className={`flex h-11 min-w-11 items-center justify-center rounded-lg px-2 md:h-9 md:min-w-9 ${l === locale ? "bg-surface-2 text-ink" : "text-muted hover:text-ink"}`}
           >
             {l.toUpperCase()}
           </Link>
