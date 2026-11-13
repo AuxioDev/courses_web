@@ -20,7 +20,18 @@ export function Initials({ name, large = false }: { name: string; large?: boolea
   );
 }
 
-export function TeacherList({ teachers, locale, t }: { teachers: PublicTeacher[]; locale: Locale; t: Dictionary }) {
+// `level` is the heading level of each name: h3 under a section heading (the home page), h2 straight under the page title.
+export function TeacherList({
+  teachers,
+  locale,
+  t,
+  level: Heading = "h3",
+}: {
+  teachers: PublicTeacher[];
+  locale: Locale;
+  t: Dictionary;
+  level?: "h2" | "h3";
+}) {
   return (
     <ul className="grid gap-x-8 gap-y-6 sm:grid-cols-2 lg:grid-cols-3">
       {teachers.map((teacher) => {
@@ -29,11 +40,11 @@ export function TeacherList({ teachers, locale, t }: { teachers: PublicTeacher[]
           <li key={teacher.id} className="flex gap-3">
             <Initials name={teacher.name} />
             <div className="min-w-0">
-              <h3 className="font-semibold">
+              <Heading className="font-semibold">
                 <Link href={localePath(locale, `/teachers/${teacher.id}`)} className="underline-offset-4 hover:underline">
                   {teacher.name}
                 </Link>
-              </h3>
+              </Heading>
               <p className="text-sm text-muted">{courses.length > 0 ? courses.join(", ") : t.teachers.noGroups}</p>
               {teacher.bio && <p className="mt-1 line-clamp-3 text-sm leading-relaxed">{teacher.bio}</p>}
             </div>

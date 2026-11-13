@@ -60,7 +60,7 @@ export default async function SchedulePage({ searchParams }: Props) {
               </ul>
             </nav>
           )}
-          <Timetable groups={shown} locale={locale} />
+          <Timetable groups={shown} locale={locale} level="h2" />
         </>
       )}
     </>

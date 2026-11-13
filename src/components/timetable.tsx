@@ -6,7 +6,8 @@ import { weekdayName } from "@/lib/school-time";
 
 // The school's week. On a wide screen it is a real timetable with hours down the side; on a
 // phone the same lessons are listed day by day. Every lesson opens its group.
-export function Timetable({ groups, locale }: { groups: PublicGroup[]; locale: Locale }) {
+// `level` is the heading level of each weekday in the phone list: h3 under a section heading, h2 straight under the page title.
+export function Timetable({ groups, locale, level: Heading = "h3" }: { groups: PublicGroup[]; locale: Locale; level?: "h2" | "h3" }) {
   const week = buildWeek(groups);
   const hours = Array.from({ length: week.lastHour - week.firstHour }, (_, i) => week.firstHour + i);
   const top = (minutes: number) => `calc(var(--hour) * ${(minutes - week.firstHour * 60) / 60})`;
@@ -72,7 +73,7 @@ export function Timetable({ groups, locale }: { groups: PublicGroup[]; locale: L
           .filter((day) => day.slots.length > 0)
           .map(({ weekday, slots }) => (
             <section key={weekday}>
-              <h3 className="mb-1.5 text-sm font-semibold text-muted">{weekdayName(weekday, locale)}</h3>
+              <Heading className="mb-1.5 text-sm font-semibold text-muted">{weekdayName(weekday, locale)}</Heading>
               <ul className="space-y-1.5">
                 {slots.map((slot) => (
                   <li key={`${slot.group.id}-${slot.startTime}`}>

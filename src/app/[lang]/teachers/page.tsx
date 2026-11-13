@@ -16,7 +16,7 @@ export default async function TeachersPage() {
   return (
     <>
       <PageHead title={t.teachers.title} lead={t.teachers.lead} />
-      {teachers.length === 0 ? <Empty>{t.teachers.none}</Empty> : <TeacherList teachers={teachers} locale={locale} t={t} />}
+      {teachers.length === 0 ? <Empty>{t.teachers.none}</Empty> : <TeacherList teachers={teachers} level="h2" locale={locale} t={t} />}
     </>
   );
 }
