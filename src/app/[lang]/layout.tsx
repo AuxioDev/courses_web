@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Source_Serif_4 } from "next/font/google";
 import { lang } from "next/root-params";
 import { locales } from "@/i18n/config";
 import { getI18n } from "@/i18n";
@@ -11,14 +11,23 @@ import "../role-theme.css";
 import "../motion.css";
 import "../site-theme.css";
 
-// One family for everything: Inter, light to heavy. The shared stylesheet names its sans variable after Geist,
-// so this keeps that name.
+// Inter for everything you read or tap. The shared stylesheet names its sans variable after Geist, so this keeps that name.
 const bodyFont = Inter({
   variable: "--font-geist-sans",
   subsets: ["latin", "latin-ext", "cyrillic"],
   display: "swap",
   // Preloading would fetch all three alphabets on every visit; the browser fetches only the ranges the text uses.
   preload: false,
+});
+
+// Headings only: a sturdy serif, one weight. Both families cover Azerbaijani (Latin Extended) and Russian (Cyrillic).
+// It is preloaded, so it is there before the first paint and the headline neither flashes nor re-wraps.
+const displayFont = Source_Serif_4({
+  variable: "--font-display",
+  subsets: ["latin", "latin-ext", "cyrillic"],
+  weight: ["600"],
+  display: "swap",
+  preload: true,
 });
 
 export function generateStaticParams() {
@@ -41,20 +50,19 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
-  // The header is near-black in both colour modes.
-  themeColor: "#1d1d1f",
+  themeColor: "#f7f4ee",
 };
 
 export default async function RootLayout({ children }: LayoutProps<"/[lang]">) {
   const { locale, t } = await getI18n();
   return (
-    <html lang={await lang()} className={`${bodyFont.variable} h-full antialiased`}>
+    <html lang={await lang()} className={`${bodyFont.variable} ${displayFont.variable} h-full antialiased`}>
       <body className="flex min-h-full flex-col font-sans">
         <a href="#content" className="btn sr-only focus:not-sr-only focus:absolute focus:left-2 focus:top-2 focus:z-30">
           {t.nav.skip}
         </a>
         <SiteHeader locale={locale} t={t} />
-        <main id="content" className="mx-auto w-full max-w-[81rem] flex-1 px-4 pt-6 sm:px-6 md:pt-10 lg:px-[3.25rem]">
+        <main id="content" className="mx-auto w-full max-w-[75rem] flex-1 px-5 pb-20 pt-8 sm:px-8 md:pb-28 md:pt-12 lg:px-12">
           {children}
         </main>
         <SiteFooter locale={locale} t={t} />

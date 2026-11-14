@@ -38,6 +38,8 @@ export const az: Dictionary = {
     groupCount: { one: "{n} açıq qrup", other: "{n} açıq qrup" },
     helpTitle: "Hansı qrupu seçəcəyinizi bilmirsiniz?",
     helpBody: "Zəng edin və ya yazın. Səviyyənizə və həftənizə uyğun qrupu seçməyə kömək edəcəyik.",
+    diaryTitle: "Şagird gündəliyi",
+    diaryLead: "Qoşulduqdan sonra hər şagirdin gördükləri: cədvəl, ev tapşırığı, qiymətlər və davamiyyət.",
     howTitle: "Necə qoşulmaq olar",
     steps: {
       chooseTitle: "Qrup seçin",

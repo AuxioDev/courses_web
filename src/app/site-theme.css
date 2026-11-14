@@ -1,262 +1,364 @@
-/* Public website: page structure and the regions that stay dark in both colour modes (the header, the dark bands,
-   the footer). Loaded after role-theme.css. Colours of the regions are checked by src/lib/__tests__/on-dark.test.ts.
-   Sizes are in rem so the whole page scales on very large screens (globals.css). */
+/* Public website: page structure. Loaded after role-theme.css, which holds the colours, type and components.
+   Sizes are in rem so the whole page scales on very large screens (globals.css). The page is a printed sheet:
+   sections are separated by hairlines, with the title in a narrow left column and the content beside it. */
 
-/* A region that keeps its own palette whatever the visitor's colour mode. Everything inside reads the same
-   tokens as the rest of the site, so components need no special cases. */
-.on-dark {
-  --bg: #000000;
-  --surface: #111217;
-  --surface-2: #1d1d1f;
-  --ink: #ffffff;
-  --muted: #b4b4bd;
-  --line: #2b2b33;
-  --accent: #9aa0ff;
-  --accent-ink: #0b0d3a;
-  --accent-soft: #1a1c3d;
-  --rule: #2b2b33;
-  color-scheme: dark;
-  background: var(--bg);
-  color: var(--ink);
-}
-.on-dark .btn {
-  background: #4850ec;
-  color: #ffffff;
-}
-.on-dark .btn:hover {
-  background: #5a62f0;
-}
-.on-dark .btn-ghost {
-  background: transparent;
-  color: var(--ink);
-  border-color: #4a4a55;
-}
-.on-dark .btn-ghost:hover {
-  background: var(--surface-2);
-}
-
-/* Header: the near-black bar. */
+/* Header: paper, a hairline underneath, the school's name left, plain text links, the language and the main action right. */
 .site-header {
-  --bg: #1d1d1f;
-  --surface: #2a2a30;
-  --surface-2: #34343b;
-  --muted: #c3c3cb;
-  --line: #3d3d46;
-  --accent: #9aa0ff;
-  --accent-ink: #0b0d3a;
   position: sticky;
   top: 0;
   z-index: 20;
   padding-top: env(safe-area-inset-top);
   background: var(--bg);
+  border-bottom: 1px solid var(--line);
 }
-.site-header a[aria-current="page"],
-.site-header a[aria-current="true"] {
-  background: #4850ec;
-  color: #ffffff;
+.site-name {
+  font-family: var(--font-display), Georgia, serif;
+  font-size: 1.1875rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
 }
-.site-header .btn {
-  background: #4850ec;
-  color: #ffffff;
+.nav-link {
+  display: flex;
+  min-height: 2.75rem;
+  align-items: center;
+  padding-inline: 0.5rem;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--muted);
+  box-shadow: inset 0 -2px 0 transparent;
+  transition:
+    color var(--dur-fast) ease,
+    box-shadow var(--dur-fast) ease;
 }
-.site-header .btn:hover {
-  background: #5a62f0;
+.nav-link:hover {
+  color: var(--ink);
+  box-shadow: inset 0 -2px 0 var(--line);
 }
-/* The soft edges of the scrolling page links are shadow, not light, on a dark bar. */
+.nav-link[aria-current="page"] {
+  color: var(--ink);
+  box-shadow: inset 0 -2px 0 var(--accent);
+}
+/* The three languages, as plain text; the current one is marked like the current page. */
+.lang-link {
+  display: flex;
+  min-height: 2.75rem;
+  min-width: 2.25rem;
+  align-items: center;
+  justify-content: center;
+  padding-inline: 0.375rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--muted);
+  box-shadow: inset 0 -2px 0 transparent;
+}
+.lang-link:hover {
+  color: var(--ink);
+}
+.lang-link[aria-current="true"] {
+  color: var(--ink);
+  box-shadow: inset 0 -2px 0 var(--accent);
+}
 .site-header .scroll-hint {
-  --scroll-edge: rgb(0 0 0 / 0.5);
-}
-.site-header ul[aria-label] {
-  border-color: var(--line);
-  background: transparent;
+  --scroll-cover: var(--bg);
+  --scroll-edge: transparent;
 }
 
-/* Footer: darker still, in columns. */
-.site-footer {
-  --bg: #111217;
-  --surface: #181a22;
-  --surface-2: #1d1d1f;
-  --line: #2b2b33;
-  padding-bottom: env(safe-area-inset-bottom);
-  margin-top: 0;
+/* A section of the sheet: a rule above, the title in a narrow left column, the content in a wide right one.
+   Below 900 px it is one column. */
+.sec {
+  display: grid;
+  gap: 1.25rem 3rem;
+  border-top: 1px solid var(--line);
+  padding-block: clamp(2.75rem, 2rem + 3.5vw, 5rem);
 }
-
-/* A band that runs the full width of the window while its content stays in the page column. The shadow paints the
-   colour sideways and the clip keeps it from adding any scrollable width. */
-.bleed {
-  background: var(--bg);
-  box-shadow: 0 0 0 100vmax var(--bg);
-  clip-path: inset(0 -100vmax);
-}
-/* The light-grey band: cards on it keep the page's own card colour. */
-.bleed-soft {
-  --bg: var(--surface-2);
-}
-
-.section {
-  padding-block: clamp(3.5rem, 2rem + 6vw, 7.5rem);
-}
-.section-tight {
-  padding-block: clamp(2.5rem, 1.5rem + 3vw, 4.5rem);
-}
-/* The first band starts right under the header, so it cancels the page column's top padding. */
-.hero-band {
-  margin-top: -1.5rem;
-  padding-block: clamp(2.5rem, 1rem + 5vw, 5rem) clamp(3rem, 1.5rem + 5vw, 7.5rem);
-}
-@media (min-width: 768px) {
-  .hero-band {
-    margin-top: -2.5rem;
+@media (min-width: 900px) {
+  .sec {
+    grid-template-columns: minmax(0, 3fr) minmax(0, 9fr);
   }
 }
+/* Sections below the first screen are laid out when they come near it, which makes the first paint of a long page
+   cheaper. The remembered size ("auto") keeps the scrollbar steady once a section has been seen. */
+.sec:not(:first-of-type) {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 36rem;
+}
+.sec-wide {
+  grid-template-columns: minmax(0, 1fr) !important;
+}
+.sec-lead {
+  margin-top: 0.625rem;
+  max-width: 28ch;
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  color: var(--muted);
+}
 
-/* Home: the opening. Large left-aligned title; on the right a card with what is open now. */
+/* Home: the opening. The promise on the left, what is open right now on the right. */
 .hero {
   display: grid;
   gap: 2.5rem;
-  align-items: center;
+  padding-block: clamp(0.5rem, 0.5rem + 1.5vw, 2rem) clamp(3rem, 2rem + 4vw, 5rem);
 }
-@media (min-width: 1024px) {
+@media (min-width: 900px) {
   .hero {
-    grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
     gap: 4rem;
+    align-items: start;
   }
 }
 .hero-lead {
   margin-top: 1.5rem;
   max-width: 34rem;
-  font-size: clamp(1.0625rem, 1rem + 0.35vw, 1.25rem);
-  line-height: 1.6;
+  font-size: 1.1875rem;
+  line-height: 1.55;
   color: var(--muted);
 }
-.hero-panel {
-  border-radius: 0.5rem;
-  background: var(--surface-2);
-  padding: clamp(1rem, 0.5rem + 2vw, 2rem);
+.hero-actions {
+  margin-top: 2rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 1.5rem;
 }
-.hero-panel ul > li + li {
+/* On a narrow phone the two actions are always stacked, so a font loading cannot make the second one jump down. */
+@media (max-width: 30rem) {
+  .hero-actions {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+.open-now {
+  border-top: 2px solid var(--ink);
+  padding-top: 0.75rem;
+}
+.open-now h2 {
+  font-size: 1.25rem;
+}
+
+/* Ruled lines: each row has a hairline above, the last one also below. */
+.rows > li {
   border-top: 1px solid var(--line);
 }
-
-/* A strip of the course names that slowly passes by. Transform only; with reduced motion it stops and scrolls by hand. */
-.marquee {
-  overflow: hidden;
-  padding-block: 1.25rem;
-}
-.marquee-track {
-  display: flex;
-  width: max-content;
-  animation: marquee-scroll 45s linear infinite;
-}
-.marquee:hover .marquee-track {
-  animation-play-state: paused;
-}
-.marquee-item {
-  margin-inline-end: 2.5rem;
-  white-space: nowrap;
-  font-size: clamp(1.05rem, 0.9rem + 0.7vw, 1.5rem);
-  font-weight: 700;
-  letter-spacing: 0.01em;
-  text-transform: uppercase;
-  color: var(--muted);
-}
-@keyframes marquee-scroll {
-  to {
-    transform: translateX(-50%);
-  }
-}
-@media (prefers-reduced-motion: reduce) {
-  .marquee {
-    overflow-x: auto;
-  }
-  .marquee-item[data-dup] {
-    display: none;
-  }
+.rows > li:last-child {
+  border-bottom: 1px solid var(--line);
 }
 
-/* Course tiles: one block per course that has an open group. */
-.tile-grid {
+/* The index of courses. The whole row is the link. */
+.index a {
   display: grid;
-  gap: 1rem;
-  grid-template-columns: repeat(auto-fill, minmax(min(100%, 19rem), 1fr));
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0.125rem 1.5rem;
+  align-items: baseline;
+  padding: 1.125rem 0.25rem;
 }
-.tile {
-  display: flex;
-  min-height: 10rem;
-  flex-direction: column;
-  justify-content: space-between;
-  gap: 1.5rem;
-  border: 1px solid var(--line);
-  border-top: 3px solid var(--hue, var(--accent));
-  border-radius: 0.5rem;
-  background: var(--surface);
-  padding: 1.5rem;
-  transition:
-    background-color var(--dur-fast) ease,
-    border-color var(--dur-fast) ease,
-    transform var(--dur-fast) var(--ease-out);
-}
-.tile:hover,
-.tile:focus-visible {
-  background: var(--surface-2);
-  transform: translateY(-2px);
-}
-.tile:active {
-  transform: scale(0.99);
-}
-.tile-name {
-  font-size: clamp(1.25rem, 1.05rem + 0.9vw, 1.875rem);
+.index-title {
+  font-family: var(--font-display), Georgia, serif;
+  font-size: clamp(1.25rem, 1.1rem + 0.6vw, 1.5rem);
   font-weight: 600;
   line-height: 1.25;
 }
-.tile-count {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.75rem;
+.index a:hover .link,
+.index a:focus-visible .link {
+  background-size: 100% 1px;
+}
+.index-count {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--hue, var(--accent));
+  white-space: nowrap;
+}
+.index-meta {
+  grid-column: 1 / -1;
+  font-size: 0.9375rem;
+  color: var(--muted);
+}
+
+/* How to join: a real sequence, so numbered. */
+.steps {
+  list-style: none;
+}
+.steps > li {
+  display: grid;
+  grid-template-columns: 3rem minmax(0, 1fr);
+  gap: 1rem;
+  border-top: 1px solid var(--line);
+  padding-block: 1.375rem;
+}
+.steps > li:last-child {
+  border-bottom: 1px solid var(--line);
+}
+.step-number {
+  font-family: var(--font-display), Georgia, serif;
+  font-size: 2.25rem;
+  font-weight: 600;
+  line-height: 1;
+  color: var(--accent);
+}
+
+/* The week: one column per day that has lessons, each a ruled list in time order. It cannot overlap, so a busy day
+   stays readable, and on a phone the days simply stack. */
+.week {
+  display: grid;
+  gap: 2.25rem 1.25rem;
+  grid-template-columns: repeat(auto-fit, minmax(12.5rem, 1fr));
+}
+.week-day > :first-child {
+  border-top: 2px solid var(--ink);
+  padding-top: 0.5rem;
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
   font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0;
+  line-height: 1.3;
+}
+.lesson {
+  display: block;
+  border-top: 1px solid var(--line);
+  border-left: 3px solid var(--hue, var(--line));
+  padding: 0.75rem 0.75rem 0.75rem 0.875rem;
+  transition: background-color var(--dur-fast) ease;
+}
+.lesson:hover,
+.lesson:focus-visible {
+  background: var(--surface);
+}
+.week-day li:last-child .lesson {
+  border-bottom: 1px solid var(--line);
+}
+.lesson-time {
+  display: block;
+  font-size: 0.875rem;
   font-weight: 500;
   color: var(--muted);
 }
-.tile-arrow {
-  transition: transform var(--dur-fast) var(--ease-out);
+.lesson-course {
+  display: block;
+  margin-top: 0.125rem;
+  font-weight: 600;
+  line-height: 1.3;
 }
-.tile:hover .tile-arrow {
-  transform: translateX(0.25rem);
+.lesson-by {
+  display: block;
+  margin-top: 0.125rem;
+  font-size: 0.875rem;
+  line-height: 1.4;
+  color: var(--muted);
 }
 
-/* Cards on a light-grey band. */
-.card {
-  border-radius: 0.5rem;
-  background: var(--surface);
-  padding: 1.5rem;
-}
-.step-number {
+/* Filters on the timetable page: plain text tabs. */
+.tabs {
   display: flex;
-  height: 2.5rem;
-  width: 2.5rem;
+  flex-wrap: wrap;
+  gap: 0 1.5rem;
+  border-bottom: 1px solid var(--line);
+}
+.tab {
+  display: inline-flex;
+  min-height: 2.75rem;
   align-items: center;
-  justify-content: center;
-  border-radius: 0.375rem;
-  background: #4850ec;
-  color: #ffffff;
-  font-weight: 700;
+  gap: 0.5rem;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--muted);
+  box-shadow: inset 0 -2px 0 transparent;
+}
+.tab:hover {
+  color: var(--ink);
+}
+.tab[aria-current="true"] {
+  color: var(--ink);
+  box-shadow: inset 0 -2px 0 var(--accent);
+}
+.tab-dot {
+  display: inline-block;
+  height: 0.5rem;
+  width: 0.5rem;
+  background: var(--hue, var(--ink));
 }
 
-/* The call to action. */
-.help-band {
+/* Teachers: a name, what they teach, a few words. A photograph only when the school has supplied one. */
+.person {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1rem;
+  border-top: 1px solid var(--line);
+  padding-block: 1.25rem;
+}
+.person.has-photo {
+  grid-template-columns: 4.5rem minmax(0, 1fr);
+}
+.photo {
+  height: 4.5rem;
+  width: 4.5rem;
+  object-fit: cover;
+  background: var(--surface-2);
+}
+.photo-lg {
+  height: 11rem;
+  width: 11rem;
+}
+
+/* The Student Diary: real screenshots with the same crop and the same hairline. */
+.shots {
   display: grid;
   gap: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+}
+.shots img {
+  display: block;
+  aspect-ratio: 4 / 5;
+  width: 100%;
+  object-fit: cover;
+  object-position: top;
+  border: 1px solid var(--line);
+  background: var(--surface);
+}
+.shots figcaption {
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
+  color: var(--muted);
+}
+
+/* Apply and contact: the main action, then how to reach the school. */
+.contact-list > li {
+  display: grid;
+  gap: 0.125rem;
+  border-top: 1px solid var(--line);
+  padding-block: 0.875rem;
+}
+.contact-list > li:last-child {
+  border-bottom: 1px solid var(--line);
+}
+.contact-label {
+  font-size: 0.875rem;
+  color: var(--muted);
+}
+
+/* Footer: paper again, a firm rule on top, the same three columns on every page. */
+.site-footer {
+  border-top: 2px solid var(--ink);
+  padding-bottom: env(safe-area-inset-bottom);
+}
+.site-footer a {
+  display: inline-flex;
+  min-height: 2.75rem;
   align-items: center;
 }
 @media (min-width: 768px) {
-  .help-band {
-    grid-template-columns: minmax(0, 1fr) auto;
-    gap: 3rem;
+  .site-footer a {
+    min-height: 1.75rem;
   }
 }
+.footer-note {
+  font-size: 0.8125rem;
+  color: var(--warn);
+}
 
-/* The amber note ("these contact details are placeholders") on a dark background. */
-.text-warn-on-dark {
-  color: #f0b65a;
+/* On a phone, a link that stands alone on its line is a 44 px target. */
+@media (max-width: 767px) {
+  .tap {
+    display: inline-flex;
+    min-height: 2.75rem;
+    align-items: center;
+  }
 }

@@ -9,7 +9,7 @@ const ORDER: Locale[] = ["az", "ru", "en"];
 
 function Links({ locale, label, path }: { locale: Locale; label: string; path: string }) {
   return (
-    <ul aria-label={label} className="flex items-center rounded-lg border border-line bg-surface text-xs font-semibold">
+    <ul aria-label={label} className="flex items-center">
       {ORDER.map((l) => (
         <li key={l}>
           <Link
@@ -17,7 +17,7 @@ function Links({ locale, label, path }: { locale: Locale; label: string; path: s
             hrefLang={l}
             lang={l}
             aria-current={l === locale ? "true" : undefined}
-            className={`flex h-11 min-w-11 items-center justify-center rounded-lg px-2 md:h-9 md:min-w-9 ${l === locale ? "bg-surface-2 text-ink" : "text-muted hover:text-ink"}`}
+            className="lang-link"
           >
             {l.toUpperCase()}
           </Link>

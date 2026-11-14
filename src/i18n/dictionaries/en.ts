@@ -39,6 +39,8 @@ export const en = {
     groupCount: { one: "{n} open group", other: "{n} open groups" },
     helpTitle: "Not sure which group to choose?",
     helpBody: "Call or write to us. We will help you pick the group that fits your level and your week.",
+    diaryTitle: "The Student Diary",
+    diaryLead: "What each student sees after joining: the timetable, homework, marks and attendance.",
     howTitle: "How to join",
     steps: {
       chooseTitle: "Choose a group",

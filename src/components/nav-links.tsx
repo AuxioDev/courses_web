@@ -12,7 +12,7 @@ type Item = { path: string; label: string };
 // phone, where the row also scrolls sideways when it does not fit.
 function List({ locale, items, current }: { locale: Locale; items: Item[]; current: string | null }) {
   return (
-    <ul className="flex gap-1 text-sm font-medium">
+    <ul className="flex gap-1">
       {items.map(({ path, label }) => {
         const active = current !== null && (current === path || current.startsWith(`${path}/`));
         return (
@@ -20,7 +20,7 @@ function List({ locale, items, current }: { locale: Locale; items: Item[]; curre
             <Link
               href={localePath(locale, path)}
               aria-current={active ? "page" : undefined}
-              className={`flex min-h-11 items-center rounded-lg px-2 md:min-h-9 ${active ? "bg-surface-2 text-ink" : "text-muted hover:text-ink"}`}
+              className="nav-link"
             >
               {label}
               <LinkPending />

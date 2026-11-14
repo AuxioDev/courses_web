@@ -4,101 +4,33 @@ import type { PublicGroup } from "@/lib/public-data";
 import { buildWeek, hueOf } from "@/lib/schedule";
 import { weekdayName } from "@/lib/school-time";
 
-// The school's week. On a wide screen it is a real timetable with hours down the side; on a
-// phone the same lessons are listed day by day. Every lesson opens its group.
-// `level` is the heading level of each weekday in the phone list: h3 under a section heading, h2 straight under the page title.
+// The school's week: one column for each day that has lessons, and in it the lessons in time order, each with its
+// hours, its course and its group. Lessons at the same hour simply follow one another, so a busy day stays readable
+// on any width; on a phone the days stack. Every lesson opens its group.
+// `level` is the heading level of each weekday: h3 under a section heading, h2 straight under the page title.
 export function Timetable({ groups, locale, level: Heading = "h3" }: { groups: PublicGroup[]; locale: Locale; level?: "h2" | "h3" }) {
-  const week = buildWeek(groups);
-  const hours = Array.from({ length: week.lastHour - week.firstHour }, (_, i) => week.firstHour + i);
-  const top = (minutes: number) => `calc(var(--hour) * ${(minutes - week.firstHour * 60) / 60})`;
+  const days = buildWeek(groups).days.filter((day) => day.slots.length > 0);
 
   return (
-    <>
-      <div className="hidden overflow-hidden rounded-2xl border border-line bg-surface md:block">
-        <div className="grid border-b border-line" style={{ gridTemplateColumns: `3.5rem repeat(${week.days.length}, minmax(0, 1fr))` }}>
-          <span />
-          {week.days.map(({ weekday }) => (
-            <p key={weekday} className="border-l border-line px-2 py-2 text-sm font-semibold">
-              {weekdayName(weekday, locale)}
-            </p>
-          ))}
-        </div>
-        <div className="sheet grid" style={{ gridTemplateColumns: `3.5rem repeat(${week.days.length}, minmax(0, 1fr))`, height: `calc(var(--hour) * ${hours.length})` }}>
-          <div className="relative" aria-hidden>
-            {hours.map((hour, i) => (
-              <span key={hour} className="num absolute right-2 text-xs text-muted" style={{ top: `calc(var(--hour) * ${i} + 0.25rem)` }}>
-                {String(hour).padStart(2, "0")}:00
-              </span>
+    <div className="week">
+      {days.map(({ weekday, slots }) => (
+        <section key={weekday} className="week-day">
+          <Heading>{weekdayName(weekday, locale)}</Heading>
+          <ul>
+            {slots.map((slot) => (
+              <li key={`${slot.group.id}-${slot.startTime}`}>
+                <Link href={localePath(locale, `/groups/${slot.group.id}`)} data-hue={hueOf(slot.group.course.id)} className="lesson">
+                  <span className="lesson-time num">
+                    {slot.startTime}–{slot.endTime}
+                  </span>
+                  <span className="lesson-course">{slot.group.course.title}</span>
+                  <span className="lesson-by">{[slot.group.name, slot.group.teacher?.name].filter(Boolean).join(", ")}</span>
+                </Link>
+              </li>
             ))}
-          </div>
-          {week.days.map(({ weekday, slots }) => (
-            <ul key={weekday} aria-label={weekdayName(weekday, locale)} className="relative border-l border-line">
-              {slots.map((slot) => (
-                <li
-                  key={`${slot.group.id}-${slot.startTime}`}
-                  className="absolute p-0.5"
-                  style={{
-                    top: top(slot.start),
-                    height: `calc(var(--hour) * ${(slot.end - slot.start) / 60})`,
-                    left: `${(slot.lane / slot.lanes) * 100}%`,
-                    width: `${100 / slot.lanes}%`,
-                  }}
-                >
-                  <Link
-                    href={localePath(locale, `/groups/${slot.group.id}`)}
-                    data-hue={hueOf(slot.group.course.id)}
-                    className={`slot flex h-full flex-col overflow-hidden rounded-lg py-1 text-xs leading-tight ${slot.lanes > 1 ? "px-1.5" : "px-2"}`}
-                  >
-                    <span className={`num whitespace-nowrap text-muted ${slot.lanes > 1 ? "text-[0.6875rem]" : ""}`}>
-                      {slot.startTime}–{slot.endTime}
-                    </span>
-                    <span className={`mt-0.5 font-semibold [overflow-wrap:anywhere] ${slot.lanes > 1 ? "text-[0.71875rem]" : "text-[0.8125rem]"}`}>
-                      {slot.group.course.title}
-                    </span>
-                    <span className="truncate text-muted">
-                      {slot.group.name}
-                      {/* Side by side with another lesson there is no room for the name. */}
-                      {slot.group.teacher && slot.lanes === 1 ? `, ${slot.group.teacher.name}` : ""}
-                    </span>
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          ))}
-        </div>
-      </div>
-
-      <div className="space-y-4 md:hidden">
-        {week.days
-          .filter((day) => day.slots.length > 0)
-          .map(({ weekday, slots }) => (
-            <section key={weekday}>
-              <Heading className="mb-1.5 text-sm font-semibold text-muted">{weekdayName(weekday, locale)}</Heading>
-              <ul className="space-y-1.5">
-                {slots.map((slot) => (
-                  <li key={`${slot.group.id}-${slot.startTime}`}>
-                    <Link
-                      href={localePath(locale, `/groups/${slot.group.id}`)}
-                      data-hue={hueOf(slot.group.course.id)}
-                      className="slot flex items-baseline gap-3 rounded-lg px-3 py-2.5"
-                    >
-                      <span className="num w-24 shrink-0 text-sm text-muted">
-                        {slot.startTime}–{slot.endTime}
-                      </span>
-                      <span className="min-w-0">
-                        <span className="block font-semibold">{slot.group.course.title}</span>
-                        <span className="block truncate text-sm text-muted">
-                          {slot.group.name}
-                          {slot.group.teacher ? `, ${slot.group.teacher.name}` : ""}
-                        </span>
-                      </span>
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </section>
-          ))}
-      </div>
-    </>
+          </ul>
+        </section>
+      ))}
+    </div>
   );
 }

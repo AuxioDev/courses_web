@@ -43,7 +43,8 @@ const contrast = (a: string, b: string) => {
   return (hi + 0.05) / (lo + 0.05);
 };
 
-describe.each(["light", "dark"] as const)("palette contrast (%s)", (mode) => {
+// The website is light only (role-theme.css sets every token again and keeps color-scheme light).
+describe.each(["light"] as const)("palette contrast (%s)", (mode) => {
   const c = modes[mode];
 
   it("defines every token as a hex colour", () => {
@@ -69,10 +70,6 @@ describe.each(["light", "dark"] as const)("palette contrast (%s)", (mode) => {
     expect(contrast(c[ink], c[fill])).toBeGreaterThanOrEqual(4.5);
   });
 
-  it("white would not do on the dark status fills (why those badges use --bg)", () => {
-    if (mode === "dark") expect(contrast("#ffffff", c.bad)).toBeLessThan(4.5);
-  });
-
   it("accent stays visible as a border or focus ring (3:1) against the page", () => {
     expect(contrast(c.accent, c.bg)).toBeGreaterThanOrEqual(3);
     expect(contrast(c.accent, c.surface)).toBeGreaterThanOrEqual(3);
@@ -88,8 +85,8 @@ describe.each(["light", "dark"] as const)("palette contrast (%s)", (mode) => {
   });
 });
 
-describe.each(["light", "dark"] as const)("re-scoped side navigation (%s)", (mode) => {
-  const scoped = asides.length === 0 ? null : { ...modes[mode], ...asides[0], ...(mode === "dark" ? (asides[1] ?? {}) : {}) };
+describe.each(["light"] as const)("re-scoped side navigation (%s)", (mode) => {
+  const scoped = asides.length === 0 ? null : { ...modes[mode], ...asides[0] };
 
   it.skipIf(!scoped).each([
     ["ink", "surface-2"], ["muted", "surface-2"], ["accent", "surface-2"],

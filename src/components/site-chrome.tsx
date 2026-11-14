@@ -1,8 +1,8 @@
 import Link from "next/link";
 import type { Dictionary } from "@/i18n";
 import { localePath, type Locale } from "@/i18n/config";
+import { brandLogo } from "@/lib/brand";
 import { contacts, SCHOOL_NAME } from "@/lib/site";
-import { Mark } from "./icons";
 import { LanguageSwitch } from "./language-switch";
 import { NavLinks } from "./nav-links";
 
@@ -14,19 +14,23 @@ const pages = [
   { path: "/teachers", key: "teachers" },
 ] as const;
 
-// The near-black bar: the school's name on the left, the page links as pills, the language and the main action on
-// the right. The bar keeps its palette in both colour modes (site-theme.css).
+// The school's name (and its logo, once the school has supplied one), the page links as plain text, the language, and
+// the one action that matters. A hairline underneath; sticky. On a phone the three links stay in a row you can swipe,
+// so there is no menu to open.
 export function SiteHeader({ locale, t }: Props) {
+  const logo = brandLogo();
   return (
-    <header className="site-header on-dark">
-      <div className="mx-auto flex max-w-[81rem] flex-wrap items-center gap-x-6 gap-y-1 px-4 py-2 sm:px-6 md:py-3 lg:px-[3.25rem]">
-        <Link href={localePath(locale, "/")} className="display mr-auto flex items-center gap-2.5 text-base font-bold text-ink">
-          <Mark />
+    <header className="site-header">
+      <div className="mx-auto flex max-w-[75rem] flex-wrap items-center gap-x-3 px-5 sm:gap-x-6 sm:px-8 lg:px-12">
+        <Link href={localePath(locale, "/")} className="site-name mr-auto flex min-h-14 items-center gap-2.5">
+          {/* The logo is decorative: the name is written next to it. */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          {logo && <img src={logo} alt="" height={32} className="h-8 w-auto" />}
           {SCHOOL_NAME}
         </Link>
-        <div className="flex items-center gap-2 md:order-3">
+        <div className="flex items-center gap-1 md:order-3">
           <LanguageSwitch locale={locale} label={t.nav.language} />
-          <Link href={localePath(locale, "/apply")} className="btn h-11 py-0 md:h-9">
+          <Link href={localePath(locale, "/apply")} className="btn ml-2">
             {t.nav.apply}
           </Link>
         </div>
@@ -38,52 +42,49 @@ export function SiteHeader({ locale, t }: Props) {
   );
 }
 
-// Darker still, in columns: who we are, the pages, how to reach us.
+// The same three columns on every page: who we are, how to reach us, where to go.
 export function SiteFooter({ locale, t }: Props) {
   const c = contacts();
   return (
-    <footer id="contact" className="site-footer on-dark">
-      <div className="mx-auto grid max-w-[81rem] gap-10 px-4 py-12 sm:px-6 md:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)_minmax(0,1fr)] md:py-16 lg:px-[3.25rem]">
+    <footer id="contact" className="site-footer">
+      <div className="mx-auto grid max-w-[75rem] gap-10 px-5 py-12 sm:px-8 md:grid-cols-[minmax(0,3fr)_minmax(0,5fr)_minmax(0,4fr)] md:py-16 lg:px-12">
         <div>
-          <p className="display flex items-center gap-2.5 text-base font-bold">
-            <Mark />
-            {SCHOOL_NAME}
-          </p>
-          <p className="mt-3 max-w-xs text-sm text-muted">{t.footer.online}</p>
+          <p className="site-name">{SCHOOL_NAME}</p>
+          <p className="mt-2 max-w-xs text-[0.9375rem] text-muted">{t.footer.online}</p>
         </div>
         <div>
-          <h2 className="!text-base">{t.footer.contact}</h2>
-          <ul className="mt-3 space-y-2 text-sm">
+          <p className="font-semibold">{t.footer.contact}</p>
+          <ul className="mt-2 text-[0.9375rem]">
             <li>
-              <a href={c.phoneHref} className="num font-medium underline-offset-4 hover:underline">
+              <a href={c.phoneHref} className="num link font-medium">
                 {c.phone}
               </a>
             </li>
             {c.whatsappHref && (
               <li>
-                <a href={c.whatsappHref} rel="noopener" className="font-medium underline-offset-4 hover:underline">
+                <a href={c.whatsappHref} rel="noopener" className="link font-medium">
                   {t.footer.whatsapp}
                 </a>
               </li>
             )}
             <li>
-              <a href={`mailto:${c.email}`} className="font-medium underline-offset-4 hover:underline">
+              <a href={`mailto:${c.email}`} className="link font-medium">
                 {c.email}
               </a>
             </li>
           </ul>
-          {c.isPlaceholder && <p className="mt-3 text-xs text-warn-on-dark">{t.footer.placeholder}</p>}
+          {c.isPlaceholder && <p className="footer-note mt-2">{t.footer.placeholder}</p>}
         </div>
-        <ul className="space-y-2 text-sm">
+        <ul className="text-[0.9375rem]">
           {pages.map(({ path, key }) => (
             <li key={path}>
-              <Link href={localePath(locale, path)} className="inline-flex min-h-11 items-center underline-offset-4 hover:underline md:min-h-6">
+              <Link href={localePath(locale, path)} className="link">
                 {t.nav[key]}
               </Link>
             </li>
           ))}
           <li>
-            <Link href={localePath(locale, "/privacy")} className="inline-flex min-h-11 items-center underline-offset-4 hover:underline md:min-h-6">
+            <Link href={localePath(locale, "/privacy")} className="link">
               {t.footer.privacy}
             </Link>
           </li>

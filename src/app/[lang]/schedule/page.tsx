@@ -24,7 +24,6 @@ export default async function SchedulePage({ searchParams }: Props) {
   const courses = [...new Map(groups.map((g) => [g.course.id, g.course])).values()];
   const chosen = typeof query.course === "string" && courses.some((c) => c.id === query.course) ? query.course : null;
   const shown = chosen ? groups.filter((g) => g.course.id === chosen) : groups;
-  const chip = "inline-flex h-10 items-center rounded-full border px-4 text-sm font-medium";
 
   return (
     <>
@@ -34,13 +33,13 @@ export default async function SchedulePage({ searchParams }: Props) {
       ) : (
         <>
           {courses.length > 1 && (
-            <nav aria-label={t.schedule.filter} className="mb-4">
-              <ul className="flex flex-wrap gap-2">
+            <nav aria-label={t.schedule.filter} className="mb-10">
+              <ul className="tabs">
                 <li>
                   <Link
                     href={localePath(locale, "/schedule")}
                     aria-current={chosen ? undefined : "true"}
-                    className={`${chip} ${chosen ? "border-line bg-surface text-muted" : "border-ink bg-ink text-bg"}`}
+                    className="tab"
                   >
                     {t.schedule.allCourses}
                   </Link>
@@ -50,9 +49,9 @@ export default async function SchedulePage({ searchParams }: Props) {
                     <Link
                       href={localePath(locale, `/schedule?course=${course.id}`)}
                       aria-current={chosen === course.id ? "true" : undefined}
-                      className={`${chip} ${chosen === course.id ? "border-ink bg-ink text-bg" : "border-line bg-surface"}`}
+                      className="tab"
                     >
-                      <span aria-hidden className="mr-2 h-2.5 w-2.5 rounded-full" style={{ background: "var(--hue)" }} />
+                      <span aria-hidden className="tab-dot" />
                       {course.title}
                     </Link>
                   </li>

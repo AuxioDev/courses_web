@@ -7,7 +7,7 @@ import { pageMeta } from "@/lib/meta";
 import { Empty } from "@/components/ui";
 import { GroupList } from "@/components/group-list";
 import { BackLink, Prose } from "@/components/page-head";
-import { Initials } from "@/components/teacher-list";
+import { teacherPhoto } from "@/lib/brand";
 
 type Props = PageProps<"/[lang]/teachers/[id]">;
 
@@ -24,12 +24,16 @@ export default async function TeacherPage({ params }: Props) {
   const [{ locale, t }, { id }] = await Promise.all([getI18n(), params]);
   const teacher = await getTeacher(id);
   if (!teacher) notFound();
+  const photo = teacherPhoto(id);
 
   return (
     <>
       <BackLink href={localePath(locale, "/teachers")}>{t.teachers.title}</BackLink>
       <div className="mb-8 flex flex-wrap items-center gap-5">
-        <Initials name={teacher.name} large />
+        {photo && (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={photo} alt="" width={176} height={176} className="photo photo-lg" />
+        )}
         <h1>{teacher.name}</h1>
       </div>
       {teacher.bio && (
