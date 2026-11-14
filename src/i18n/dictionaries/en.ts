@@ -35,6 +35,10 @@ export const en = {
       groupTitle: "Groups stay small",
       groupBody: "Every group has a limit on seats, so the teacher has time for each student's questions.",
     },
+    coursesTitle: "What you can study",
+    groupCount: { one: "{n} open group", other: "{n} open groups" },
+    helpTitle: "Not sure which group to choose?",
+    helpBody: "Call or write to us. We will help you pick the group that fits your level and your week.",
     howTitle: "How to join",
     steps: {
       chooseTitle: "Choose a group",

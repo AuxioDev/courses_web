@@ -1,0 +1,262 @@
+/* Public website: page structure and the regions that stay dark in both colour modes (the header, the dark bands,
+   the footer). Loaded after role-theme.css. Colours of the regions are checked by src/lib/__tests__/on-dark.test.ts.
+   Sizes are in rem so the whole page scales on very large screens (globals.css). */
+
+/* A region that keeps its own palette whatever the visitor's colour mode. Everything inside reads the same
+   tokens as the rest of the site, so components need no special cases. */
+.on-dark {
+  --bg: #000000;
+  --surface: #111217;
+  --surface-2: #1d1d1f;
+  --ink: #ffffff;
+  --muted: #b4b4bd;
+  --line: #2b2b33;
+  --accent: #9aa0ff;
+  --accent-ink: #0b0d3a;
+  --accent-soft: #1a1c3d;
+  --rule: #2b2b33;
+  color-scheme: dark;
+  background: var(--bg);
+  color: var(--ink);
+}
+.on-dark .btn {
+  background: #4850ec;
+  color: #ffffff;
+}
+.on-dark .btn:hover {
+  background: #5a62f0;
+}
+.on-dark .btn-ghost {
+  background: transparent;
+  color: var(--ink);
+  border-color: #4a4a55;
+}
+.on-dark .btn-ghost:hover {
+  background: var(--surface-2);
+}
+
+/* Header: the near-black bar. */
+.site-header {
+  --bg: #1d1d1f;
+  --surface: #2a2a30;
+  --surface-2: #34343b;
+  --muted: #c3c3cb;
+  --line: #3d3d46;
+  --accent: #9aa0ff;
+  --accent-ink: #0b0d3a;
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  padding-top: env(safe-area-inset-top);
+  background: var(--bg);
+}
+.site-header a[aria-current="page"],
+.site-header a[aria-current="true"] {
+  background: #4850ec;
+  color: #ffffff;
+}
+.site-header .btn {
+  background: #4850ec;
+  color: #ffffff;
+}
+.site-header .btn:hover {
+  background: #5a62f0;
+}
+/* The soft edges of the scrolling page links are shadow, not light, on a dark bar. */
+.site-header .scroll-hint {
+  --scroll-edge: rgb(0 0 0 / 0.5);
+}
+.site-header ul[aria-label] {
+  border-color: var(--line);
+  background: transparent;
+}
+
+/* Footer: darker still, in columns. */
+.site-footer {
+  --bg: #111217;
+  --surface: #181a22;
+  --surface-2: #1d1d1f;
+  --line: #2b2b33;
+  padding-bottom: env(safe-area-inset-bottom);
+  margin-top: 0;
+}
+
+/* A band that runs the full width of the window while its content stays in the page column. The shadow paints the
+   colour sideways and the clip keeps it from adding any scrollable width. */
+.bleed {
+  background: var(--bg);
+  box-shadow: 0 0 0 100vmax var(--bg);
+  clip-path: inset(0 -100vmax);
+}
+/* The light-grey band: cards on it keep the page's own card colour. */
+.bleed-soft {
+  --bg: var(--surface-2);
+}
+
+.section {
+  padding-block: clamp(3.5rem, 2rem + 6vw, 7.5rem);
+}
+.section-tight {
+  padding-block: clamp(2.5rem, 1.5rem + 3vw, 4.5rem);
+}
+/* The first band starts right under the header, so it cancels the page column's top padding. */
+.hero-band {
+  margin-top: -1.5rem;
+  padding-block: clamp(2.5rem, 1rem + 5vw, 5rem) clamp(3rem, 1.5rem + 5vw, 7.5rem);
+}
+@media (min-width: 768px) {
+  .hero-band {
+    margin-top: -2.5rem;
+  }
+}
+
+/* Home: the opening. Large left-aligned title; on the right a card with what is open now. */
+.hero {
+  display: grid;
+  gap: 2.5rem;
+  align-items: center;
+}
+@media (min-width: 1024px) {
+  .hero {
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+    gap: 4rem;
+  }
+}
+.hero-lead {
+  margin-top: 1.5rem;
+  max-width: 34rem;
+  font-size: clamp(1.0625rem, 1rem + 0.35vw, 1.25rem);
+  line-height: 1.6;
+  color: var(--muted);
+}
+.hero-panel {
+  border-radius: 0.5rem;
+  background: var(--surface-2);
+  padding: clamp(1rem, 0.5rem + 2vw, 2rem);
+}
+.hero-panel ul > li + li {
+  border-top: 1px solid var(--line);
+}
+
+/* A strip of the course names that slowly passes by. Transform only; with reduced motion it stops and scrolls by hand. */
+.marquee {
+  overflow: hidden;
+  padding-block: 1.25rem;
+}
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee-scroll 45s linear infinite;
+}
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+.marquee-item {
+  margin-inline-end: 2.5rem;
+  white-space: nowrap;
+  font-size: clamp(1.05rem, 0.9rem + 0.7vw, 1.5rem);
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+@keyframes marquee-scroll {
+  to {
+    transform: translateX(-50%);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .marquee {
+    overflow-x: auto;
+  }
+  .marquee-item[data-dup] {
+    display: none;
+  }
+}
+
+/* Course tiles: one block per course that has an open group. */
+.tile-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 19rem), 1fr));
+}
+.tile {
+  display: flex;
+  min-height: 10rem;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 1.5rem;
+  border: 1px solid var(--line);
+  border-top: 3px solid var(--hue, var(--accent));
+  border-radius: 0.5rem;
+  background: var(--surface);
+  padding: 1.5rem;
+  transition:
+    background-color var(--dur-fast) ease,
+    border-color var(--dur-fast) ease,
+    transform var(--dur-fast) var(--ease-out);
+}
+.tile:hover,
+.tile:focus-visible {
+  background: var(--surface-2);
+  transform: translateY(-2px);
+}
+.tile:active {
+  transform: scale(0.99);
+}
+.tile-name {
+  font-size: clamp(1.25rem, 1.05rem + 0.9vw, 1.875rem);
+  font-weight: 600;
+  line-height: 1.25;
+}
+.tile-count {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--muted);
+}
+.tile-arrow {
+  transition: transform var(--dur-fast) var(--ease-out);
+}
+.tile:hover .tile-arrow {
+  transform: translateX(0.25rem);
+}
+
+/* Cards on a light-grey band. */
+.card {
+  border-radius: 0.5rem;
+  background: var(--surface);
+  padding: 1.5rem;
+}
+.step-number {
+  display: flex;
+  height: 2.5rem;
+  width: 2.5rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.375rem;
+  background: #4850ec;
+  color: #ffffff;
+  font-weight: 700;
+}
+
+/* The call to action. */
+.help-band {
+  display: grid;
+  gap: 1.5rem;
+  align-items: center;
+}
+@media (min-width: 768px) {
+  .help-band {
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 3rem;
+  }
+}
+
+/* The amber note ("these contact details are placeholders") on a dark background. */
+.text-warn-on-dark {
+  color: #f0b65a;
+}

@@ -20,6 +20,14 @@ export function ChevronLeft(props: SVGProps<SVGSVGElement>) {
   );
 }
 
+export function ArrowRight(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M5 12h14M13 6l6 6-6 6" />
+    </svg>
+  );
+}
+
 // The school's mark: a timetable sheet pinned to the board, one lesson filled in.
 export function Mark(props: SVGProps<SVGSVGElement>) {
   return (

@@ -34,6 +34,10 @@ export const az: Dictionary = {
       groupTitle: "Qruplar kiçik qalır",
       groupBody: "Hər qrupda yer sayı məhduddur, ona görə müəllimin hər şagirdin sualına vaxtı çatır.",
     },
+    coursesTitle: "Nə öyrənə bilərsiniz",
+    groupCount: { one: "{n} açıq qrup", other: "{n} açıq qrup" },
+    helpTitle: "Hansı qrupu seçəcəyinizi bilmirsiniz?",
+    helpBody: "Zəng edin və ya yazın. Səviyyənizə və həftənizə uyğun qrupu seçməyə kömək edəcəyik.",
     howTitle: "Necə qoşulmaq olar",
     steps: {
       chooseTitle: "Qrup seçin",

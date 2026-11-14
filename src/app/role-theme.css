@@ -1,39 +1,44 @@
-/* Public website: the notice board in the school corridor. The weekly timetable is pinned to
-   it, and each course is written in one of the family's pen colours (Student green, Teacher
-   teal, Admin indigo, and this site's own berry). Loaded after globals.css, which is identical
-   in all four apps, so everything that differs lives here.
-   Contrast is checked by src/lib/__tests__/contrast.test.ts. */
+/* Public website. A clean, high-contrast academy look: near-black header and bands, white and light-grey sections,
+   one indigo accent, Inter in heavy headings, small radii and generous section spacing. Each course is still written
+   in one of the family's pen colours (Student green, Teacher teal, Admin indigo, and this site's own berry).
+   Loaded after globals.css, which is identical in all four apps, so everything that differs lives here and in
+   site-theme.css (layout and the always-dark regions).
+   Contrast is checked by src/lib/__tests__/contrast.test.ts and on-dark.test.ts. */
 :root {
-  --bg: #fbfcff;
+  --bg: #ffffff;
   --surface: #ffffff;
-  --surface-2: #eef1f9;
-  --ink: #1b2750;
-  --muted: #515d86;
-  --line: #cfd6ea;
-  --accent: #a32a5c;
+  --surface-2: #f5f5f7;
+  --ink: #1d1d1f;
+  --muted: #5b5b63;
+  --line: #dcdce2;
+  --accent: #4850ec;
   --accent-ink: #ffffff;
-  --accent-soft: #f9e6ee;
-  --rule: #e4e9f6;
+  --accent-soft: #eceeff;
+  --rule: #ececf1;
   --marker: #ffd84d;
   --marker-ink: #3d2f00;
   --hue-0: #16794c;
   --hue-1: #0b6e8f;
   --hue-2: #3f4fa8;
   --hue-3: #a32a5c;
+  /* Small, even corners everywhere: the utilities that round cards and fields read these. */
+  --radius-lg: 0.5rem;
+  --radius-xl: 0.5rem;
+  --radius-2xl: 0.5rem;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg: #0f1830;
-    --surface: #17223f;
-    --surface-2: #1f2d52;
-    --ink: #e8edfb;
-    --muted: #a4b1d6;
-    --line: #2c3b66;
-    --accent: #f29bc0;
-    --accent-ink: #3a0d22;
-    --accent-soft: #47203a;
-    --rule: #22305a;
+    --bg: #0b0b0e;
+    --surface: #17171c;
+    --surface-2: #1f2026;
+    --ink: #f5f5f7;
+    --muted: #a8a8b3;
+    --line: #2e2e36;
+    --accent: #9aa0ff;
+    --accent-ink: #0b0d3a;
+    --accent-soft: #23264f;
+    --rule: #26262e;
     --marker: #ffd84d;
     --marker-ink: #3d2f00;
     --hue-0: #52c78f;
@@ -43,23 +48,54 @@
   }
 }
 
-/* Headings are the board's lettering: wide and heavy. Body text stays the family's Onest. */
+/* Headings are heavy Inter. Inner pages get a calm size; the home page asks for the big one with .hero-title and
+   .section-title. */
 h1,
 h2,
 .display {
-  font-family: var(--font-display), var(--font-geist-sans), system-ui, sans-serif;
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
   letter-spacing: -0.02em;
   text-wrap: balance;
 }
 h1 {
-  font-size: clamp(1.6rem, 1.1rem + 2.6vw, 3rem);
-  font-weight: 600;
-  line-height: 1.12;
+  font-size: clamp(1.9rem, 1.3rem + 2.2vw, 2.75rem);
+  font-weight: 700;
+  line-height: 1.15;
 }
 h2 {
-  font-size: clamp(1.15rem, 1rem + 0.7vw, 1.5rem);
-  font-weight: 600;
+  font-size: clamp(1.3rem, 1.1rem + 1vw, 1.75rem);
+  font-weight: 700;
   line-height: 1.2;
+}
+.hero-title {
+  font-size: clamp(2.25rem, 1.2rem + 4.4vw, 4rem);
+  line-height: 1.2;
+}
+.section-title {
+  font-size: clamp(1.75rem, 1.2rem + 2.2vw, 3rem);
+  line-height: 1.2;
+}
+
+/* Buttons: a solid indigo block with a 6 px corner; the large one is for the main action of a section. */
+.btn {
+  border-radius: 0.375rem;
+  padding: 0.625rem 1.25rem;
+  font-weight: 600;
+}
+.btn-ghost {
+  border-radius: 0.375rem;
+  padding: 0.625rem 1.25rem;
+}
+.btn-lg {
+  padding: 1rem 2rem;
+  font-size: 1rem;
+  min-height: 3.25rem;
+}
+@media (min-width: 768px) {
+  .btn-lg {
+    padding-inline: 3rem;
+    font-size: 1.125rem;
+  }
 }
 
 /* Hours, prices and seats line up in columns. */
@@ -109,9 +145,8 @@ h2 {
   overflow: hidden;
 }
 
-/* Motion. The board's own gestures, in the shared tokens (motion.css): the marker is drawn under each page title,
-   and the lines of a list are written onto the board one after another. Transform and opacity only; reduced motion
-   (globals.css) turns it all off. */
+/* Motion, in the shared tokens (motion.css): a short accent bar is drawn under each page title, and the lines of a
+   list are written in one after another. Transform and opacity only; reduced motion (globals.css) turns it all off. */
 main h1::after {
   content: "";
   display: block;
@@ -119,7 +154,7 @@ main h1::after {
   height: 0.3rem;
   margin-top: 0.75rem;
   border-radius: 9999px;
-  background: var(--marker);
+  background: var(--accent);
   transform-origin: left;
   animation: marker-draw var(--dur-slow) var(--ease-out) 0.15s both;
 }
@@ -154,7 +189,7 @@ main h1::after {
   }
 }
 
-/* A line of the board answers the pointer: a little of its pen colour washes in. */
+/* A line of the list answers the pointer: a little of its pen colour washes in. */
 .pen-edge {
   transition: background-color var(--dur-fast) ease;
 }

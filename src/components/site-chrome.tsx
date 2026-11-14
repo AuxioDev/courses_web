@@ -14,11 +14,13 @@ const pages = [
   { path: "/teachers", key: "teachers" },
 ] as const;
 
+// The near-black bar: the school's name on the left, the page links as pills, the language and the main action on
+// the right. The bar keeps its palette in both colour modes (site-theme.css).
 export function SiteHeader({ locale, t }: Props) {
   return (
-    <header className="sticky top-0 z-20 border-b border-line bg-bg/90 pt-[env(safe-area-inset-top)] backdrop-blur">
-      <div className="mx-auto flex max-w-6xl flex-wrap items-center gap-x-5 gap-y-1 px-4 py-2 sm:px-6">
-        <Link href={localePath(locale, "/")} className="display mr-auto flex items-center gap-2 text-[0.9375rem] font-semibold">
+    <header className="site-header on-dark">
+      <div className="mx-auto flex max-w-[81rem] flex-wrap items-center gap-x-6 gap-y-1 px-4 py-2 sm:px-6 md:py-3 lg:px-[3.25rem]">
+        <Link href={localePath(locale, "/")} className="display mr-auto flex items-center gap-2.5 text-base font-bold text-ink">
           <Mark />
           {SCHOOL_NAME}
         </Link>
@@ -36,21 +38,22 @@ export function SiteHeader({ locale, t }: Props) {
   );
 }
 
+// Darker still, in columns: who we are, the pages, how to reach us.
 export function SiteFooter({ locale, t }: Props) {
   const c = contacts();
   return (
-    <footer id="contact" className="mt-16 border-t border-line bg-surface-2 pb-[env(safe-area-inset-bottom)]">
-      <div className="mx-auto grid max-w-6xl gap-8 px-4 py-10 sm:px-6 md:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)_minmax(0,1fr)]">
+    <footer id="contact" className="site-footer on-dark">
+      <div className="mx-auto grid max-w-[81rem] gap-10 px-4 py-12 sm:px-6 md:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)_minmax(0,1fr)] md:py-16 lg:px-[3.25rem]">
         <div>
-          <p className="display flex items-center gap-2 text-[0.9375rem] font-semibold">
+          <p className="display flex items-center gap-2.5 text-base font-bold">
             <Mark />
             {SCHOOL_NAME}
           </p>
-          <p className="mt-2 max-w-xs text-sm text-muted">{t.footer.online}</p>
+          <p className="mt-3 max-w-xs text-sm text-muted">{t.footer.online}</p>
         </div>
         <div>
-          <h2 className="!text-sm">{t.footer.contact}</h2>
-          <ul className="mt-2 space-y-1.5 text-sm">
+          <h2 className="!text-base">{t.footer.contact}</h2>
+          <ul className="mt-3 space-y-2 text-sm">
             <li>
               <a href={c.phoneHref} className="num font-medium underline-offset-4 hover:underline">
                 {c.phone}
@@ -69,18 +72,18 @@ export function SiteFooter({ locale, t }: Props) {
               </a>
             </li>
           </ul>
-          {c.isPlaceholder && <p className="mt-2 text-xs text-warn">{t.footer.placeholder}</p>}
+          {c.isPlaceholder && <p className="mt-3 text-xs text-warn-on-dark">{t.footer.placeholder}</p>}
         </div>
-        <ul className="space-y-1.5 text-sm">
+        <ul className="space-y-2 text-sm">
           {pages.map(({ path, key }) => (
             <li key={path}>
-              <Link href={localePath(locale, path)} className="underline-offset-4 hover:underline">
+              <Link href={localePath(locale, path)} className="inline-flex min-h-11 items-center underline-offset-4 hover:underline md:min-h-6">
                 {t.nav[key]}
               </Link>
             </li>
           ))}
           <li>
-            <Link href={localePath(locale, "/privacy")} className="underline-offset-4 hover:underline">
+            <Link href={localePath(locale, "/privacy")} className="inline-flex min-h-11 items-center underline-offset-4 hover:underline md:min-h-6">
               {t.footer.privacy}
             </Link>
           </li>
