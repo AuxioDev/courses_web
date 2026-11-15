@@ -7,11 +7,11 @@ const layout = read("../../app/[lang]/layout.tsx");
 const theme = read("../../app/site-theme.css");
 
 describe("layout stability", () => {
-  it("preloads the single-weight heading font, so it is there before the first paint and the headline does not re-wrap", () => {
-    const block = layout.slice(layout.indexOf("Source_Serif_4({"));
+  it("preloads the variable heading font, so it is there before the first paint and the headline does not re-wrap", () => {
+    const block = layout.slice(layout.indexOf("Playfair_Display({"));
     const options = block.slice(0, block.indexOf("});"));
     expect(options).toMatch(/preload:\s*true/);
-    expect(options).toMatch(/weight:\s*\["600"\]/);
+    expect(options).not.toMatch(/weight:/); // variable font: every weight from one file
   });
 
   it("stacks the hero actions on a narrow phone, so a font loading cannot move the second one", () => {

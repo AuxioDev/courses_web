@@ -27,7 +27,7 @@ export const instant = false;
 function Fact({ label, children }: { label: string; children: ReactNode }) {
   return (
     <div className="grid gap-0.5 py-3 sm:grid-cols-[10rem_minmax(0,1fr)] sm:gap-4">
-      <dt className="text-sm text-muted">{label}</dt>
+      <dt className="fact-label">{label}</dt>
       <dd>{children}</dd>
     </div>
   );
@@ -80,7 +80,7 @@ export default async function GroupPage({ params }: Props) {
             </Fact>
             {group.teacher && (
               <Fact label={g.teacher}>
-                <Link href={localePath(locale, `/teachers/${group.teacher.id}`)} className="font-medium text-accent underline-offset-4 hover:underline">
+                <Link href={localePath(locale, `/teachers/${group.teacher.id}`)} className="link font-semibold">
                   {group.teacher.name}
                 </Link>
               </Fact>
@@ -93,7 +93,7 @@ export default async function GroupPage({ params }: Props) {
               })}
             </Fact>
             <Fact label={g.priceLabel}>
-              <span className="num font-semibold">{group.monthlyPrice === null ? g.priceOnRequest : fmt(g.price, { n: group.monthlyPrice })}</span>
+              <span className="num price-figure">{group.monthlyPrice === null ? g.priceOnRequest : fmt(g.price, { n: group.monthlyPrice })}</span>
             </Fact>
           </dl>
           <div className="mt-6">
@@ -102,18 +102,18 @@ export default async function GroupPage({ params }: Props) {
             </Suspense>
           </div>
         </div>
-        <section aria-labelledby="next" className="pen-edge rounded-2xl border border-line bg-surface p-4">
-          <h2 id="next" className="!text-base">
+        <section aria-labelledby="next" className="pen-edge rounded-[3px] border border-line bg-surface p-4">
+          <h2 id="next" className="!text-xl">
             {g.nextLessons}
           </h2>
           {group.nextLessons.length === 0 ? (
             <p className="mt-2 text-sm text-muted">{g.noLessonsYet}</p>
           ) : (
-            <ol className="mt-2 divide-y divide-line">
+            <ol className="next-lessons mt-2 divide-y divide-line">
               {group.nextLessons.map((lesson) => (
-                <li key={lesson.id} className="flex items-baseline justify-between gap-4 py-2 text-sm">
+                <li key={lesson.id} className="reveal flex items-baseline justify-between gap-4 py-2 text-sm">
                   <span className="first-letter:uppercase">{formatLessonDay(lesson.startsAt, timeZone, locale)}</span>
-                  <span className="num font-semibold">
+                  <span className="num ui-label font-semibold">
                     {formatTime(lesson.startsAt, timeZone)}–{formatTime(lesson.endsAt, timeZone)}
                   </span>
                 </li>

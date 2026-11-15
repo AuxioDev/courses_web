@@ -26,7 +26,7 @@ export function TeacherList({
             {/* eslint-disable-next-line @next/next/no-img-element */}
             {photo && <img src={photo} alt="" width={72} height={72} className="photo" />}
             <div className="min-w-0">
-              <Heading className="font-semibold">
+              <Heading>
                 <Link href={localePath(locale, `/teachers/${teacher.id}`)} className="link tap">
                   {teacher.name}
                 </Link>

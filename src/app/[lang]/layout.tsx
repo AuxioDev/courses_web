@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Source_Serif_4 } from "next/font/google";
+import { Inter, JetBrains_Mono, Playfair_Display } from "next/font/google";
 import { lang } from "next/root-params";
 import { locales } from "@/i18n/config";
 import { getI18n } from "@/i18n";
@@ -20,14 +20,21 @@ const bodyFont = Inter({
   preload: false,
 });
 
-// Headings only: a sturdy serif, one weight. Both families cover Azerbaijani (Latin Extended) and Russian (Cyrillic).
-// It is preloaded, so it is there before the first paint and the headline neither flashes nor re-wraps.
-const displayFont = Source_Serif_4({
+// Headlines only: a high-contrast, heavy serif. Variable weight, so 600 to 800 all come from one file. It covers
+// Azerbaijani (Latin Extended) and Russian (Cyrillic). It is preloaded, so the headline neither flashes nor re-wraps.
+const displayFont = Playfair_Display({
   variable: "--font-display",
   subsets: ["latin", "latin-ext", "cyrillic"],
-  weight: ["600"],
   display: "swap",
   preload: true,
+});
+
+// Buttons, the navigation bar and other UI labels: a sharp monospace with the same alphabets.
+const uiFont = JetBrains_Mono({
+  variable: "--font-ui",
+  subsets: ["latin", "latin-ext", "cyrillic"],
+  display: "swap",
+  preload: false,
 });
 
 export function generateStaticParams() {
@@ -50,13 +57,13 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
-  themeColor: "#f7f4ee",
+  themeColor: "#faf9f6",
 };
 
 export default async function RootLayout({ children }: LayoutProps<"/[lang]">) {
   const { locale, t } = await getI18n();
   return (
-    <html lang={await lang()} className={`${bodyFont.variable} ${displayFont.variable} h-full antialiased`}>
+    <html lang={await lang()} className={`${bodyFont.variable} ${displayFont.variable} ${uiFont.variable} h-full antialiased`}>
       <body className="flex min-h-full flex-col font-sans">
         <a href="#content" className="btn sr-only focus:not-sr-only focus:absolute focus:left-2 focus:top-2 focus:z-30">
           {t.nav.skip}

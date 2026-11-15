@@ -53,29 +53,29 @@ export function SiteFooter({ locale, t }: Props) {
           <p className="mt-2 max-w-xs text-[0.9375rem] text-muted">{t.footer.online}</p>
         </div>
         <div>
-          <p className="font-semibold">{t.footer.contact}</p>
-          <ul className="mt-2 text-[0.9375rem]">
+          <p className="footer-col-title">{t.footer.contact}</p>
+          <ul className="footer-links mt-2">
             <li>
-              <a href={c.phoneHref} className="num link font-medium">
+              <a href={c.phoneHref} className="num link">
                 {c.phone}
               </a>
             </li>
             {c.whatsappHref && (
               <li>
-                <a href={c.whatsappHref} rel="noopener" className="link font-medium">
+                <a href={c.whatsappHref} rel="noopener" className="link">
                   {t.footer.whatsapp}
                 </a>
               </li>
             )}
             <li>
-              <a href={`mailto:${c.email}`} className="link font-medium">
+              <a href={`mailto:${c.email}`} className="link">
                 {c.email}
               </a>
             </li>
           </ul>
           {c.isPlaceholder && <p className="footer-note mt-2">{t.footer.placeholder}</p>}
         </div>
-        <ul className="text-[0.9375rem]">
+        <ul className="footer-links">
           {pages.map(({ path, key }) => (
             <li key={path}>
               <Link href={localePath(locale, path)} className="link">

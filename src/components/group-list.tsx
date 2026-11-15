@@ -37,15 +37,15 @@ export function seatsText(seatsLeft: number | null, locale: Locale, t: Text) {
 export function Seats({ seatsLeft, locale, t }: { seatsLeft: number | null; locale: Locale; t: Text }) {
   const text = seatsText(seatsLeft, locale, t);
   if (seatsLeft === null) return <span className="text-sm text-muted">{text}</span>;
-  if (seatsLeft === 0) return <span className="rounded-md bg-surface-2 px-1.5 py-0.5 text-sm font-semibold text-muted">{text}</span>;
+  if (seatsLeft === 0) return <span className="ui-label rounded-[3px] bg-surface-2 px-1.5 py-0.5 font-semibold text-muted">{text}</span>;
   // The marker is for the last few seats, where it changes what a person does.
-  return <span className={`num rounded-md px-1.5 py-0.5 text-sm font-semibold ${seatsLeft <= 3 ? "marked" : "bg-surface-2"}`}>{text}</span>;
+  return <span className={`num ui-label rounded-[3px] px-1.5 py-0.5 font-semibold ${seatsLeft <= 3 ? "marked" : "bg-surface-2"}`}>{text}</span>;
 }
 
 // One line of the board per group: what, when, who, how much, and the way in.
 export function GroupList({ groups, locale, t, showCourse = true }: { groups: PublicGroup[]; locale: Locale; t: Text; showCourse?: boolean }) {
   return (
-    <ul className="divide-y divide-line overflow-hidden rounded-2xl border border-line bg-surface">
+    <ul className="group-board divide-y divide-line overflow-hidden rounded-[3px] border border-line bg-surface">
       {groups.map((group) => {
         const href = localePath(locale, `/groups/${group.id}`);
         const title = showCourse ? group.course.title : group.name;
@@ -56,7 +56,7 @@ export function GroupList({ groups, locale, t, showCourse = true }: { groups: Pu
             className="reveal pen-edge grid gap-x-6 gap-y-3 px-4 py-4 sm:grid-cols-[minmax(0,1.3fr)_minmax(0,1.2fr)] lg:grid-cols-[minmax(0,1.3fr)_minmax(0,1.4fr)_minmax(0,0.9fr)_14rem] lg:items-center"
           >
             <div className="min-w-0">
-              <h3 className="display text-base font-semibold leading-snug">
+              <h3 className="display">
                 <Link href={href} className="underline-offset-4 hover:underline">
                   {title}
                 </Link>
@@ -67,7 +67,7 @@ export function GroupList({ groups, locale, t, showCourse = true }: { groups: Pu
             </div>
             <WeeklyHours group={group} locale={locale} t={t} />
             <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
-              <span className="num text-sm font-semibold">
+              <span className="num ui-label font-semibold">
                 {group.monthlyPrice === null ? t.priceOnRequest : fmt(t.price, { n: group.monthlyPrice })}
               </span>
               <Seats seatsLeft={group.seatsLeft} locale={locale} t={t} />
