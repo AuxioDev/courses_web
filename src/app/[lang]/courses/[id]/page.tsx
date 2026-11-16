@@ -47,7 +47,7 @@ export default async function CoursePage({ params }: Props) {
         </section>
       )}
       <section aria-labelledby="groups">
-        <h2 id="groups" className="mb-3">
+        <h2 id="groups" className="section-rule">
           {t.courses.groupsTitle}
         </h2>
         {course.groups.length === 0 ? (

@@ -13,14 +13,14 @@ export default function ErrorPage({ error, retry }: { error: Error & { digest?: 
   const { lang } = useParams<{ lang: keyof typeof TEXT }>();
   const t = TEXT[lang] ?? TEXT.az;
   return (
-    <div className="max-w-xl py-10">
+    <div className="notice">
       <h1>{t.title}</h1>
-      <p className="mt-3 text-muted">{t.body}</p>
-      <button type="button" onClick={() => retry()} className="btn mt-6">
+      <p className="notice-body">{t.body}</p>
+      <button type="button" onClick={() => retry()} className="btn btn-lg mt-6">
         {t.retry}
       </button>
       {error.digest && (
-        <p className="mt-4 text-xs text-muted">
+        <p className="ui-label mt-4 text-muted">
           {t.code}: {error.digest}
         </p>
       )}

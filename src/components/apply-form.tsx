@@ -45,7 +45,7 @@ export function ApplyForm({ locale, groups, chosen, labels }: Props) {
     [errors[field] ? `${field}-error` : null, hint ? `${field}-hint` : null].filter(Boolean).join(" ") || undefined;
   const problem = (field: ApplyField) =>
     errors[field] ? (
-      <span id={`${field}-error`} className="mt-1 block text-sm font-medium text-bad">
+      <span id={`${field}-error`} className="form-error">
         {labels.errors[field]}
       </span>
     ) : null;
@@ -56,7 +56,7 @@ export function ApplyForm({ locale, groups, chosen, labels }: Props) {
     // person typed whenever a field is rejected.
     <form
       noValidate
-      className="space-y-5"
+      className="apply-form space-y-5"
       onSubmit={(event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
@@ -65,7 +65,7 @@ export function ApplyForm({ locale, groups, chosen, labels }: Props) {
       }}
     >
       <div>
-        <label htmlFor="group" className="mb-1 block text-sm font-medium">
+        <label htmlFor="group" className="form-label">
           {labels.chosenGroup}
         </label>
         <select
@@ -87,12 +87,12 @@ export function ApplyForm({ locale, groups, chosen, labels }: Props) {
             </option>
           ))}
         </select>
-        {group && <p className="num mt-1 text-sm text-muted">{group.detail}</p>}
+        {group && <p className="num form-hint">{group.detail}</p>}
         {problem("group")}
       </div>
 
       <div>
-        <label htmlFor="name" className="mb-1 block text-sm font-medium">
+        <label htmlFor="name" className="form-label">
           {labels.name}
         </label>
         <input id="name" name="name" required maxLength={100} autoComplete="name" aria-invalid={errors.name ? true : undefined} aria-describedby={describe("name")} className={field("name")} />
@@ -101,42 +101,42 @@ export function ApplyForm({ locale, groups, chosen, labels }: Props) {
 
       <div className="grid gap-5 sm:grid-cols-2">
         <div>
-          <label htmlFor="phone" className="mb-1 block text-sm font-medium">
+          <label htmlFor="phone" className="form-label">
             {labels.phone}
           </label>
           <input id="phone" name="phone" type="tel" inputMode="tel" required maxLength={40} autoComplete="tel" aria-invalid={errors.phone ? true : undefined} aria-describedby={describe("phone", true)} className={field("phone")} />
-          <span id="phone-hint" className="mt-1 block text-xs text-muted">
+          <span id="phone-hint" className="form-hint">
             {labels.phoneHint}
           </span>
           {problem("phone")}
         </div>
         <div>
-          <label htmlFor="email" className="mb-1 block text-sm font-medium">
+          <label htmlFor="email" className="form-label">
             {labels.email}
           </label>
           <input id="email" name="email" type="email" inputMode="email" required maxLength={254} autoComplete="email" aria-invalid={errors.email ? true : undefined} aria-describedby={describe("email", true)} className={field("email")} />
-          <span id="email-hint" className="mt-1 block text-xs text-muted">
+          <span id="email-hint" className="form-hint">
             {labels.emailHint}
           </span>
           {problem("email")}
         </div>
       </div>
 
-      <label className="flex items-center gap-3 text-sm font-medium">
+      <label className="form-label flex items-center gap-3 !mb-0">
         <input type="checkbox" name="isMinor" checked={isMinor} onChange={(event) => setIsMinor(event.target.checked)} className="h-5 w-5 shrink-0 accent-[var(--accent)]" />
         {labels.minor}
       </label>
       {isMinor && (
-        <div className="grid gap-5 rounded-xl border border-line p-4 sm:grid-cols-2">
+        <div className="grid gap-5 rounded-[3px] border border-line p-4 sm:grid-cols-2">
           <div>
-            <label htmlFor="guardianName" className="mb-1 block text-sm font-medium">
+            <label htmlFor="guardianName" className="form-label">
               {labels.guardianName}
             </label>
             <input id="guardianName" name="guardianName" required maxLength={100} aria-invalid={errors.guardianName ? true : undefined} aria-describedby={describe("guardianName")} className={field("guardianName")} />
             {problem("guardianName")}
           </div>
           <div>
-            <label htmlFor="guardianPhone" className="mb-1 block text-sm font-medium">
+            <label htmlFor="guardianPhone" className="form-label">
               {labels.guardianPhone}
             </label>
             <input id="guardianPhone" name="guardianPhone" type="tel" inputMode="tel" required maxLength={40} aria-invalid={errors.guardianPhone ? true : undefined} aria-describedby={describe("guardianPhone")} className={field("guardianPhone")} />
@@ -146,11 +146,11 @@ export function ApplyForm({ locale, groups, chosen, labels }: Props) {
       )}
 
       <div>
-        <label htmlFor="note" className="mb-1 block text-sm font-medium">
+        <label htmlFor="note" className="form-label">
           {labels.note}
         </label>
         <textarea id="note" name="note" rows={3} maxLength={1000} aria-invalid={errors.note ? true : undefined} aria-describedby={describe("note", true)} className={field("note")} />
-        <span id="note-hint" className="mt-1 block text-xs text-muted">
+        <span id="note-hint" className="form-hint">
           {labels.noteHint}
         </span>
         {problem("note")}
@@ -164,11 +164,11 @@ export function ApplyForm({ locale, groups, chosen, labels }: Props) {
       </div>
 
       <div>
-        <div className="flex items-start gap-3 text-sm">
+        <div className="flex items-start gap-3 text-[0.9375rem]">
           <input id="privacy" type="checkbox" name="privacy" required aria-invalid={errors.privacy ? true : undefined} aria-describedby={describe("privacy")} className="mt-0.5 h-5 w-5 shrink-0 accent-[var(--accent)]" />
           <label htmlFor="privacy">
             {labels.privacyBefore}{" "}
-            <Link href={localePath(locale, "/privacy")} target="_blank" className="font-medium text-accent underline underline-offset-4">
+            <Link href={localePath(locale, "/privacy")} target="_blank" className="link font-semibold">
               {labels.privacyLink}
             </Link>{" "}
             {labels.privacyAfter}
@@ -178,7 +178,7 @@ export function ApplyForm({ locale, groups, chosen, labels }: Props) {
       </div>
 
       {hasErrors && (
-        <p ref={summary} tabIndex={-1} role="alert" className="rounded-xl bg-bad-soft px-3 py-2 text-sm text-bad">
+        <p ref={summary} tabIndex={-1} role="alert" className="rounded-[3px] bg-bad-soft px-3 py-2 text-sm text-bad">
           {state?.formError ? labels.errors[state.formError] : labels.errors.summary}
         </p>
       )}
@@ -189,7 +189,7 @@ export function ApplyForm({ locale, groups, chosen, labels }: Props) {
           <div className="cf-turnstile" data-sitekey={TURNSTILE_SITE_KEY} data-theme="auto" data-language={locale} />
         </>
       )}
-      <button type="submit" disabled={pending} className="btn w-full px-5 py-3 text-[0.9375rem] sm:w-auto">
+      <button type="submit" disabled={pending} className="btn btn-lg w-full sm:w-auto">
         {pending ? labels.sending : labels.submit}
       </button>
     </form>

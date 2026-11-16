@@ -29,11 +29,11 @@ export default async function PrivacyPage() {
   return (
     <>
       <PageHead title={p.title} lead={p.intro} />
-      <div className="max-w-[68ch] space-y-6">
+      <div className="policy">
         {sections.map(([title, body]) => (
-          <section key={title}>
-            <h2 className="!text-base">{title}</h2>
-            <p className="mt-1 leading-relaxed">{body}</p>
+          <section key={title} className="reveal">
+            <h2>{title}</h2>
+            <p>{body}</p>
           </section>
         ))}
       </div>

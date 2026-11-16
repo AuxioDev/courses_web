@@ -27,18 +27,18 @@ export function Section({ title, action, children }: { title: string; action?: R
 export function Card({ children, className = "" }: { children: ReactNode; className?: string }) {
   // Lists pass "p-0" to run edge to edge; two padding classes would otherwise clash.
   const padding = className.includes("p-0") ? "" : "p-4";
-  return <div className={`rounded-2xl border border-line bg-surface ${padding} ${className}`}>{children}</div>;
+  return <div className={`rounded-[3px] border border-line bg-surface ${padding} ${className}`}>{children}</div>;
 }
 
 // An empty list. With `action` (a link or button) it also says what to do next.
 export function Empty({ children, action }: { children: ReactNode; action?: ReactNode }) {
   if (!action) {
     return (
-      <p className="rounded-2xl border border-dashed border-line px-4 py-6 text-center text-sm text-muted">{children}</p>
+      <p className="rounded-[3px] border border-dashed border-line px-4 py-6 text-center text-sm text-muted">{children}</p>
     );
   }
   return (
-    <div className="rounded-2xl border border-dashed border-line px-4 py-6 text-center">
+    <div className="rounded-[3px] border border-dashed border-line px-4 py-6 text-center">
       <p className="text-sm text-muted">{children}</p>
       <div className="mt-3 flex justify-center">{action}</div>
     </div>
@@ -70,7 +70,7 @@ export function Skeleton({ rows = 3, label }: { rows?: number; label?: string })
       {label && <span className="sr-only">{label}</span>}
       <div className="h-7 w-40 animate-pulse rounded-lg bg-surface-2" />
       {Array.from({ length: rows }, (_, i) => (
-        <div key={i} className="h-20 animate-pulse rounded-2xl bg-surface-2" />
+        <div key={i} className="h-20 animate-pulse rounded-[3px] bg-surface-2" />
       ))}
     </div>
   );

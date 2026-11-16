@@ -42,7 +42,7 @@ export default async function TeacherPage({ params }: Props) {
         </div>
       )}
       <section aria-labelledby="groups">
-        <h2 id="groups" className="mb-3">
+        <h2 id="groups" className="section-rule">
           {t.teachers.teaches}
         </h2>
         {teacher.groups.length === 0 ? <Empty>{t.teachers.noGroups}</Empty> : <GroupList groups={teacher.groups} locale={locale} t={t.group} />}
