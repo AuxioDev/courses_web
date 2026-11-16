@@ -1,7 +1,7 @@
 import "server-only";
 import { cacheLife } from "next/cache";
 import { db } from "./db";
-import { publicCourseWhere, publicGroupWhere, publicTeacherWhere } from "./public-filters";
+import { notStartedWhere, publicCourseWhere, publicGroupWhere, publicTeacherWhere } from "./public-filters";
 
 // EVERYTHING the public website reads from the database goes through this file.
 //
@@ -103,6 +103,41 @@ export async function getSeatsLeft(groupId: string): Promise<number | null | und
     select: { capacity: true, _count: { select: activeEnrolments } },
   });
   return row ? seats(row.capacity, row._count.enrollments) : undefined;
+}
+
+// The same count for the application form: also false once the group has started, because people apply to groups that
+// have not started yet. Never cached.
+export async function getApplicationSeats(groupId: string): Promise<number | null | undefined> {
+  const row = await db.group.findFirst({
+    where: { id: groupId, ...publicGroupWhere(), ...notStartedWhere() },
+    select: { capacity: true, _count: { select: activeEnrolments } },
+  });
+  return row ? seats(row.capacity, row._count.enrollments) : undefined;
+}
+
+// What the application form offers: each course that has a group not started yet, and in it those groups, with the
+// day of their first lesson (the term's first day when no lesson is planned yet).
+export async function getApplyCourses() {
+  "use cache";
+  cacheLife("minutes");
+  const now = new Date();
+  const [courses, rows] = await Promise.all([
+    db.course.findMany({ where: publicCourseWhere, orderBy: { title: "asc" }, select: { id: true, title: true, level: true } }),
+    db.group.findMany({ where: { ...publicGroupWhere(), ...notStartedWhere(now) }, select: groupSelect }),
+  ]);
+  const first = rows.length
+    ? await db.lesson.findMany({
+        where: { groupId: { in: rows.map((r) => r.id) }, startsAt: { gte: now }, status: { in: ["scheduled", "moved"] } },
+        orderBy: { startsAt: "asc" },
+        distinct: ["groupId"],
+        select: { groupId: true, startsAt: true },
+      })
+    : [];
+  const firstLesson = new Map(first.map((l) => [l.groupId, l.startsAt]));
+  const open = rows
+    .map((row) => ({ ...toPublicGroup(row), firstLesson: firstLesson.get(row.id) ?? null }))
+    .sort((a, b) => (a.firstLesson?.getTime() ?? Infinity) - (b.firstLesson?.getTime() ?? Infinity) || a.name.localeCompare(b.name));
+  return courses.map((course) => ({ ...course, groups: open.filter((g) => g.course.id === course.id) })).filter((course) => course.groups.length > 0);
 }
 
 export async function getCourses() {

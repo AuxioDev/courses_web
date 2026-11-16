@@ -16,13 +16,15 @@ declare global {
   }
 }
 
-export type GroupOption = { id: string; label: string; detail: string; full: boolean };
+export type SlotOption = { id: string; name: string; hours: string[]; teacher: string | null; price: string; seats: string; starts: string; full: boolean };
+export type CourseOption = { id: string; title: string; level: string | null; groups: SlotOption[] };
 
-type Props = { locale: Locale; groups: GroupOption[]; chosen: string | null; trial: boolean; labels: Dictionary["apply"] };
+type Props = { locale: Locale; courses: CourseOption[]; chosen: string | null; trial: boolean; labels: Dictionary["apply"] };
 
-export function ApplyForm({ locale, groups, chosen, trial, labels }: Props) {
+export function ApplyForm({ locale, courses, chosen, trial, labels }: Props) {
   const [state, action, pending] = useActionState(apply, undefined);
-  const [groupId, setGroupId] = useState(chosen ?? "");
+  const [courseId, setCourseId] = useState(() => courses.find((c) => c.groups.some((g) => g.id === chosen))?.id ?? (courses.length === 1 ? courses[0].id : ""));
+  const course = courses.find((c) => c.id === courseId);
   const [isMinor, setIsMinor] = useState(false);
   // How long the form was open: a person needs more than a few seconds. See src/lib/apply.ts.
   const openedAt = useRef(0);
@@ -38,7 +40,6 @@ export function ApplyForm({ locale, groups, chosen, trial, labels }: Props) {
   }, [state]);
 
   const errors = state?.fieldErrors ?? {};
-  const group = groups.find((g) => g.id === groupId);
   const hasErrors = !!state && (Object.keys(errors).length > 0 || !!state.formError);
 
   const describe = (field: ApplyField, hint?: boolean) =>
@@ -65,31 +66,42 @@ export function ApplyForm({ locale, groups, chosen, trial, labels }: Props) {
       }}
     >
       <div>
-        <label htmlFor="group" className="form-label">
-          {labels.chosenGroup}
+        <label htmlFor="course" className="form-label">
+          {labels.course}
         </label>
-        <select
-          id="group"
-          name="group"
-          required
-          value={groupId}
-          onChange={(event) => setGroupId(event.target.value)}
-          aria-invalid={errors.group ? true : undefined}
-          aria-describedby={describe("group")}
-          className={field("group")}
-        >
+        <select id="course" required value={courseId} onChange={(event) => setCourseId(event.target.value)} className="field">
           <option value="" disabled>
-            {labels.chooseGroup}
+            {labels.chooseCourse}
           </option>
-          {groups.map((g) => (
-            <option key={g.id} value={g.id} disabled={g.full}>
-              {g.label}
+          {courses.map((c) => (
+            <option key={c.id} value={c.id}>
+              {c.level ? `${c.title}, ${c.level}` : c.title}
             </option>
           ))}
         </select>
-        {group && <p className="num form-hint">{group.detail}</p>}
-        {problem("group")}
       </div>
+
+      <fieldset aria-describedby={describe("group")}>
+        <legend className="form-label">{labels.time}</legend>
+        {!course ? (
+          <p className="form-hint !mt-0">{labels.chooseCourseFirst}</p>
+        ) : course.groups.length === 0 ? (
+          <p className="form-hint !mt-0">{labels.noTimes}</p>
+        ) : (
+          // key: choosing another course starts with nothing chosen.
+          <div className="slots" key={course.id}>
+            {course.groups.map((g) => (
+              <label key={g.id} className={`slot ${g.full ? "slot-full" : ""}`}>
+                <input type="radio" name="group" value={g.id} required disabled={g.full} defaultChecked={g.id === chosen} />
+                <span className="slot-hours num">{g.hours.length > 0 ? g.hours.join(", ") : g.name}</span>
+                <span className="slot-meta">{[g.name, g.teacher].filter(Boolean).join(", ")}</span>
+                <span className="slot-meta num">{[g.starts, g.price, g.seats].join(" / ")}</span>
+              </label>
+            ))}
+          </div>
+        )}
+        {problem("group")}
+      </fieldset>
 
       <div>
         <label htmlFor="name" className="form-label">
@@ -122,7 +134,7 @@ export function ApplyForm({ locale, groups, chosen, trial, labels }: Props) {
         </div>
       </div>
 
-      <label className="form-label flex items-center gap-3 !mb-0">
+      <label className="check-label">
         <input type="checkbox" name="isMinor" checked={isMinor} onChange={(event) => setIsMinor(event.target.checked)} className="h-5 w-5 shrink-0 accent-[var(--accent)]" />
         {labels.minor}
       </label>
@@ -157,7 +169,7 @@ export function ApplyForm({ locale, groups, chosen, trial, labels }: Props) {
       </div>
 
       <div>
-        <label className="form-label flex items-center gap-3 !mb-0">
+        <label className="check-label">
           <input type="checkbox" name="trial" defaultChecked={trial} aria-describedby="trial-hint" className="h-5 w-5 shrink-0 accent-[var(--accent)]" />
           {labels.trial}
         </label>

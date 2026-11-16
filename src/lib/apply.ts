@@ -3,7 +3,7 @@ import { createHash } from "node:crypto";
 import { z } from "zod";
 import { db } from "./db";
 import { hasLocale, type Locale } from "@/i18n/config";
-import { getSeatsLeft } from "./public-data";
+import { getApplicationSeats } from "./public-data";
 import { verifyTurnstile } from "./turnstile";
 
 // The only place the public website writes to the database: one row in `applications`.
@@ -112,7 +112,7 @@ export async function submitApplication(input: ApplyInput, ip: string, now = new
   }
 
   // The page may have been open for an hour: check the group again, uncached.
-  const seatsLeft = await getSeatsLeft(data.group);
+  const seatsLeft = await getApplicationSeats(data.group);
   if (seatsLeft === undefined) return { ok: false, fieldErrors: {}, formError: "groupClosed" };
   if (seatsLeft === 0) return { ok: false, fieldErrors: {}, formError: "groupFull" };
 

@@ -18,3 +18,9 @@ export function publicGroupWhere() {
 export const publicTeacherWhere = { role: "teacher" as const, active: true, showOnWebsite: true };
 
 export const publicCourseWhere = { showOnWebsite: true, archived: false };
+
+// A group that has not started yet: no lesson has taken place (or is under way) so far. People may only apply to these,
+// because a group that is already running cannot take a new student at the first lesson.
+export function notStartedWhere(now = new Date()) {
+  return { lessons: { none: { startsAt: { lte: now }, status: { not: "cancelled" as const } } } };
+}

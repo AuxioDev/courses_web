@@ -1,0 +1,114 @@
+[    1103ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3010/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:720
+[    1146ms] [LOG] [HMR] connected @ http://localhost:3010/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:720
+[    1154ms] [ERROR] %c%s%c (node:10288) Warning: SECURITY WARNING: The SSL modes 'prefer', 'require', and 'verify-ca' are treated as aliases for 'verify-full'.
+In the next major version (pg-connection-string v3.0.0 and pg v9.0.0), these modes will adopt standard libpq semantics, which have weaker security guarantees.
+
+To prepare for this change:
+- If you want the current behavior, explicitly use 'sslmode=verify-full'
+- If you want libpq compatibility now, use 'uselibpqcompat=true&sslmode=require'
+
+See https://www.postgresql.org/docs/current/libpq-ssl.html for libpq SSL mode definitions.
+(Use `node --trace-warnings ...` to show where the warning was created) background: #e6e6e6;background: light-dark(rgba(0,0,0,0.1), rgba(255,255,255,0.25));color: #000000;color: light-dark(#000000, #ffffff);border-radius: 2px  Cache   @ http://localhost:3010/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:996
+[    6289ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3010/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:720
+[    6412ms] [LOG] [Fast Refresh] done in 225ms @ http://localhost:3010/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:720
+[   20488ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3010/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:720
+[   20499ms] [LOG] [HMR] connected @ http://localhost:3010/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:720
+[   20501ms] [ERROR] %c%s%c (node:10288) Warning: SECURITY WARNING: The SSL modes 'prefer', 'require', and 'verify-ca' are treated as aliases for 'verify-full'.
+In the next major version (pg-connection-string v3.0.0 and pg v9.0.0), these modes will adopt standard libpq semantics, which have weaker security guarantees.
+
+To prepare for this change:
+- If you want the current behavior, explicitly use 'sslmode=verify-full'
+- If you want libpq compatibility now, use 'uselibpqcompat=true&sslmode=require'
+
+See https://www.postgresql.org/docs/current/libpq-ssl.html for libpq SSL mode definitions.
+(Use `node --trace-warnings ...` to show where the warning was created) background: #e6e6e6;background: light-dark(rgba(0,0,0,0.1), rgba(255,255,255,0.25));color: #000000;color: light-dark(#000000, #ffffff);border-radius: 2px  Cache   @ http://localhost:3010/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:996
+[   26818ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3010/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:720
+[   26825ms] [LOG] [HMR] connected @ http://localhost:3010/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:720
+[   26828ms] [ERROR] %c%s%c (node:10288) Warning: SECURITY WARNING: The SSL modes 'prefer', 'require', and 'verify-ca' are treated as aliases for 'verify-full'.
+In the next major version (pg-connection-string v3.0.0 and pg v9.0.0), these modes will adopt standard libpq semantics, which have weaker security guarantees.
+
+To prepare for this change:
+- If you want the current behavior, explicitly use 'sslmode=verify-full'
+- If you want libpq compatibility now, use 'uselibpqcompat=true&sslmode=require'
+
+See https://www.postgresql.org/docs/current/libpq-ssl.html for libpq SSL mode definitions.
+(Use `node --trace-warnings ...` to show where the warning was created) background: #e6e6e6;background: light-dark(rgba(0,0,0,0.1), rgba(255,255,255,0.25));color: #000000;color: light-dark(#000000, #ffffff);border-radius: 2px  Cache   @ http://localhost:3010/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:996
+[   46140ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3010/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:720
+[   46172ms] [LOG] [Fast Refresh] done in 3ms @ http://localhost:3010/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:720
+[   46201ms] [LOG] [Fast Refresh] done in 3ms @ http://localhost:3010/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:720
+[   46263ms] [LOG] [Fast Refresh] done in 3ms @ http://localhost:3010/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:720
+[   46326ms] [LOG] [Fast Refresh] done in 3ms @ http://localhost:3010/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:720
+[   46390ms] [LOG] [Fast Refresh] done in 3ms @ http://localhost:3010/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:720
+[   46454ms] [LOG] [Fast Refresh] done in 3ms @ http://localhost:3010/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:720
+[   46518ms] [LOG] [Fast Refresh] done in 3ms @ http://localhost:3010/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:720
+[   46582ms] [LOG] [Fast Refresh] done in 3ms @ http://localhost:3010/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:720
+[   46647ms] [LOG] [Fast Refresh] done in 3ms @ http://localhost:3010/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:720
+[   46709ms] [LOG] [Fast Refresh] done in 3ms @ http://localhost:3010/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:720
+[   46774ms] [LOG] [Fast Refresh] done in 3ms @ http://localhost:3010/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:720
+[   46836ms] [LOG] [Fast Refresh] done in 3ms @ http://localhost:3010/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:720
+[   46901ms] [LOG] [Fast Refresh] done in 3ms @ http://localhost:3010/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:720
+[   46966ms] [LOG] [Fast Refresh] done in 3ms @ http://localhost:3010/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:720
+[   47029ms] [LOG] [Fast Refresh] done in 3ms @ http://localhost:3010/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:720
+[   47094ms] [LOG] [Fast Refresh] done in 3ms @ http://localhost:3010/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:720
+[   47158ms] [LOG] [Fast Refresh] done in 3ms @ http://localhost:3010/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:720
+[   47223ms] [LOG] [Fast Refresh] done in 3ms @ http://localhost:3010/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:720
+[   47285ms] [LOG] [Fast Refresh] done in 3ms @ http://localhost:3010/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:720
+[   47350ms] [LOG] [Fast Refresh] done in 3ms @ http://localhost:3010/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:720
+[   47415ms] [LOG] [Fast Refresh] done in 3ms @ http://localhost:3010/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:720
+[   47481ms] [LOG] [Fast Refresh] done in 3ms @ http://localhost:3010/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:720
+[   47545ms] [LOG] [Fast Refresh] done in 3ms @ http://localhost:3010/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:720
+[   47611ms] [LOG] [Fast Refresh] done in 3ms @ http://localhost:3010/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:720
+[   47679ms] [LOG] [Fast Refresh] done in 3ms @ http://localhost:3010/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:720
+[   47743ms] [LOG] [Fast Refresh] done in 3ms @ http://localhost:3010/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:720
+[   47806ms] [LOG] [Fast Refresh] done in 3ms @ http://localhost:3010/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:720
+[   47872ms] [LOG] [Fast Refresh] done in 3ms @ http://localhost:3010/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:720
+[   47934ms] [LOG] [Fast Refresh] done in 3ms @ http://localhost:3010/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:720
+[   47998ms] [LOG] [Fast Refresh] done in 3ms @ http://localhost:3010/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:720
+[   48065ms] [LOG] [Fast Refresh] done in 3ms @ http://localhost:3010/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:720
+[   48127ms] [LOG] [Fast Refresh] done in 3ms @ http://localhost:3010/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:720
+[   48190ms] [LOG] [Fast Refresh] done in 3ms @ http://localhost:3010/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:720
+[   48254ms] [LOG] [Fast Refresh] done in 3ms @ http://localhost:3010/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:720
+[   48320ms] [LOG] [Fast Refresh] done in 3ms @ http://localhost:3010/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:720
+[   48385ms] [LOG] [Fast Refresh] done in 3ms @ http://localhost:3010/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:720
+[   48449ms] [LOG] [Fast Refresh] done in 3ms @ http://localhost:3010/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:720
+[   48513ms] [LOG] [Fast Refresh] done in 3ms @ http://localhost:3010/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:720
+[   48576ms] [LOG] [Fast Refresh] done in 3ms @ http://localhost:3010/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:720
+[   48642ms] [LOG] [Fast Refresh] done in 3ms @ http://localhost:3010/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:720
+[   48706ms] [LOG] [Fast Refresh] done in 3ms @ http://localhost:3010/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:720
+[   48770ms] [LOG] [Fast Refresh] done in 3ms @ http://localhost:3010/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:720
+[   48831ms] [LOG] [Fast Refresh] done in 3ms @ http://localhost:3010/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:720
+[   48896ms] [LOG] [Fast Refresh] done in 3ms @ http://localhost:3010/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:720
+[   48959ms] [LOG] [Fast Refresh] done in 3ms @ http://localhost:3010/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:720
+[   49070ms] [LOG] [Fast Refresh] done in 3ms @ http://localhost:3010/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:720
+[   49133ms] [LOG] [Fast Refresh] done in 3ms @ http://localhost:3010/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:720
+[   49196ms] [LOG] [Fast Refresh] done in 3ms @ http://localhost:3010/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:720
+[   49260ms] [LOG] [Fast Refresh] done in 3ms @ http://localhost:3010/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:720
+[   49324ms] [LOG] [Fast Refresh] done in 3ms @ http://localhost:3010/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:720
+[   49388ms] [LOG] [Fast Refresh] done in 3ms @ http://localhost:3010/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:720
+[   49453ms] [LOG] [Fast Refresh] done in 3ms @ http://localhost:3010/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:720
+[   49520ms] [LOG] [Fast Refresh] done in 3ms @ http://localhost:3010/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:720
+[   49589ms] [LOG] [Fast Refresh] done in 3ms @ http://localhost:3010/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:720
+[   49662ms] [LOG] [Fast Refresh] done in 3ms @ http://localhost:3010/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:720
+[   49719ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3010/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:720
+[   49726ms] [LOG] [HMR] connected @ http://localhost:3010/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:720
+[   49729ms] [ERROR] %c%s%c (node:10288) Warning: SECURITY WARNING: The SSL modes 'prefer', 'require', and 'verify-ca' are treated as aliases for 'verify-full'.
+In the next major version (pg-connection-string v3.0.0 and pg v9.0.0), these modes will adopt standard libpq semantics, which have weaker security guarantees.
+
+To prepare for this change:
+- If you want the current behavior, explicitly use 'sslmode=verify-full'
+- If you want libpq compatibility now, use 'uselibpqcompat=true&sslmode=require'
+
+See https://www.postgresql.org/docs/current/libpq-ssl.html for libpq SSL mode definitions.
+(Use `node --trace-warnings ...` to show where the warning was created) background: #e6e6e6;background: light-dark(rgba(0,0,0,0.1), rgba(255,255,255,0.25));color: #000000;color: light-dark(#000000, #ffffff);border-radius: 2px  Cache   @ http://localhost:3010/_next/static/chunks/node_modules_next_dist_1bjkg68unqmjx._.js:996
+[   67978ms] [ERROR] WebSocket connection to 'ws://localhost:3010/_next/hmr?id=VK1qywhdXx-YZUYkoiM8X' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3010/_next/static/chunks/node_modules_next_dist_client_14zvornz047l2._.js:16399
+[   68981ms] [ERROR] WebSocket connection to 'ws://localhost:3010/_next/hmr?id=VK1qywhdXx-YZUYkoiM8X' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3010/_next/static/chunks/node_modules_next_dist_client_14zvornz047l2._.js:16399
+[   69983ms] [ERROR] WebSocket connection to 'ws://localhost:3010/_next/hmr?id=VK1qywhdXx-YZUYkoiM8X' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3010/_next/static/chunks/node_modules_next_dist_client_14zvornz047l2._.js:16399
+[   70987ms] [ERROR] WebSocket connection to 'ws://localhost:3010/_next/hmr?id=VK1qywhdXx-YZUYkoiM8X' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3010/_next/static/chunks/node_modules_next_dist_client_14zvornz047l2._.js:16399
+[   71991ms] [ERROR] WebSocket connection to 'ws://localhost:3010/_next/hmr?id=VK1qywhdXx-YZUYkoiM8X' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3010/_next/static/chunks/node_modules_next_dist_client_14zvornz047l2._.js:16399
+[   76994ms] [ERROR] WebSocket connection to 'ws://localhost:3010/_next/hmr?id=VK1qywhdXx-YZUYkoiM8X' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3010/_next/static/chunks/node_modules_next_dist_client_14zvornz047l2._.js:16399
+[   81999ms] [ERROR] WebSocket connection to 'ws://localhost:3010/_next/hmr?id=VK1qywhdXx-YZUYkoiM8X' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3010/_next/static/chunks/node_modules_next_dist_client_14zvornz047l2._.js:16399
+[   87003ms] [ERROR] WebSocket connection to 'ws://localhost:3010/_next/hmr?id=VK1qywhdXx-YZUYkoiM8X' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3010/_next/static/chunks/node_modules_next_dist_client_14zvornz047l2._.js:16399
+[   92007ms] [ERROR] WebSocket connection to 'ws://localhost:3010/_next/hmr?id=VK1qywhdXx-YZUYkoiM8X' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3010/_next/static/chunks/node_modules_next_dist_client_14zvornz047l2._.js:16399
+[   97012ms] [ERROR] WebSocket connection to 'ws://localhost:3010/_next/hmr?id=VK1qywhdXx-YZUYkoiM8X' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3010/_next/static/chunks/node_modules_next_dist_client_14zvornz047l2._.js:16399
+[  102015ms] [ERROR] WebSocket connection to 'ws://localhost:3010/_next/hmr?id=VK1qywhdXx-YZUYkoiM8X' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3010/_next/static/chunks/node_modules_next_dist_client_14zvornz047l2._.js:16399
+[  107017ms] [ERROR] WebSocket connection to 'ws://localhost:3010/_next/hmr?id=VK1qywhdXx-YZUYkoiM8X' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3010/_next/static/chunks/node_modules_next_dist_client_14zvornz047l2._.js:16399
