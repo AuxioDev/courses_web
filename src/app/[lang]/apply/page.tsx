@@ -27,6 +27,7 @@ export default async function ApplyPage({ searchParams }: Props) {
   await connection();
   const groups = await getOpenGroups();
   const asked = typeof query.group === "string" ? query.group : null;
+  const trial = query.trial === "1";
   // The list may be a minute old; the group the person came for is counted now.
   const fresh = asked ? await getSeatsLeft(asked) : undefined;
 
@@ -88,6 +89,7 @@ export default async function ApplyPage({ searchParams }: Props) {
               key={chosen}
               locale={locale}
               groups={options}
+              trial={trial}
               chosen={chosen}
               labels={t.apply}
             />

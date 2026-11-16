@@ -41,9 +41,14 @@ function SeatsAndApply({ groupId, seatsLeft, locale, t }: Text & { groupId: stri
       {seatsLeft === 0 ? (
         <p className="text-sm text-muted">{t.fullBody}</p>
       ) : (
-        <Link href={localePath(locale, `/apply?group=${groupId}`)} className="btn px-5 py-3 text-[0.9375rem]">
-          {t.apply}
-        </Link>
+        <>
+          <Link href={localePath(locale, `/apply?group=${groupId}`)} className="btn px-5 py-3 text-[0.9375rem]">
+            {t.apply}
+          </Link>
+          <Link href={localePath(locale, `/apply?group=${groupId}&trial=1`)} className="btn-ghost">
+            {t.trial}
+          </Link>
+        </>
       )}
       <Seats seatsLeft={seatsLeft} locale={locale} t={t} />
     </div>

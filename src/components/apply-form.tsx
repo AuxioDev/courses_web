@@ -18,9 +18,9 @@ declare global {
 
 export type GroupOption = { id: string; label: string; detail: string; full: boolean };
 
-type Props = { locale: Locale; groups: GroupOption[]; chosen: string | null; labels: Dictionary["apply"] };
+type Props = { locale: Locale; groups: GroupOption[]; chosen: string | null; trial: boolean; labels: Dictionary["apply"] };
 
-export function ApplyForm({ locale, groups, chosen, labels }: Props) {
+export function ApplyForm({ locale, groups, chosen, trial, labels }: Props) {
   const [state, action, pending] = useActionState(apply, undefined);
   const [groupId, setGroupId] = useState(chosen ?? "");
   const [isMinor, setIsMinor] = useState(false);
@@ -154,6 +154,16 @@ export function ApplyForm({ locale, groups, chosen, labels }: Props) {
           {labels.noteHint}
         </span>
         {problem("note")}
+      </div>
+
+      <div>
+        <label className="form-label flex items-center gap-3 !mb-0">
+          <input type="checkbox" name="trial" defaultChecked={trial} aria-describedby="trial-hint" className="h-5 w-5 shrink-0 accent-[var(--accent)]" />
+          {labels.trial}
+        </label>
+        <span id="trial-hint" className="form-hint">
+          {labels.trialHint}
+        </span>
       </div>
 
       <div className="hp" aria-hidden>

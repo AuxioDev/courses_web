@@ -84,6 +84,11 @@ export function SiteFooter({ locale, t }: Props) {
             </li>
           ))}
           <li>
+            <Link href={localePath(locale, "/faq")} className="link">
+              {t.footer.faq}
+            </Link>
+          </li>
+          <li>
             <Link href={localePath(locale, "/privacy")} className="link">
               {t.footer.privacy}
             </Link>

@@ -8,6 +8,10 @@ import { verifyTurnstile } from "./turnstile";
 
 // The only place the public website writes to the database: one row in `applications`.
 
+// The website never changes the shared schema, so a trial-lesson request travels in the application's note, where the
+// office already reads it.
+export const TRIAL_NOTE = "[Trial lesson requested]";
+
 export const APPLY_FIELDS = ["name", "email", "phone", "guardianName", "guardianPhone", "note", "privacy", "group"] as const;
 export type ApplyField = (typeof APPLY_FIELDS)[number];
 // Keys into the dictionary's apply.errors, so the form shows them in the visitor's language.
@@ -40,6 +44,7 @@ const schema = z
     guardianName: z.string().trim().max(100),
     guardianPhone: z.string().trim().max(40),
     note: z.string().trim().max(1000),
+    trial: z.boolean(),
     privacy: z.literal(true),
   })
   .superRefine((value, ctx) => {
@@ -66,6 +71,7 @@ export function readApplyForm(formData: FormData) {
     guardianName: text("guardianName"),
     guardianPhone: text("guardianPhone"),
     note: text("note"),
+    trial: formData.get("trial") === "on",
     privacy: formData.get("privacy") === "on",
     // Hidden from people; anything typed here came from a script.
     honeypot: text("website"),
@@ -128,7 +134,7 @@ export async function submitApplication(input: ApplyInput, ip: string, now = new
       isMinor: data.isMinor,
       guardianName: data.isMinor ? data.guardianName : null,
       guardianPhone: data.isMinor ? phone.parse(data.guardianPhone) : null,
-      note: data.note || null,
+      note: (data.trial ? `${TRIAL_NOTE} ${data.note}`.trim() : data.note) || null,
       locale,
       ipHash,
       privacyAcceptedAt: now,

@@ -10,6 +10,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     "/courses",
     "/schedule",
     "/teachers",
+    "/faq",
     "/privacy",
     ...ids.courses.map((id) => `/courses/${id}`),
     ...ids.groups.map((id) => `/groups/${id}`),

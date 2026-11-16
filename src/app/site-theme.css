@@ -784,3 +784,59 @@
 .notice > :nth-child(2) { animation-delay: 80ms; }
 .notice > :nth-child(3) { animation-delay: 160ms; }
 .notice > :nth-child(4) { animation-delay: 240ms; }
+
+/* FAQ: native <details>, so it works without scripts and with the keyboard. A ruled list; the question is a headline in
+   miniature, the plus turns to a minus by rotating, and the answer opens with the browser's own height animation. */
+.faq details {
+  border-top: 1px solid var(--line);
+}
+.faq details:last-child {
+  border-bottom: 1px solid var(--line);
+}
+.faq summary {
+  display: flex;
+  min-height: 2.75rem;
+  cursor: pointer;
+  list-style: none;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding-block: 1.125rem;
+  font-family: var(--font-display), Georgia, serif;
+  font-size: clamp(1.1875rem, 1.05rem + 0.6vw, 1.5rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+.faq summary::-webkit-details-marker {
+  display: none;
+}
+.faq summary::after {
+  content: "+";
+  flex-shrink: 0;
+  font-family: var(--font-ui), ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 1.25rem;
+  font-weight: 400;
+  transition: transform var(--dur-premium) var(--ease-premium);
+}
+.faq details[open] > summary::after {
+  transform: rotate(45deg);
+}
+.faq details > p {
+  max-width: 62ch;
+  padding-bottom: 1.5rem;
+  font-size: 1.0625rem;
+  line-height: 1.65;
+  color: var(--muted);
+}
+.faq {
+  max-width: 48rem;
+}
+.faq-more {
+  margin-top: 3rem;
+  max-width: 48rem;
+}
+.faq-more p {
+  margin-block: 0.5rem 0.75rem;
+  color: var(--muted);
+}
