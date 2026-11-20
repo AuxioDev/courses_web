@@ -1,50 +1,49 @@
-/* Public website: a modern education brand. White canvas, a berry action colour, soft tinted panels, 8-12 px corners and
+/* Public website: a modern education brand. White canvas, a blue action colour, soft tinted panels, 8-12 px corners and
    light shadows. Manrope for headlines and UI labels, Inter for everything you read (layout.tsx).
    The site is light by default (dark is opt-in, see dark-theme.css). globals.css (identical in all four apps) carries a dark palette, so every token it defines is
    set again here, and color-scheme stays light; nothing from the dark block can show through.
-   --accent is the action colour and the brand colour. THE BERRY IS A PLACEHOLDER until the school's final brand colour
-   exists: change --accent, --accent-hover, --accent-press, --accent-soft and --accent-chip below, then run the tests
+   --accent is the action colour and the brand colour. The blue is the logo's own (#03357e). To change it, edit --accent, --accent-hover, --accent-press, --accent-soft and --accent-chip below, then run the tests
    (contrast.test.ts and theme.test.ts check every pairing).
    Loaded after globals.css. Page structure lives in site-theme.css. */
 :root {
   color-scheme: light;
   --bg: #ffffff;
   --surface: #ffffff;
-  --surface-2: #fbf4f7;
-  --ink: #1b1220;
-  --body: #3e3545;
-  --muted: #6b6173;
-  --line: #e7dde3;
-  --accent: #a32a5c;
-  --accent-hover: #8a2250;
-  --accent-press: #741d43;
+  --surface-2: #f4f7fb;
+  --ink: #0f1a2e;
+  --body: #2e3a50;
+  --muted: #5b667b;
+  --line: #dbe2ee;
+  --accent: #03357e;
+  --accent-hover: #052a63;
+  --accent-press: #031f4a;
   --accent-ink: #ffffff;
-  --accent-soft: #f4e4eb;
-  --accent-chip: #8a2250;
+  --accent-soft: #e6edf8;
+  --accent-chip: #03357e;
   --good: #16794c;
   --good-soft: #e2f3ea;
   --warn: #8f5500;
   --warn-soft: #fbf0dc;
   --bad: #b3261e;
   --bad-soft: #fbe6e4;
-  --rule: #e7dde3;
+  --rule: #dbe2ee;
   --marker: #ffd84d;
   --marker-ink: #3d2f00;
   /* Form controls need a clearer edge than a hairline: at least 3:1 against the page. */
-  --field-edge: #82788a;
+  --field-edge: #76839a;
   /* One colour per course. None is close to the accent. */
   --hue-0: #1f6b45;
   --hue-1: #0b6e8f;
   --hue-2: #5b6a0a;
-  --hue-3: #3f4fa8;
+  --hue-3: #7a3f9d;
   /* Corners: 8 px for buttons and fields, 12 px for cards, 16-20 px for panels. The utilities read these. */
   --radius-md: 0.5rem;
   --radius-lg: 0.75rem;
   --radius-xl: 1rem;
   --radius-2xl: 1.25rem;
   /* Depth: one resting shadow and one raised shadow. */
-  --shadow-rest: 0 1px 2px rgb(27 18 32 / 0.06);
-  --shadow-raised: 0 8px 24px rgb(27 18 32 / 0.1);
+  --shadow-rest: 0 1px 2px rgb(15 26 46 / 0.06);
+  --shadow-raised: 0 8px 24px rgb(15 26 46 / 0.1);
   /* The UI font is the headline font (layout.tsx loads one family for both). */
   --font-ui: var(--font-display);
 }
@@ -109,7 +108,7 @@ body {
   color: var(--accent-chip);
 }
 
-/* Buttons. Primary: solid berry, white text, a 44 px target (48 px for the large one). Secondary: an outlined button.
+/* Buttons. Primary: solid blue, white text, a 44 px target (48 px for the large one). Secondary: an outlined button.
    Tertiary: text with an underline on hover. */
 .btn {
   min-height: 2.75rem;
@@ -180,7 +179,7 @@ body {
   text-decoration-color: currentColor;
 }
 
-/* Form fields: white, a clear 1 px edge, a berry edge and ring on focus. */
+/* Form fields: white, a clear 1 px edge, a blue edge and ring on focus. */
 .field {
   min-height: 3rem;
   border-radius: 0.5rem;

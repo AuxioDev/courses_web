@@ -33,7 +33,7 @@ describe("website colours", () => {
     expect(contrast(c[hue], c.bg)).toBeGreaterThanOrEqual(4.5);
   });
 
-  it("no course pen is a red or a warm brown, so a course never looks like the oxblood action colour", () => {
+  it("no course pen is a red or a warm brown, so a course never looks like the blue action colour", () => {
     // The title is always printed next to the colour, so a pen is never the only signal; this keeps the hues apart.
     for (const hue of ["hue-0", "hue-1", "hue-2", "hue-3"]) {
       const n = parseInt(c[hue].slice(1), 16);
@@ -46,7 +46,7 @@ describe("website colours", () => {
     ["accent-chip", "accent-soft"], ["accent-chip", "surface"], ["accent-chip", "surface-2"],
     ["accent-ink", "accent"], ["accent-ink", "accent-hover"], ["accent", "surface-2"], ["accent", "accent-soft"],
     ["body", "bg"], ["body", "surface-2"], ["muted", "surface-2"],
-  ])("--%s on --%s is at least 4.5:1 (chips, tinted panels, the berry action panel)", (fg, bg) => {
+  ])("--%s on --%s is at least 4.5:1 (chips, tinted panels, the blue action panel)", (fg, bg) => {
     expect(contrast(c[fg], c[bg])).toBeGreaterThanOrEqual(4.5);
   });
 
@@ -59,7 +59,7 @@ describe("website colours", () => {
     expect(contrast(c["field-edge"], c.surface)).toBeGreaterThanOrEqual(3);
   });
 
-  it("white text on the oxblood button is readable (4.5:1) and the muted text on the paper too", () => {
+  it("white text on the blue button is readable (4.5:1) and the muted text on the paper too", () => {
     expect(contrast(c["accent-ink"], c.accent)).toBeGreaterThanOrEqual(4.5);
     expect(contrast(c.muted, c.bg)).toBeGreaterThanOrEqual(4.5);
     expect(contrast(c.muted, c["surface-2"])).toBeGreaterThanOrEqual(4.5);
