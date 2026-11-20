@@ -5,6 +5,7 @@ import { localePath, type Locale } from "@/i18n/config";
 import { brandLogo } from "@/lib/brand";
 import { contacts, SCHOOL_NAME } from "@/lib/site";
 import { LanguageSwitch } from "./language-switch";
+import { ThemeToggle } from "./theme-toggle";
 import { NavLinks } from "./nav-links";
 
 type Props = { locale: Locale; t: Dictionary };
@@ -26,11 +27,12 @@ export function SiteHeader({ locale, t }: Props) {
         <Link href={localePath(locale, "/")} className="site-name mr-auto flex min-h-12 items-center gap-2.5">
           {/* The logo is decorative: the name is written next to it. */}
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          {logo && <img src={logo} alt="" height={32} className="h-8 w-auto" />}
+          {logo && <img src={logo} alt="" height={32} className="brand-mark h-8 w-auto" />}
           <Brand name={SCHOOL_NAME} />
         </Link>
         <div className="flex items-center gap-1 md:order-3">
           <LanguageSwitch locale={locale} label={t.nav.language} />
+          <ThemeToggle labels={{ theme: t.nav.theme, dark: t.nav.themeDark }} />
           <Link href={localePath(locale, "/apply")} className="btn ml-2">
             {t.nav.apply}
           </Link>

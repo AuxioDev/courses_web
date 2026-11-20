@@ -12,6 +12,8 @@ export const en = {
     teachers: "Teachers",
     apply: "Apply",
     language: "Language",
+    theme: "Theme",
+    themeDark: "Dark",
     skip: "Skip to content",
     menu: "Menu",
   },

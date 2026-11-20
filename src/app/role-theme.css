@@ -1,6 +1,6 @@
 /* Public website: a modern education brand. White canvas, a berry action colour, soft tinted panels, 8-12 px corners and
    light shadows. Manrope for headlines and UI labels, Inter for everything you read (layout.tsx).
-   The site is light only. globals.css (identical in all four apps) carries a dark palette, so every token it defines is
+   The site is light by default (dark is opt-in, see dark-theme.css). globals.css (identical in all four apps) carries a dark palette, so every token it defines is
    set again here, and color-scheme stays light; nothing from the dark block can show through.
    --accent is the action colour and the brand colour. THE BERRY IS A PLACEHOLDER until the school's final brand colour
    exists: change --accent, --accent-hover, --accent-press, --accent-soft and --accent-chip below, then run the tests

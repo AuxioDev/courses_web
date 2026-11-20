@@ -9,3 +9,8 @@
 .brand-role {
   font-weight: 500;
 }
+
+/* Dark theme (dark-theme.css): the same blue would vanish, so "Ed" uses a lighter tint of it. */
+:root[data-theme="dark"] .brand-ed {
+  color: #7fa6ff;
+}

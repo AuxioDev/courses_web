@@ -11,6 +11,8 @@ export const az: Dictionary = {
     teachers: "Müəllimlər",
     apply: "Müraciət et",
     language: "Dil",
+    theme: "Tema",
+    themeDark: "Tünd",
     skip: "Məzmuna keç",
     menu: "Menyu",
   },

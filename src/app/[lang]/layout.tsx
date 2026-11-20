@@ -10,7 +10,9 @@ import "../globals.css";
 import "../role-theme.css";
 import "../motion.css";
 import "../brand.css";
+import "../dark-theme.css";
 import "../site-theme.css";
+import { ThemeBoot } from "@/components/theme-boot";
 
 // Inter for everything you read or tap. The shared stylesheet names its sans variable after Geist, so this keeps that name.
 const bodyFont = Inter({
@@ -57,8 +59,9 @@ export const viewport: Viewport = {
 export default async function RootLayout({ children }: LayoutProps<"/[lang]">) {
   const { locale, t } = await getI18n();
   return (
-    <html lang={await lang()} className={`${bodyFont.variable} ${displayFont.variable} h-full antialiased`}>
+    <html lang={await lang()} className={`${bodyFont.variable} ${displayFont.variable} h-full antialiased`} suppressHydrationWarning>
       <body className="flex min-h-full flex-col font-sans">
+        <ThemeBoot />
         <a href="#content" className="btn sr-only focus:not-sr-only focus:absolute focus:left-2 focus:top-2 focus:z-30">
           {t.nav.skip}
         </a>

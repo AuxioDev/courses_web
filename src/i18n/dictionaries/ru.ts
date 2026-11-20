@@ -11,6 +11,8 @@ export const ru: Dictionary = {
     teachers: "Учителя",
     apply: "Подать заявку",
     language: "Язык",
+    theme: "Тема",
+    themeDark: "Тёмная",
     skip: "Перейти к содержанию",
     menu: "Меню",
   },

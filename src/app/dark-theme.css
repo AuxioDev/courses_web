@@ -1,0 +1,58 @@
+/* The website's dark theme. The site opens light and is never switched by the device setting: dark is only a choice made
+   with the switch beside the language links (data-theme="dark", set before first paint by <ThemeBoot>). The same tokens as
+   role-theme.css, with the berry lifted so it reads on a dark page. Loaded after site-theme.css. Contrast is checked by
+   src/lib/__tests__/dark-theme.test.ts. */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #14101a;
+  --surface: #1c1722;
+  --surface-2: #251d2d;
+  --ink: #f4eef7;
+  --body: #d9cfe0;
+  --muted: #a99cb3;
+  --line: #3a2f45;
+  --accent: #e8799f;
+  --accent-hover: #f08fb0;
+  --accent-press: #f4a3bf;
+  --accent-ink: #2a0b18;
+  --accent-soft: #3a1f2e;
+  --accent-chip: #f2a1bd;
+  --good: #52c78f;
+  --good-soft: #1f4234;
+  --warn: #f0b65a;
+  --warn-soft: #40331c;
+  --bad: #ff9a90;
+  --bad-soft: #4a2a2b;
+  --rule: #3a2f45;
+  --marker: #ffd84d;
+  --marker-ink: #3d2f00;
+  --field-edge: #8f8399;
+  --hue-0: #4fc48a;
+  --hue-1: #4cb8dc;
+  --hue-2: #b5c64a;
+  --hue-3: #8ea2ff;
+  --shadow-rest: 0 1px 2px rgb(0 0 0 / 0.4);
+  --shadow-raised: 0 8px 24px rgb(0 0 0 / 0.5);
+}
+
+/* The switch: a 44 px square like the other controls in the header. */
+.theme-toggle {
+  display: inline-grid;
+  min-height: 2.75rem;
+  min-width: 2.75rem;
+  place-items: center;
+  border-radius: 0.5rem;
+  color: var(--muted);
+  transition: color var(--dur-fast) ease, background-color var(--dur-fast) ease;
+}
+.theme-toggle:hover {
+  color: var(--ink);
+  background: var(--surface-2);
+}
+
+/* The logo mark is navy: on the dark page it sits on a small white tile. */
+:root[data-theme="dark"] .brand-mark {
+  background: #ffffff;
+  border-radius: 0.5rem;
+  padding: 2px;
+}
