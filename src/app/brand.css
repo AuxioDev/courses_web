@@ -1,0 +1,11 @@
+/* The SkyEd wordmark (components/brand.tsx): "Ed" is the brand blue from the logo, #03357e. The site is light only. */
+.brand-sky {
+  font-weight: 800;
+}
+.brand-ed {
+  color: #03357e;
+  font-weight: 400;
+}
+.brand-role {
+  font-weight: 500;
+}

@@ -9,6 +9,7 @@ import { SiteFooter, SiteHeader } from "@/components/site-chrome";
 import "../globals.css";
 import "../role-theme.css";
 import "../motion.css";
+import "../brand.css";
 import "../site-theme.css";
 
 // Inter for everything you read or tap. The shared stylesheet names its sans variable after Geist, so this keeps that name.

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Brand } from "@/components/brand";
 import type { Dictionary } from "@/i18n";
 import { localePath, type Locale } from "@/i18n/config";
 import { brandLogo } from "@/lib/brand";
@@ -26,7 +27,7 @@ export function SiteHeader({ locale, t }: Props) {
           {/* The logo is decorative: the name is written next to it. */}
           {/* eslint-disable-next-line @next/next/no-img-element */}
           {logo && <img src={logo} alt="" height={32} className="h-8 w-auto" />}
-          {SCHOOL_NAME}
+          <Brand name={SCHOOL_NAME} />
         </Link>
         <div className="flex items-center gap-1 md:order-3">
           <LanguageSwitch locale={locale} label={t.nav.language} />
@@ -49,7 +50,9 @@ export function SiteFooter({ locale, t }: Props) {
     <footer id="contact" className="site-footer">
       <div className="mx-auto grid max-w-[75rem] gap-10 px-5 py-12 sm:px-8 md:grid-cols-[minmax(0,3fr)_minmax(0,5fr)_minmax(0,4fr)] md:py-16 lg:px-12">
         <div>
-          <p className="site-name">{SCHOOL_NAME}</p>
+          <p className="site-name">
+            <Brand name={SCHOOL_NAME} />
+          </p>
           <p className="mt-2 max-w-xs text-[0.9375rem] text-muted">{t.footer.online}</p>
         </div>
         <div>

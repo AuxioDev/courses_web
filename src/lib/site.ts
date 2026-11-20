@@ -1,8 +1,8 @@
-// The school's name, contacts and addresses, in one place. The name is a placeholder until
-// the school chooses one: set NEXT_PUBLIC_SCHOOL_NAME, nothing else needs to change.
+// The school's name, contacts and addresses, in one place. The name is SkyEd; set
+// NEXT_PUBLIC_SCHOOL_NAME to override it, nothing else needs to change.
 // Safe to import from client components: only NEXT_PUBLIC_ values are read at module scope.
 
-export const SCHOOL_NAME = process.env.NEXT_PUBLIC_SCHOOL_NAME || "Online School";
+export const SCHOOL_NAME = process.env.NEXT_PUBLIC_SCHOOL_NAME || "SkyEd";
 
 const clean = (url: string) => url.replace(/\/$/, "");
 
