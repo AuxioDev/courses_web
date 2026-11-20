@@ -1,5 +1,7 @@
+import Link from "next/link";
 import type { Metadata } from "next";
 import { getI18n } from "@/i18n";
+import { localePath } from "@/i18n/config";
 import { contacts } from "@/lib/site";
 import { jsonLd, pageMeta } from "@/lib/meta";
 import { PageHead } from "@/components/page-head";
@@ -10,7 +12,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function FaqPage() {
-  const { t } = await getI18n();
+  const { locale, t } = await getI18n();
   const f = t.faq;
   const c = contacts();
   const items = [
@@ -48,9 +50,14 @@ export default async function FaqPage() {
       <section className="faq-more" aria-labelledby="more">
         <h2 id="more">{f.moreTitle}</h2>
         <p>{f.moreBody}</p>
-        <a href={c.phoneHref} className="num link font-semibold">
-          {c.phone}
-        </a>
+        <div className="faq-more-actions">
+          <Link href={localePath(locale, "/apply")} className="btn btn-lg">
+            {t.group.apply}
+          </Link>
+          <a href={c.phoneHref} className="num link font-semibold">
+            {c.phone}
+          </a>
+        </div>
       </section>
     </>
   );

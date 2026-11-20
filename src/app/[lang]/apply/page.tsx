@@ -75,7 +75,7 @@ export default async function ApplyPage({ searchParams }: Props) {
             {asked && !chosen && (
               <p
                 role="status"
-                className="mb-5 rounded-[3px] bg-warn-soft px-3 py-2 text-sm text-warn"
+                className="mb-5 rounded-lg bg-warn-soft px-3 py-2 text-sm text-warn"
               >
                 {fresh === 0
                   ? t.apply.errors.groupFull
@@ -98,7 +98,7 @@ export default async function ApplyPage({ searchParams }: Props) {
         <h2 id="next" className="!text-xl">
           {next.howTitle}
         </h2>
-        <ol className="steps mt-3">
+        <ol className="steps steps-stack mt-3">
           {steps.map(([title, body], i) => (
             <li key={title}>
               <span className="step-number num" aria-hidden>

@@ -39,3 +39,32 @@ export function Mark(props: SVGProps<SVGSVGElement>) {
     </svg>
   );
 }
+
+// Line icons for the three things that make the lessons what they are.
+export function Video(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg {...base} {...props}>
+      <rect x="3" y="6" width="13" height="12" rx="2.5" />
+      <path d="m16 10.5 5-3v9l-5-3" />
+    </svg>
+  );
+}
+
+export function Notebook(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg {...base} {...props}>
+      <rect x="5" y="3" width="14" height="18" rx="2.5" />
+      <path d="M9 8h6M9 12h6M9 16h3" />
+    </svg>
+  );
+}
+
+export function People(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg {...base} {...props}>
+      <circle cx="9" cy="8" r="3.25" />
+      <path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6" />
+      <path d="M16 5.2a3.25 3.25 0 0 1 0 5.6M18 14.4c1.9.9 3 2.8 3 5.6" />
+    </svg>
+  );
+}

@@ -42,7 +42,7 @@ function SeatsAndApply({ groupId, seatsLeft, locale, t }: Text & { groupId: stri
         <p className="text-sm text-muted">{t.fullBody}</p>
       ) : (
         <>
-          <Link href={localePath(locale, `/apply?group=${groupId}`)} className="btn px-5 py-3 text-[0.9375rem]">
+          <Link href={localePath(locale, `/apply?group=${groupId}`)} className="btn btn-lg">
             {t.apply}
           </Link>
           <Link href={localePath(locale, `/apply?group=${groupId}&trial=1`)} className="btn-ghost">
@@ -78,7 +78,7 @@ export default async function GroupPage({ params }: Props) {
       <PageHead title={group.course.title} lead={group.name} />
       <div className="grid items-start gap-x-12 gap-y-8 lg:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)]">
         <div>
-          <dl className="divide-y divide-line border-y border-line">
+          <dl className="facts divide-y divide-line">
             <Fact label={g.scheduleLabel}>
               <WeeklyHours group={group} locale={locale} t={g} />
               <p className="mt-1 text-xs text-muted">{g.timesNote}</p>
@@ -101,13 +101,13 @@ export default async function GroupPage({ params }: Props) {
               <span className="num price-figure">{group.monthlyPrice === null ? g.priceOnRequest : fmt(g.price, { n: group.monthlyPrice })}</span>
             </Fact>
           </dl>
-          <div className="mt-6">
+          <div className="apply-bar mt-6">
             <Suspense fallback={<SeatsAndApply groupId={group.id} seatsLeft={group.seatsLeft} locale={locale} t={g} />}>
               <FreshSeats groupId={group.id} locale={locale} t={g} />
             </Suspense>
           </div>
         </div>
-        <section aria-labelledby="next" className="pen-edge rounded-[3px] border border-line bg-surface p-4">
+        <section aria-labelledby="next" className="rounded-xl border border-line bg-surface p-5 shadow-[var(--shadow-rest)]">
           <h2 id="next" className="!text-xl">
             {g.nextLessons}
           </h2>

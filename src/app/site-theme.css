@@ -1,30 +1,26 @@
 /* Public website: page structure. Loaded after role-theme.css, which holds the colours, type and components.
-   Sizes are in rem so the whole page scales on very large screens (globals.css). The page is a printed sheet:
-   sections are separated by hairlines, with the title in a narrow left column and the content beside it. */
+   Sizes are in rem so the whole page scales on very large screens (globals.css). The page is a stack of sections:
+   white sections alternate with soft tinted panels, and the last one is a berry panel with the closing action. */
 
-/* Premium motion. One curve for everything that moves: a long, soft landing. This file loads after motion.css, so
-   re-pointing --ease-out here moves every existing transition and entrance onto it. --dur-premium is for hovers and
-   entrances that should feel fluid; the 120 ms --dur-fast stays for presses, which must feel instant. */
+/* One curve for everything that moves, short durations. This file loads after motion.css, so re-pointing --ease-out
+   here moves every existing transition and entrance onto it. Presses stay at 120 ms (--dur-fast). */
 :root {
-  --ease-premium: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-premium: cubic-bezier(0.2, 0.7, 0.2, 1);
   --ease-out: var(--ease-premium);
-  --dur-premium: 600ms;
+  --dur-premium: 300ms;
 }
-/* UI labels: buttons, the navigation bar, the language links. Tight mono, never used for reading text. */
-.btn,
-.btn-ghost,
+/* UI labels: the navigation bar and the language links. */
 .nav-link,
 .lang-link {
-  font-family: var(--font-ui), ui-monospace, "SF Mono", Menlo, monospace;
-  font-size: 0.875rem;
-  letter-spacing: -0.01em;
+  font-family: var(--font-ui), system-ui, sans-serif;
+  font-size: 0.9375rem;
 }
-/* Lists arrive one line after another; 600 ms each; the 40 ms stagger comes from role-theme.css. */
 .reveal {
   animation-duration: var(--dur-premium);
 }
 
-/* Header: paper, a hairline underneath, the school's name left, plain text links, the language and the main action right. */
+/* Header: white, a hairline underneath that gains a soft shadow once the page has scrolled (CSS only), the school's
+   name left, the page links, the language and the main action right. */
 .site-header {
   position: sticky;
   top: 0;
@@ -33,84 +29,125 @@
   background: var(--bg);
   border-bottom: 1px solid var(--line);
 }
-.site-name {
-  font-family: var(--font-display), Georgia, serif;
-  font-size: 1.25rem;
-  font-weight: 800;
-  letter-spacing: -0.025em;
-}
-/* Navigation underlines are drawn, not switched: a line grows out of the left edge on hover and stays, in ink, under
-   the page you are on. Transform only, on the shared 600 ms curve; the colour change is quick. */
-.nav-link,
-.lang-link {
-  position: relative;
-}
-.nav-link::after,
-.lang-link::after {
+.site-header::after {
   content: "";
   position: absolute;
-  inset-inline: 0.5rem;
+  inset-inline: 0;
+  bottom: 0;
+  height: 0;
+  box-shadow: 0 4px 16px 2px rgb(27 18 32 / 0.1);
+  opacity: 0;
+  pointer-events: none;
+}
+@supports (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .site-header::after {
+      animation: header-shadow linear both;
+      animation-timeline: scroll(root);
+      animation-range: 0 3rem;
+    }
+  }
+}
+@keyframes header-shadow {
+  to {
+    opacity: 1;
+  }
+}
+.site-header .btn {
+  min-height: 2.5rem;
+  padding-block: 0.5rem;
+  padding-inline: 1.125rem;
+}
+@media (max-width: 767px) {
+  .site-header .btn {
+    min-height: 2.75rem;
+  }
+}
+.site-name {
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-size: 1.25rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+/* The page you are on is marked with a berry line under its name; the line is drawn on hover too, in a lighter tone. */
+.nav-link {
+  position: relative;
+  display: flex;
+  min-height: 2.75rem;
+  align-items: center;
+  padding-inline: 0.625rem;
+  font-weight: 600;
+  white-space: nowrap;
+  color: var(--muted);
+  transition: color var(--dur-base) var(--ease-premium);
+}
+.nav-link::after {
+  content: "";
+  position: absolute;
+  inset-inline: 0.625rem;
   bottom: 0;
   height: 2px;
-  background: var(--line);
+  background: color-mix(in srgb, var(--accent) 35%, var(--bg));
   transform: scaleX(0);
   transform-origin: left;
   transition: transform var(--dur-premium) var(--ease-premium);
 }
-.lang-link::after {
-  inset-inline: 0.375rem;
-}
-.nav-link:is(:hover, :focus-visible)::after,
-.lang-link:is(:hover, :focus-visible)::after {
+.nav-link:is(:hover, :focus-visible)::after {
   transform: scaleX(1);
 }
-.nav-link[aria-current="page"]::after,
-.lang-link[aria-current="true"]::after {
+.nav-link[aria-current="page"]::after {
   background: var(--accent);
   transform: scaleX(1);
-}
-.nav-link {
-  display: flex;
-  min-height: 2.75rem;
-  align-items: center;
-  padding-inline: 0.5rem;
-  font-weight: 500;
-  color: var(--muted);
-  transition: color var(--dur-base) var(--ease-premium);
 }
 .nav-link:hover,
 .nav-link[aria-current="page"] {
   color: var(--ink);
 }
-/* The three languages, as plain text; the current one is marked like the current page. */
+.nav-link[aria-current="page"] {
+  color: var(--accent);
+}
+/* The three languages, as a small segmented control; the current one is the raised segment. */
+.site-header ul[aria-label] {
+  gap: 0.125rem;
+  border-radius: 0.5rem;
+  background: var(--surface-2);
+  padding: 0.125rem;
+}
 .lang-link {
   display: flex;
-  min-height: 2.75rem;
-  min-width: 2.25rem;
+  min-height: 2.5rem;
+  min-width: 2.5rem;
   align-items: center;
   justify-content: center;
+  border-radius: 0.375rem;
   padding-inline: 0.375rem;
-  font-size: 0.75rem;
-  font-weight: 600;
+  font-size: 0.8125rem;
+  font-weight: 700;
   color: var(--muted);
-  transition: color var(--dur-base) var(--ease-premium);
+  transition:
+    color var(--dur-base) var(--ease-premium),
+    background-color var(--dur-base) var(--ease-premium);
 }
-.lang-link:hover,
-.lang-link[aria-current="true"] {
+.lang-link:hover {
   color: var(--ink);
+}
+.lang-link[aria-current="true"] {
+  background: var(--surface);
+  box-shadow: var(--shadow-rest);
+  color: var(--accent);
 }
 .site-header .scroll-hint {
   --scroll-cover: var(--bg);
   --scroll-edge: transparent;
 }
 
-/* A section of the sheet: a rule above, the title in a narrow left column, the content in a wide right one.
-   Below 900 px it is one column. */
+/* A section: the title (and a short line) in a narrow left column, the content in a wide right one. Below 900 px it is
+   one column. A few sections are tinted panels (below), and one is the berry closing panel. */
 .sec {
   display: grid;
   gap: 1.25rem 3rem;
-  border-top: 1px solid var(--line);
-  padding-block: clamp(2.75rem, 2rem + 3.5vw, 5rem);
+  padding-block: clamp(2.5rem, 1.5rem + 3.5vw, 4.5rem);
 }
 @media (min-width: 900px) {
   .sec {
@@ -126,92 +163,96 @@
 .sec-wide {
   grid-template-columns: minmax(0, 1fr) !important;
 }
+.sec h2 {
+  font-size: clamp(1.75rem, 1.4rem + 1.2vw, 2.25rem);
+}
 .sec-lead {
-  margin-top: 0.625rem;
+  margin-top: 0.75rem;
   max-width: 28ch;
   font-size: 0.9375rem;
   line-height: 1.5;
   color: var(--muted);
 }
+/* Tinted panels. They keep the same left and right edges as the white sections; the content is inset inside them. */
+#join,
+#week,
+#diary {
+  margin-block: 0.5rem;
+  border-radius: 1.5rem;
+  background: var(--surface-2);
+  padding-inline: clamp(1.25rem, 0.5rem + 3vw, 3rem);
+}
+/* The closing panel: the page's last action, on the action colour. */
+#apply {
+  margin-block: 1rem 0;
+  border-radius: 1.5rem;
+  background: var(--accent);
+  padding: clamp(2rem, 1rem + 4vw, 4rem) clamp(1.25rem, 0.5rem + 3vw, 3rem);
+  color: var(--accent-ink);
+}
+#apply h2,
+#apply .sec-lead {
+  color: var(--accent-ink);
+}
+#apply .btn {
+  background: var(--accent-ink);
+  color: var(--accent);
+}
+#apply .btn:hover {
+  background: var(--accent-soft);
+}
+#apply .footer-note {
+  color: var(--accent-ink);
+}
+#apply :focus-visible {
+  outline-color: var(--accent-ink);
+}
 
-/* Home: the opening. The promise on the left, what is open right now on the right. */
+/* Home: the opening, a soft panel. The promise on the left, what is open right now on the right, in a raised card. */
 .hero {
   display: grid;
   gap: 2.5rem;
-  padding-block: clamp(0.5rem, 0.5rem + 1.5vw, 2rem) clamp(3rem, 2rem + 4vw, 5rem);
+  border-radius: 1.5rem;
+  background: var(--surface-2);
+  padding: clamp(1.5rem, 0.75rem + 3.5vw, 3.5rem);
 }
 @media (min-width: 900px) {
   .hero {
     grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
-    gap: 4rem;
-    align-items: start;
+    gap: 3.5rem;
+    align-items: center;
   }
 }
-/* The headline is the one loud thing on the page: heavy, large, tightly set. */
 .hero h1 {
-  font-size: clamp(2.75rem, 1.4rem + 4.6vw, 4.75rem);
-  line-height: 1.02;
-  letter-spacing: -0.035em;
+  font-size: clamp(1.75rem, 0.9rem + 4.2vw, 3.75rem);
+  line-height: 1.08;
+  letter-spacing: -0.03em;
 }
-/* Entrance, once, in order: the headline rises out of a mask, then the lead and the actions fade in behind it. The
-   open-now rows already stagger themselves (.reveal). Transform, opacity and clip-path only. */
-.hero > div:first-child > h1 {
-  animation: hero-mask var(--dur-premium) var(--ease-premium) both;
-}
-.hero > div:first-child > :not(h1) {
+/* Entrance, once: the headline, the lead and the actions fade in together. Opacity and a small rise only. */
+.hero > div:first-child > * {
   animation: hero-fade var(--dur-premium) var(--ease-premium) both;
 }
 .hero-lead {
-  animation-delay: 140ms;
+  animation-delay: 80ms !important;
 }
 .hero-actions {
-  animation-delay: 240ms;
-}
-@keyframes hero-mask {
-  from {
-    clip-path: inset(0 0 100% 0);
-    transform: translateY(0.5em);
-  }
-  to {
-    clip-path: inset(0);
-    transform: none;
-  }
+  animation-delay: 160ms !important;
 }
 @keyframes hero-fade {
   from {
     opacity: 0;
-    transform: translateY(0.75rem);
+    transform: translateY(0.5rem);
   }
   to {
     opacity: 1;
     transform: none;
   }
 }
-/* Actions: the button leans into its own left edge; the arrow of the quiet link travels. Eased, not snapped. */
-.hero .btn {
-  transform-origin: left center;
-  transition:
-    transform var(--dur-premium) var(--ease-premium),
-    background-color var(--dur-premium) var(--ease-premium);
-}
-.hero .btn:hover {
-  transform: scaleX(1.035);
-}
-.hero .btn:active {
-  transform: scaleX(0.99);
-  transition-duration: var(--dur-fast);
-}
-.hero .btn-ghost svg {
-  transition: transform var(--dur-premium) var(--ease-premium);
-}
-.hero .btn-ghost:hover svg {
-  transform: translateX(0.375rem);
-}
 .hero-lead {
-  margin-top: 1.5rem;
+  margin-top: 1.25rem;
   max-width: 34rem;
-  font-size: 1.1875rem;
-  line-height: 1.55;
+  font-size: 1.125rem;
+  line-height: 1.6;
   color: var(--muted);
 }
 .hero-actions {
@@ -219,46 +260,52 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 0.5rem 1.5rem;
+  gap: 0.75rem 1rem;
 }
-/* On a narrow phone the two actions are always stacked, so a font loading cannot make the second one jump down. */
+.hero .btn-link svg {
+  transition: transform var(--dur-premium) var(--ease-premium);
+}
+.hero .btn-link:hover svg {
+  transform: translateX(0.25rem);
+}
+/* On a narrow phone the actions are always stacked, so a font loading cannot make the second one jump down. */
 @media (max-width: 30rem) {
   .hero-actions {
     flex-direction: column;
-    align-items: flex-start;
+    align-items: stretch;
   }
-}
-/* Scroll-driven: as the hero leaves the top of the screen, the promise drifts up and softens while the "open now"
-   panel lags behind it. Tied to scroll position (no JS), only transform and opacity, and nothing changes while the hero
-   is fully in view. Browsers without scroll timelines, and reduced motion, just get the static page. */
-@supports (animation-timeline: view()) {
-  @media (prefers-reduced-motion: no-preference) {
-    .hero > div:first-child,
-    .hero > .open-now {
-      animation: hero-exit linear both;
-      animation-timeline: view();
-      animation-range: exit 0% exit 90%;
-    }
-    .hero > .open-now {
-      --hero-shift: -1.5rem;
-    }
-  }
-}
-@keyframes hero-exit {
-  to {
-    transform: translateY(var(--hero-shift, -3rem));
-    opacity: 0.25;
+  .hero-actions > a {
+    justify-content: center;
   }
 }
 .open-now {
-  border-top: 2px solid var(--ink);
-  padding-top: 0.75rem;
+  border: 1px solid var(--line);
+  border-radius: 1rem;
+  background: var(--surface);
+  padding: 1.25rem 1.25rem 0.5rem;
+  box-shadow: var(--shadow-raised);
 }
 .open-now h2 {
   font-size: 1.25rem;
 }
+.open-now .rows > li:first-child {
+  border-top: 0;
+}
+.open-now .rows > li:last-child {
+  border-bottom: 0;
+}
+/* Nothing is open: the way to reach the school is the main thing in the card. */
+.open-now-empty .contact-list a {
+  font-size: 1.125rem;
+}
+.open-now-empty .contact-list > li:first-child {
+  border-radius: 0.5rem;
+  background: var(--accent-soft);
+  padding-inline: 0.875rem;
+  border-top: 0;
+}
 
-/* Ruled lines: each row has a hairline above, the last one also below. */
+/* Ruled lines inside cards: each row has a hairline above. */
 .rows > li {
   border-top: 1px solid var(--line);
 }
@@ -266,152 +313,207 @@
   border-bottom: 1px solid var(--line);
 }
 
-/* The index of courses. The whole row is the link. In rest it is a ruled line; on hover or focus the course's pen
-   colour draws a bar down the left edge and the text leans in, on the shared 600 ms curve. Transform and opacity only. */
-.index a {
-  position: relative;
+/* Why this school: three plain cards, each with a line icon. */
+.features {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  gap: 0.25rem 1.5rem;
-  align-items: baseline;
-  padding: 1.5rem 0.25rem;
-}
-.index a::before {
-  content: "";
-  position: absolute;
-  inset-block: 0;
-  left: 0;
-  width: 3px;
-  background: var(--hue, var(--accent));
-  transform: scaleY(0);
-  transform-origin: top;
-  transition: transform var(--dur-premium) var(--ease-premium);
-}
-.index a > * {
-  transition: transform var(--dur-premium) var(--ease-premium);
-}
-.index a:hover::before,
-.index a:focus-visible::before {
-  transform: scaleY(1);
-}
-.index a:hover > *,
-.index a:focus-visible > * {
-  transform: translateX(0.875rem);
-}
-/* The count is a UI label, so it is mono, and it travels a little further than the title (a non-linear lean). */
-.index a:hover > .index-count,
-.index a:focus-visible > .index-count {
-  transform: translateX(0.375rem);
-}
-.index-title {
-  font-family: var(--font-display), Georgia, serif;
-  font-size: clamp(1.5rem, 1.2rem + 1.2vw, 2.125rem);
-  font-weight: 800;
-  letter-spacing: -0.025em;
-  line-height: 1.12;
-}
-.index a:hover .link,
-.index a:focus-visible .link {
-  background-size: 100% 1px;
-}
-.index-count {
-  font-family: var(--font-ui), ui-monospace, "SF Mono", Menlo, monospace;
-  font-size: 0.8125rem;
-  font-weight: 500;
-  color: var(--hue, var(--accent));
-  white-space: nowrap;
-}
-.index-meta {
-  grid-column: 1 / -1;
-  max-width: 62ch;
-  font-size: 0.9375rem;
-  color: var(--muted);
-}
-
-/* How to join: a real sequence, so numbered. */
-.steps {
+  gap: 1rem;
   list-style: none;
 }
-.steps > li {
-  display: grid;
-  grid-template-columns: 3rem minmax(0, 1fr);
-  gap: 1rem;
-  border-top: 1px solid var(--line);
-  padding-block: 1.375rem;
+@media (min-width: 720px) {
+  .features {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
 }
-.steps > li:last-child {
-  border-bottom: 1px solid var(--line);
+.features > li {
+  border: 1px solid var(--line);
+  border-radius: 0.75rem;
+  background: var(--surface);
+  padding: 1.5rem;
+  box-shadow: var(--shadow-rest);
 }
-.step-number {
-  font-family: var(--font-display), Georgia, serif;
-  font-size: 2.25rem;
-  font-weight: 600;
-  line-height: 1;
+.feature-icon {
+  display: inline-flex;
+  height: 2.75rem;
+  width: 2.75rem;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+  border-radius: 0.75rem;
+  background: var(--accent-soft);
   color: var(--accent);
 }
+.feature-icon svg {
+  height: 1.5rem;
+  width: 1.5rem;
+}
 
-/* The week: one column per day that has lessons, each a ruled list in time order. It cannot overlap, so a busy day
-   stays readable, and on a phone the days simply stack. */
+/* The courses: a grid of cards. The whole card is the link; the stripe on top is the course's colour. */
+.course-grid {
+  display: grid;
+  gap: 1rem;
+  list-style: none;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 15.5rem), 1fr));
+}
+.course-grid > li {
+  display: flex;
+}
+.course-card {
+  position: relative;
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.75rem;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 0.75rem;
+  background: var(--surface);
+  padding: 1.5rem 1.25rem 1.25rem;
+  box-shadow: var(--shadow-rest);
+  transition:
+    transform var(--dur-base) var(--ease-premium),
+    box-shadow var(--dur-base) var(--ease-premium);
+}
+.course-card::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 4px;
+  background: var(--hue, var(--accent));
+}
+.course-card:is(:hover, :focus-visible) {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-raised);
+}
+.course-title {
+  font-size: 1.25rem;
+  line-height: 1.25;
+  color: var(--ink);
+}
+.course-desc {
+  font-size: 0.9375rem;
+  line-height: 1.55;
+  color: var(--muted);
+}
+.course-count {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  margin-top: auto;
+  padding-top: 0.25rem;
+  font-family: var(--font-ui), system-ui, sans-serif;
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+.course-count svg {
+  transition: transform var(--dur-base) var(--ease-premium);
+}
+.course-card:is(:hover, :focus-visible) .course-count svg {
+  transform: translateX(0.25rem);
+}
+
+/* How to join: a real sequence, so numbered. Three cards in a row, stacked on a phone and in narrow columns. */
+.steps {
+  display: grid;
+  gap: 1rem;
+  list-style: none;
+}
+@media (min-width: 720px) {
+  .steps:not(.steps-stack) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+.steps > li {
+  border: 1px solid var(--line);
+  border-radius: 0.75rem;
+  background: var(--surface);
+  padding: 1.25rem 1.5rem 1.5rem;
+  box-shadow: var(--shadow-rest);
+}
+.steps-stack > li {
+  display: grid;
+  grid-template-columns: 2.5rem minmax(0, 1fr);
+  gap: 1rem;
+  padding: 1.125rem 1.25rem;
+}
+.step-number {
+  display: inline-flex;
+  height: 2.5rem;
+  width: 2.5rem;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.75rem;
+  border-radius: 999px;
+  background: var(--accent);
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-size: 1.125rem;
+  font-weight: 800;
+  line-height: 1;
+  color: var(--accent-ink);
+}
+.steps-stack .step-number {
+  margin-bottom: 0;
+}
+
+/* The week: one panel per day that has lessons, each a list in time order. It cannot overlap, so a busy day stays
+   readable, and on a phone the days simply stack. */
 .week {
   display: grid;
-  gap: 2.25rem 1.25rem;
-  grid-template-columns: repeat(auto-fit, minmax(12.5rem, 1fr));
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 13rem), 1fr));
 }
-.week-day > :first-child {
-  border-top: 2px solid var(--ink);
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
-  font-family: var(--font-display), Georgia, serif;
-  font-size: 1.375rem;
-  font-weight: 800;
-  letter-spacing: -0.02em;
-  line-height: 1.15;
-}
-/* The days arrive left to right, once, 70 ms apart. */
 .week-day {
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 0.75rem;
+  background: var(--surface);
+  box-shadow: var(--shadow-rest);
   animation: hero-fade var(--dur-premium) var(--ease-premium) both;
 }
-.week-day:nth-child(2) { animation-delay: 70ms; }
-.week-day:nth-child(3) { animation-delay: 140ms; }
-.week-day:nth-child(4) { animation-delay: 210ms; }
-.week-day:nth-child(5) { animation-delay: 280ms; }
-.week-day:nth-child(n + 6) { animation-delay: 350ms; }
+.week-day > :first-child {
+  background: var(--accent-soft);
+  padding: 0.75rem 1rem;
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-size: 1.125rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+  color: var(--ink);
+}
+/* The days arrive left to right, once, 50 ms apart. */
+.week-day:nth-child(2) { animation-delay: 50ms; }
+.week-day:nth-child(3) { animation-delay: 100ms; }
+.week-day:nth-child(4) { animation-delay: 150ms; }
+.week-day:nth-child(5) { animation-delay: 200ms; }
+.week-day:nth-child(n + 6) { animation-delay: 250ms; }
 .lesson {
   display: block;
   border-top: 1px solid var(--line);
   border-left: 3px solid var(--hue, var(--line));
-  padding: 0.75rem 0.75rem 0.75rem 0.875rem;
-  transition: background-color var(--dur-premium) var(--ease-premium);
+  padding: 0.75rem 1rem 0.75rem 0.875rem;
+  transition: background-color var(--dur-base) var(--ease-premium);
 }
-.lesson > * {
-  transition: transform var(--dur-premium) var(--ease-premium);
+.week-day li:first-child .lesson {
+  border-top: 0;
 }
 .lesson:hover,
 .lesson:focus-visible {
-  background: var(--surface);
-}
-.lesson:is(:hover, :focus-visible) > * {
-  transform: translateX(0.375rem);
-}
-/* The hour leans a little further than the names under it. */
-.lesson:is(:hover, :focus-visible) > .lesson-time {
-  transform: translateX(0.625rem);
-}
-.week-day li:last-child .lesson {
-  border-bottom: 1px solid var(--line);
+  background: var(--surface-2);
 }
 .lesson-time {
   display: block;
-  font-family: var(--font-ui), ui-monospace, "SF Mono", Menlo, monospace;
-  font-size: 0.8125rem;
-  font-weight: 500;
-  color: var(--muted);
+  font-family: var(--font-ui), system-ui, sans-serif;
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--accent-chip);
 }
 .lesson-course {
   display: block;
   margin-top: 0.125rem;
   font-weight: 600;
   line-height: 1.3;
+  color: var(--ink);
 }
 .lesson-by {
   display: block;
@@ -421,102 +523,134 @@
   color: var(--muted);
 }
 
-/* Filters on the timetable page: plain text tabs. */
+/* Filters on the timetable page: pills. */
 .tabs {
   display: flex;
   flex-wrap: wrap;
-  gap: 0 1.5rem;
-  border-bottom: 1px solid var(--line);
+  gap: 0.5rem;
+  list-style: none;
 }
 .tab {
   display: inline-flex;
   min-height: 2.75rem;
   align-items: center;
   gap: 0.5rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--surface);
+  padding-inline: 1rem;
   font-size: 0.9375rem;
-  font-weight: 500;
+  font-weight: 600;
   color: var(--muted);
-  box-shadow: inset 0 -2px 0 transparent;
+  transition:
+    background-color var(--dur-base) ease,
+    color var(--dur-base) ease,
+    border-color var(--dur-base) ease;
 }
 .tab:hover {
+  border-color: var(--accent);
   color: var(--ink);
 }
 .tab[aria-current="true"] {
-  color: var(--ink);
-  box-shadow: inset 0 -2px 0 var(--accent);
+  border-color: var(--accent);
+  background: var(--accent);
+  color: var(--accent-ink);
 }
 .tab-dot {
   display: inline-block;
   height: 0.5rem;
   width: 0.5rem;
+  border-radius: 999px;
   background: var(--hue, var(--ink));
 }
+.tab[aria-current="true"] .tab-dot {
+  box-shadow: 0 0 0 2px var(--accent-ink);
+}
 
-/* Teachers: a name, what they teach, a few words. A photograph only when the school has supplied one. */
+/* Teachers: a card with a picture (the school's photograph, or the initials when there is none), the name, what they
+   teach and a few words. The whole card opens the teacher. */
+.teacher-grid {
+  display: grid;
+  gap: 1rem;
+  list-style: none;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 19rem), 1fr));
+}
 .person {
+  position: relative;
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   gap: 1rem;
-  border-top: 1px solid var(--line);
-  padding-block: 1.25rem;
+  border: 1px solid var(--line);
+  border-radius: 0.75rem;
+  background: var(--surface);
+  padding: 1.25rem;
+  box-shadow: var(--shadow-rest);
+  transition:
+    box-shadow var(--dur-base) var(--ease-premium),
+    transform var(--dur-base) var(--ease-premium);
 }
-.person.has-photo {
-  grid-template-columns: 4.5rem minmax(0, 1fr);
+.person.has-avatar {
+  grid-template-columns: 4rem minmax(0, 1fr);
+}
+.person:is(:hover, :focus-within) {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-raised);
+}
+.person a::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 0.75rem;
 }
 .photo {
-  height: 4.5rem;
-  width: 4.5rem;
+  height: 4rem;
+  width: 4rem;
+  border-radius: 999px;
   object-fit: cover;
   background: var(--surface-2);
 }
 .photo-lg {
   height: 11rem;
   width: 11rem;
+  border-radius: 1rem;
 }
-/* Teacher names are headlines in miniature. On hover or focus the text leans in and the photograph grows from its
-   corner, on the shared 600 ms curve; the lean is further for the text than the picture, so they part slightly. */
-.person :is(h2, h3) {
-  font-family: var(--font-display), Georgia, serif;
+.avatar {
+  display: inline-flex;
+  height: 4rem;
+  width: 4rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  font-family: var(--font-display), system-ui, sans-serif;
   font-size: 1.375rem;
   font-weight: 800;
-  letter-spacing: -0.02em;
-  line-height: 1.15;
+  color: var(--accent-chip);
 }
-.person > div,
-.person .photo {
-  transition: transform var(--dur-premium) var(--ease-premium);
-}
-.person .photo {
-  transform-origin: bottom left;
-}
-.person:is(:hover, :focus-within) > div {
-  transform: translateX(0.5rem);
-}
-.person:is(:hover, :focus-within) .photo:not(.photo-lg) {
-  transform: scale(1.06);
+.person :is(h2, h3) {
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-size: 1.25rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
 }
 
-/* The group board: one ruled line per group. Name and price are set as headline and UI label; on hover the line's
-   text leans in over the pen-colour wash that .pen-edge already gives. */
-.group-board > li > :first-child {
-  transition: transform var(--dur-premium) var(--ease-premium);
-}
-.group-board > li:is(:hover, :focus-within) > :first-child {
-  transform: translateX(0.5rem);
+/* The group board: one card per group. */
+.group-board {
+  box-shadow: var(--shadow-rest);
 }
 .group-board h3 {
   font-size: 1.25rem;
   font-weight: 800;
-  letter-spacing: -0.02em;
-  line-height: 1.15;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
 }
 .ui-label {
-  font-family: var(--font-ui), ui-monospace, "SF Mono", Menlo, monospace;
+  font-family: var(--font-ui), system-ui, sans-serif;
   font-size: 0.8125rem;
-  letter-spacing: -0.01em;
 }
 
-/* The Student Diary: real screenshots with the same crop and the same hairline. */
+/* The Student Diary: real screenshots with the same crop and the same edge. */
 .shots {
   display: grid;
   gap: 1.5rem;
@@ -529,7 +663,9 @@
   object-fit: cover;
   object-position: top;
   border: 1px solid var(--line);
+  border-radius: 0.75rem;
   background: var(--surface);
+  box-shadow: var(--shadow-rest);
 }
 .shots figcaption {
   margin-top: 0.5rem;
@@ -537,7 +673,7 @@
   color: var(--muted);
 }
 
-/* Apply and contact: the main action, then how to reach the school. */
+/* Contacts: a labelled line each. Inside the berry panel they become outlined chips. */
 .contact-list > li {
   display: grid;
   gap: 0.125rem;
@@ -548,15 +684,53 @@
   border-bottom: 1px solid var(--line);
 }
 .contact-label {
-  font-family: var(--font-ui), ui-monospace, "SF Mono", Menlo, monospace;
+  font-family: var(--font-ui), system-ui, sans-serif;
   font-size: 0.8125rem;
-  letter-spacing: -0.01em;
   color: var(--muted);
 }
+#apply .contact-list {
+  display: flex;
+  max-width: none;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+#apply .contact-list > li,
+#apply .contact-list > li:last-child {
+  min-height: 2.75rem;
+  border: 1px solid color-mix(in srgb, var(--accent-ink) 55%, var(--accent));
+  border-radius: 0.75rem;
+  padding: 0.5rem 1rem;
+}
+#apply .contact-label {
+  color: color-mix(in srgb, var(--accent-ink) 85%, var(--accent));
+}
+/* The whole chip is the link, so it is a large target. */
+#apply .contact-list > li {
+  position: relative;
+}
+#apply .contact-list a {
+  min-height: 0;
+}
+#apply .contact-list a::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+}
+/* On a phone every contact link is a 44 px target. */
+@media (max-width: 767px) {
+  .contact-list a,
+  .faq-more-actions a {
+    display: inline-flex;
+    min-height: 2.75rem;
+    align-items: center;
+  }
+}
 
-/* Footer: paper again, a firm rule on top, the same three columns on every page. */
+/* Footer: a soft panel, a hairline on top, the same three columns on every page. */
 .site-footer {
-  border-top: 2px solid var(--ink);
+  background: var(--surface-2);
+  border-top: 1px solid var(--line);
   padding-bottom: env(safe-area-inset-bottom);
 }
 .site-footer a {
@@ -569,21 +743,22 @@
     min-height: 1.75rem;
   }
 }
-/* The footer's name is the page's sign-off: large, in the headline face. Its links are UI labels. */
 .site-footer .site-name {
-  font-size: clamp(1.75rem, 1.4rem + 1.4vw, 2.5rem);
-  line-height: 1.05;
+  font-size: clamp(1.5rem, 1.25rem + 1vw, 2rem);
+  line-height: 1.1;
 }
 .footer-col-title {
-  font-family: var(--font-ui), ui-monospace, "SF Mono", Menlo, monospace;
+  font-family: var(--font-ui), system-ui, sans-serif;
   font-size: 0.8125rem;
-  letter-spacing: -0.01em;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
   color: var(--muted);
 }
 .footer-links {
-  font-family: var(--font-ui), ui-monospace, "SF Mono", Menlo, monospace;
-  font-size: 0.875rem;
-  letter-spacing: -0.01em;
+  font-family: var(--font-ui), system-ui, sans-serif;
+  font-size: 0.9375rem;
+  font-weight: 500;
 }
 .footer-note {
   font-size: 0.8125rem;
@@ -599,26 +774,41 @@
   }
 }
 
-/* Group page: the facts are a ruled list, the label a UI label and the price a figure. */
+/* Group page: the facts are a card, the label a UI label and the price a figure. */
 .fact-label {
-  font-family: var(--font-ui), ui-monospace, "SF Mono", Menlo, monospace;
+  font-family: var(--font-ui), system-ui, sans-serif;
   font-size: 0.8125rem;
-  letter-spacing: -0.01em;
+  font-weight: 600;
   color: var(--muted);
 }
 .price-figure {
-  font-family: var(--font-ui), ui-monospace, "SF Mono", Menlo, monospace;
+  font-family: var(--font-display), system-ui, sans-serif;
   font-size: 1.5rem;
-  font-weight: 600;
-  letter-spacing: -0.03em;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--ink);
 }
-/* The next lessons: a ruled card; each line leans in on hover, like the group board. The lean is on the spans, not
-   the li: the li's entrance animation (.reveal) holds its transform. */
-.next-lessons li > span {
-  transition: transform var(--dur-premium) var(--ease-premium);
+.facts {
+  border: 1px solid var(--line);
+  border-radius: 0.75rem;
+  background: var(--surface);
+  padding-inline: 1.25rem;
+  box-shadow: var(--shadow-rest);
 }
-.next-lessons li:hover > span {
-  transform: translateX(0.375rem);
+/* On a phone the way in stays on screen while the facts are read. It sits at the bottom of its column. */
+@media (max-width: 767px) {
+  .apply-bar {
+    position: sticky;
+    bottom: 0;
+    z-index: 10;
+    margin-inline: -1.25rem;
+    border-top: 1px solid var(--line);
+    background: var(--bg);
+    padding: 0.75rem 1.25rem calc(0.75rem + env(safe-area-inset-bottom));
+  }
+}
+.next-lessons li {
+  transition: background-color var(--dur-base) var(--ease-premium);
 }
 
 /* The apply form. Labels are UI labels, hints and errors sit quietly under the field, and the page of fields arrives
@@ -626,10 +816,9 @@
 .form-label {
   display: block;
   margin-bottom: 0.375rem;
-  font-family: var(--font-ui), ui-monospace, "SF Mono", Menlo, monospace;
-  font-size: 0.8125rem;
-  font-weight: 500;
-  letter-spacing: -0.01em;
+  font-family: var(--font-ui), system-ui, sans-serif;
+  font-size: 0.875rem;
+  font-weight: 700;
   color: var(--ink);
 }
 .form-hint {
@@ -648,33 +837,21 @@
 .apply-form > * {
   animation: hero-fade var(--dur-premium) var(--ease-premium) both;
 }
-.apply-form > :nth-child(2) { animation-delay: 60ms; }
-.apply-form > :nth-child(3) { animation-delay: 120ms; }
-.apply-form > :nth-child(4) { animation-delay: 180ms; }
-.apply-form > :nth-child(5) { animation-delay: 240ms; }
-.apply-form > :nth-child(n + 6) { animation-delay: 300ms; }
-/* The field you are in gets a drawn ink bar under it; no box-shadow glow. */
+.apply-form > :nth-child(2) { animation-delay: 40ms; }
+.apply-form > :nth-child(3) { animation-delay: 80ms; }
+.apply-form > :nth-child(4) { animation-delay: 120ms; }
+.apply-form > :nth-child(5) { animation-delay: 160ms; }
+.apply-form > :nth-child(n + 6) { animation-delay: 200ms; }
 .apply-form .field {
   transition:
     border-color var(--dur-base) var(--ease-premium),
-    box-shadow var(--dur-premium) var(--ease-premium);
+    box-shadow var(--dur-base) var(--ease-premium);
 }
 .apply-form .field:focus {
-  box-shadow: 0 3px 0 0 var(--accent);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 18%, transparent);
 }
-/* The submit button leans along its own axis, like the hero's. */
 .apply-form .btn {
-  transform-origin: left center;
-  transition:
-    transform var(--dur-premium) var(--ease-premium),
-    background-color var(--dur-premium) var(--ease-premium);
-}
-.apply-form .btn:hover:not(:disabled) {
-  transform: scaleX(1.02);
-}
-.apply-form .btn:active:not(:disabled) {
-  transform: scaleX(0.99);
-  transition-duration: var(--dur-fast);
+  min-height: 3rem;
 }
 
 /* Detail pages: course and teacher (and the group page, which shares the head). */
@@ -684,9 +861,9 @@
   min-height: 2.75rem;
   align-items: center;
   gap: 0.25rem;
-  font-family: var(--font-ui), ui-monospace, "SF Mono", Menlo, monospace;
-  font-size: 0.8125rem;
-  letter-spacing: -0.01em;
+  font-family: var(--font-ui), system-ui, sans-serif;
+  font-size: 0.875rem;
+  font-weight: 600;
   color: var(--muted);
   transition: color var(--dur-base) var(--ease-premium);
 }
@@ -696,7 +873,7 @@
   }
 }
 .back-link:hover {
-  color: var(--ink);
+  color: var(--accent);
 }
 .back-link svg {
   transition: transform var(--dur-premium) var(--ease-premium);
@@ -704,13 +881,13 @@
 .back-link:hover svg {
   transform: translateX(-0.25rem);
 }
-/* The line under a page title: a level or a group name, as a UI label. */
+/* The line under a page title: a level or a group name. */
 .page-lead {
   margin-top: 0.75rem;
   max-width: 62ch;
-  font-family: var(--font-ui), ui-monospace, "SF Mono", Menlo, monospace;
-  font-size: 0.875rem;
-  letter-spacing: -0.01em;
+  font-family: var(--font-ui), system-ui, sans-serif;
+  font-size: 1rem;
+  font-weight: 500;
   color: var(--muted);
 }
 /* Text an admin typed in: the first paragraph is the lede, set larger; the rest is body text. */
@@ -718,11 +895,18 @@
   font-size: 1.25rem;
   line-height: 1.55;
 }
-/* A section on a detail page starts with a firm ink rule, the way the week's days and "open now" do. */
+/* A section on a detail page starts with a heading over a short berry rule. */
 .section-rule {
   margin-bottom: 1rem;
-  border-top: 2px solid var(--ink);
-  padding-top: 0.75rem;
+}
+.section-rule::before {
+  content: "";
+  display: block;
+  width: 2.5rem;
+  height: 0.25rem;
+  margin-bottom: 0.75rem;
+  border-radius: 999px;
+  background: var(--accent);
 }
 /* The teacher's photograph is uncovered from the bottom, once. */
 .photo-lg {
@@ -768,55 +952,70 @@
   padding-block: clamp(2rem, 1rem + 5vw, 5rem);
 }
 .notice h1 {
-  font-size: clamp(2.5rem, 1.4rem + 4vw, 4.25rem);
-  line-height: 1.02;
-  letter-spacing: -0.035em;
+  font-size: clamp(2.25rem, 1.4rem + 3.5vw, 3.75rem);
+  line-height: 1.08;
+  letter-spacing: -0.03em;
 }
 .notice-body {
   margin-top: 1rem;
-  font-size: 1.1875rem;
-  line-height: 1.55;
+  font-size: 1.125rem;
+  line-height: 1.6;
   color: var(--muted);
 }
 .notice > * {
   animation: hero-fade var(--dur-premium) var(--ease-premium) both;
 }
-.notice > :nth-child(2) { animation-delay: 80ms; }
-.notice > :nth-child(3) { animation-delay: 160ms; }
-.notice > :nth-child(4) { animation-delay: 240ms; }
+.notice > :nth-child(2) { animation-delay: 60ms; }
+.notice > :nth-child(3) { animation-delay: 120ms; }
+.notice > :nth-child(4) { animation-delay: 180ms; }
 
-/* FAQ: native <details>, so it works without scripts and with the keyboard. A ruled list; the question is a headline in
-   miniature, the plus turns to a minus by rotating, and the answer opens with the browser's own height animation. */
+/* FAQ: native <details>, so it works without scripts and with the keyboard. One card per question; the plus sits in a
+   circle and turns when it opens, and the answer fades in with the browser's own content animation (motion.css). */
 .faq details {
-  border-top: 1px solid var(--line);
+  margin-bottom: 0.75rem;
+  border: 1px solid var(--line);
+  border-radius: 0.75rem;
+  background: var(--surface);
+  box-shadow: var(--shadow-rest);
+  transition: border-color var(--dur-base) ease;
 }
-.faq details:last-child {
-  border-bottom: 1px solid var(--line);
+.faq details[open] {
+  border-color: color-mix(in srgb, var(--accent) 40%, var(--line));
 }
 .faq summary {
   display: flex;
-  min-height: 2.75rem;
+  min-height: 3.5rem;
   cursor: pointer;
   list-style: none;
   align-items: center;
   justify-content: space-between;
-  gap: 1.5rem;
-  padding-block: 1.125rem;
-  font-family: var(--font-display), Georgia, serif;
-  font-size: clamp(1.1875rem, 1.05rem + 0.6vw, 1.5rem);
-  font-weight: 800;
-  letter-spacing: -0.02em;
-  line-height: 1.2;
+  gap: 1.25rem;
+  border-radius: 0.75rem;
+  padding: 1rem 1.25rem;
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-size: clamp(1.0625rem, 1rem + 0.35vw, 1.1875rem);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.3;
+  color: var(--ink);
 }
 .faq summary::-webkit-details-marker {
   display: none;
 }
 .faq summary::after {
   content: "+";
+  display: inline-flex;
+  height: 2rem;
+  width: 2rem;
   flex-shrink: 0;
-  font-family: var(--font-ui), ui-monospace, "SF Mono", Menlo, monospace;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: var(--accent-soft);
   font-size: 1.25rem;
-  font-weight: 400;
+  font-weight: 500;
+  line-height: 1;
+  color: var(--accent);
   transition: transform var(--dur-premium) var(--ease-premium);
 }
 .faq details[open] > summary::after {
@@ -824,7 +1023,7 @@
 }
 .faq details > p {
   max-width: 62ch;
-  padding-bottom: 1.5rem;
+  padding: 0 1.25rem 1.25rem;
   font-size: 1.0625rem;
   line-height: 1.65;
   color: var(--muted);
@@ -840,8 +1039,14 @@
   margin-block: 0.5rem 0.75rem;
   color: var(--muted);
 }
+.faq-more-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 1.5rem;
+}
 
-/* Choosing a time: one card per group of the chosen course, days and hours first. The chosen one gets a firm ink edge. */
+/* Choosing a time: one card per group of the chosen course, days and hours first. The chosen one gets a berry edge. */
 .apply-form fieldset {
   min-width: 0;
 }
@@ -855,19 +1060,20 @@
   gap: 0.125rem;
   cursor: pointer;
   border: 1px solid var(--field-edge);
-  border-radius: 3px;
+  border-radius: 0.75rem;
   background: var(--surface);
   padding: 0.75rem 0.875rem 0.75rem 2.75rem;
   transition:
     border-color var(--dur-base) var(--ease-premium),
-    transform var(--dur-premium) var(--ease-premium);
+    background-color var(--dur-base) var(--ease-premium);
 }
 .slot:hover:not(.slot-full) {
-  transform: translateX(0.25rem);
+  border-color: var(--accent);
 }
 .slot:has(input:checked) {
   border-color: var(--accent);
-  box-shadow: inset 3px 0 0 var(--accent);
+  background: var(--surface-2);
+  box-shadow: 0 0 0 1px var(--accent);
 }
 .slot:has(input:focus-visible) {
   outline: 2px solid var(--accent);
@@ -886,10 +1092,9 @@
   opacity: 0.55;
 }
 .slot-hours {
-  font-family: var(--font-ui), ui-monospace, "SF Mono", Menlo, monospace;
+  font-family: var(--font-ui), system-ui, sans-serif;
   font-size: 0.9375rem;
-  font-weight: 600;
-  letter-spacing: -0.01em;
+  font-weight: 700;
 }
 .slot-meta {
   font-size: 0.875rem;
@@ -899,12 +1104,12 @@
 /* A checkbox with its text beside it (under 18, trial lesson). */
 .check-label {
   display: flex;
+  min-height: 2.75rem;
   align-items: center;
   gap: 0.75rem;
-  font-family: var(--font-ui), ui-monospace, "SF Mono", Menlo, monospace;
-  font-size: 0.8125rem;
-  font-weight: 500;
-  letter-spacing: -0.01em;
+  font-family: var(--font-ui), system-ui, sans-serif;
+  font-size: 0.9375rem;
+  font-weight: 600;
   color: var(--ink);
 }
 .check-label + .form-hint {

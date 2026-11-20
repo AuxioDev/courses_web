@@ -8,7 +8,7 @@ const theme = read("../../app/site-theme.css");
 
 describe("layout stability", () => {
   it("preloads the variable heading font, so it is there before the first paint and the headline does not re-wrap", () => {
-    const block = layout.slice(layout.indexOf("Playfair_Display({"));
+    const block = layout.slice(layout.indexOf("Manrope({"));
     const options = block.slice(0, block.indexOf("});"));
     expect(options).toMatch(/preload:\s*true/);
     expect(options).not.toMatch(/weight:/); // variable font: every weight from one file

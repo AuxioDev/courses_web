@@ -15,14 +15,14 @@ const pages = [
 ] as const;
 
 // The school's name (and its logo, once the school has supplied one), the page links as plain text, the language, and
-// the one action that matters. A hairline underneath; sticky. On a phone the three links stay in a row you can swipe,
+// the one action that matters. A hairline underneath; sticky. On a phone the links stay in a row you can swipe,
 // so there is no menu to open.
 export function SiteHeader({ locale, t }: Props) {
   const logo = brandLogo();
   return (
     <header className="site-header">
       <div className="mx-auto flex max-w-[75rem] flex-wrap items-center gap-x-3 px-5 sm:gap-x-6 sm:px-8 lg:px-12">
-        <Link href={localePath(locale, "/")} className="site-name mr-auto flex min-h-14 items-center gap-2.5">
+        <Link href={localePath(locale, "/")} className="site-name mr-auto flex min-h-12 items-center gap-2.5">
           {/* The logo is decorative: the name is written next to it. */}
           {/* eslint-disable-next-line @next/next/no-img-element */}
           {logo && <img src={logo} alt="" height={32} className="h-8 w-auto" />}
@@ -35,7 +35,7 @@ export function SiteHeader({ locale, t }: Props) {
           </Link>
         </div>
         <nav aria-label={t.nav.main} className="scroll-hint -mx-1 w-full overflow-x-auto [--scroll-cover:var(--bg)] md:order-2 md:mx-0 md:w-auto">
-          <NavLinks locale={locale} items={pages.map(({ path, key }) => ({ path, label: t.nav[key] }))} />
+          <NavLinks locale={locale} items={[...pages.map(({ path, key }) => ({ path, label: t.nav[key] })), { path: "/faq", label: t.footer.faq }]} />
         </nav>
       </div>
     </header>

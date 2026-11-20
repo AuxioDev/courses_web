@@ -1,71 +1,87 @@
-/* Public website: a tech-editorial sheet. Gallery-white canvas, near-black ink, one neutral grey for tinted surfaces.
-   Sharp: 3 px corners, 1 px hairlines, no shadows, no gradients. A heavy serif (Playfair Display) for headlines, a
-   razor mono (JetBrains Mono) for buttons, links in the bar and other UI labels, Inter for everything you read.
+/* Public website: a modern education brand. White canvas, a berry action colour, soft tinted panels, 8-12 px corners and
+   light shadows. Manrope for headlines and UI labels, Inter for everything you read (layout.tsx).
    The site is light only. globals.css (identical in all four apps) carries a dark palette, so every token it defines is
    set again here, and color-scheme stays light; nothing from the dark block can show through.
-   --accent is the action colour: it is ink, because a #E5E5E5 accent cannot be read as text or seen as a focus ring.
-   The light grey #E5E5E5 is --accent-soft, used for tints, hovers and rules.
-   Loaded after globals.css. Page structure lives in site-theme.css. Contrast is checked by
-   src/lib/__tests__/contrast.test.ts and theme.test.ts. */
+   --accent is the action colour and the brand colour. THE BERRY IS A PLACEHOLDER until the school's final brand colour
+   exists: change --accent, --accent-hover, --accent-press, --accent-soft and --accent-chip below, then run the tests
+   (contrast.test.ts and theme.test.ts check every pairing).
+   Loaded after globals.css. Page structure lives in site-theme.css. */
 :root {
   color-scheme: light;
-  --bg: #faf9f6;
+  --bg: #ffffff;
   --surface: #ffffff;
-  --surface-2: #efeeea;
-  --ink: #111111;
-  --muted: #55534e;
-  --line: #d6d4ce;
-  --accent: #111111;
-  --accent-ink: #faf9f6;
-  --accent-soft: #e5e5e5;
+  --surface-2: #fbf4f7;
+  --ink: #1b1220;
+  --body: #3e3545;
+  --muted: #6b6173;
+  --line: #e7dde3;
+  --accent: #a32a5c;
+  --accent-hover: #8a2250;
+  --accent-press: #741d43;
+  --accent-ink: #ffffff;
+  --accent-soft: #f4e4eb;
+  --accent-chip: #8a2250;
   --good: #16794c;
   --good-soft: #e2f3ea;
   --warn: #8f5500;
   --warn-soft: #fbf0dc;
   --bad: #b3261e;
   --bad-soft: #fbe6e4;
-  --rule: #e5e5e5;
+  --rule: #e7dde3;
   --marker: #ffd84d;
   --marker-ink: #3d2f00;
   /* Form controls need a clearer edge than a hairline: at least 3:1 against the page. */
-  --field-edge: #77756e;
-  /* One pen colour per course. None is close to the accent. */
+  --field-edge: #82788a;
+  /* One colour per course. None is close to the accent. */
   --hue-0: #1f6b45;
   --hue-1: #0b6e8f;
   --hue-2: #5b6a0a;
   --hue-3: #3f4fa8;
-  /* Everything is architectural: 3 px at most. The utilities that round cards and fields read these. */
-  --radius-md: 3px;
-  --radius-lg: 3px;
-  --radius-xl: 3px;
-  --radius-2xl: 3px;
+  /* Corners: 8 px for buttons and fields, 12 px for cards, 16-20 px for panels. The utilities read these. */
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  --radius-2xl: 1.25rem;
+  /* Depth: one resting shadow and one raised shadow. */
+  --shadow-rest: 0 1px 2px rgb(27 18 32 / 0.06);
+  --shadow-raised: 0 8px 24px rgb(27 18 32 / 0.1);
+  /* The UI font is the headline font (layout.tsx loads one family for both). */
+  --font-ui: var(--font-display);
 }
 
-/* Playfair Display for headlines, JetBrains Mono for UI labels, Inter for the rest (layout.tsx). */
+h1,
+h2,
+h3,
+.display {
+  color: var(--ink);
+}
 h1,
 h2,
 .display {
-  font-family: var(--font-display), Georgia, "Times New Roman", serif;
+  font-family: var(--font-display), system-ui, sans-serif;
   font-weight: 800;
-  letter-spacing: -0.025em;
+  letter-spacing: -0.02em;
   text-wrap: balance;
 }
 h1 {
   font-size: clamp(2.25rem, 1.6rem + 2.6vw, 3.5rem);
-  line-height: 1.08;
+  line-height: 1.1;
 }
 h2 {
-  font-size: clamp(1.5rem, 1.25rem + 1vw, 2rem);
+  font-size: clamp(1.625rem, 1.3rem + 1.1vw, 2.25rem);
   line-height: 1.15;
 }
 h3 {
-  font-size: 1.0625rem;
-  font-weight: 600;
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-size: 1.125rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
   line-height: 1.3;
 }
 body {
   font-size: 1.0625rem;
   line-height: 1.6;
+  color: var(--body);
 }
 
 /* Hours, prices and seats line up in columns. */
@@ -79,62 +95,111 @@ body {
   color: var(--marker-ink);
 }
 
-/* Pills are not part of this look: the utility that makes one now means a 2 px corner. Small round markers become
-   small square ones, which suits the ruled style. */
-.rounded-full {
-  border-radius: 3px;
+/* A small label: a level, a count, the seats left. */
+.chip {
+  display: inline-flex;
+  width: fit-content;
+  align-items: center;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  padding: 0.125rem 0.625rem;
+  font-family: var(--font-ui), system-ui, sans-serif;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--accent-chip);
 }
 
-/* Buttons: solid ink, canvas-coloured text, a 44 px target. Secondary actions are underlined text, not boxes. */
+/* Buttons. Primary: solid berry, white text, a 44 px target (48 px for the large one). Secondary: an outlined button.
+   Tertiary: text with an underline on hover. */
 .btn {
   min-height: 2.75rem;
-  border-radius: 3px;
+  border-radius: 0.5rem;
+  background: var(--accent);
   padding: 0.625rem 1.25rem;
-  font-size: 1rem;
-  font-weight: 600;
+  font-family: var(--font-ui), system-ui, sans-serif;
+  font-size: 0.9375rem;
+  font-weight: 700;
+  letter-spacing: 0;
+  color: var(--accent-ink);
   transition:
     background-color var(--dur-fast) ease,
     transform var(--dur-fast) var(--ease-out);
 }
 .btn:hover {
-  background: color-mix(in srgb, var(--accent) 82%, #fff);
+  background: var(--accent-hover);
 }
 .btn:active {
-  transform: translateY(1px) scale(1);
+  background: var(--accent-press);
+  transform: translateY(1px);
+}
+.btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+.btn-lg {
+  min-height: 3rem;
+  padding-inline: 1.75rem;
+  font-size: 1rem;
 }
 .btn-ghost {
   min-height: 2.75rem;
-  gap: 0.375rem;
-  border: 0;
-  border-radius: 3px;
-  background: none;
-  padding: 0.5rem 0.25rem;
-  font-size: 1rem;
-  font-weight: 600;
-  color: var(--ink);
-  text-decoration: underline;
-  text-decoration-thickness: 1px;
-  text-underline-offset: 0.3em;
-  transition: color var(--dur-fast) ease;
+  gap: 0.5rem;
+  border: 1px solid var(--accent);
+  border-radius: 0.5rem;
+  background: var(--surface);
+  padding: 0.5rem 1.125rem;
+  font-family: var(--font-ui), system-ui, sans-serif;
+  font-size: 0.9375rem;
+  font-weight: 700;
+  letter-spacing: 0;
+  color: var(--accent);
+  transition:
+    background-color var(--dur-fast) ease,
+    color var(--dur-fast) ease;
 }
 .btn-ghost:hover {
-  color: var(--accent);
+  background: var(--accent-soft);
+  color: var(--accent-hover);
 }
-.btn-lg {
-  padding-inline: 1.75rem;
+.btn-link {
+  display: inline-flex;
+  min-height: 2.75rem;
+  align-items: center;
+  gap: 0.375rem;
+  border-radius: 0.5rem;
+  font-family: var(--font-ui), system-ui, sans-serif;
+  font-size: 0.9375rem;
+  font-weight: 700;
+  color: var(--accent);
+  text-decoration: underline transparent;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.3em;
+  transition: text-decoration-color var(--dur-fast) ease;
+}
+.btn-link:hover {
+  text-decoration-color: currentColor;
 }
 
-/* Form fields: white, a clear 1 px edge, an ink ring on focus. */
+/* Form fields: white, a clear 1 px edge, a berry edge and ring on focus. */
 .field {
-  border-radius: 3px;
+  min-height: 3rem;
+  border-radius: 0.5rem;
   border: 1px solid var(--field-edge);
   background: var(--surface);
+  padding: 0.75rem 1rem;
   font-size: 1rem;
 }
 .field:focus {
   border-color: var(--accent);
   outline: 2px solid var(--accent);
   outline-offset: 1px;
+}
+/* A rejected field is marked by its colour as well as by its message. */
+.field[aria-invalid="true"] {
+  border-color: var(--bad);
+}
+.field[aria-invalid="true"]:focus {
+  outline-color: var(--bad);
 }
 input[type="checkbox"],
 input[type="radio"] {
@@ -152,7 +217,7 @@ input[type="radio"] {
   background-size: 100% 1px;
 }
 
-/* One course, one pen colour. Set on anything that belongs to a course. */
+/* One course, one colour. Set on anything that belongs to a course. */
 [data-hue="0"] { --hue: var(--hue-0); }
 [data-hue="1"] { --hue: var(--hue-1); }
 [data-hue="2"] { --hue: var(--hue-2); }
@@ -173,27 +238,8 @@ input[type="radio"] {
   overflow: hidden;
 }
 
-/* Motion: quiet. A short ink rule is drawn under each page title, and the lines of a list arrive one after
-   another, once, on load. Transform and opacity only; reduced motion (globals.css) turns it all off. */
-main h1::after {
-  content: "";
-  display: block;
-  width: 3rem;
-  height: 0.1875rem;
-  margin-top: 0.875rem;
-  background: var(--accent);
-  transform-origin: left;
-  animation: marker-draw var(--dur-slow) var(--ease-out) 0.15s both;
-}
-@keyframes marker-draw {
-  from {
-    transform: scaleX(0);
-  }
-  to {
-    transform: none;
-  }
-}
-
+/* Motion: quiet. The lines of a list arrive one after another, once, on load. Transform and opacity only; reduced
+   motion (globals.css) turns it all off. */
 .reveal {
   animation: rise var(--dur-base) var(--ease-out) both;
 }
@@ -216,7 +262,7 @@ main h1::after {
   }
 }
 
-/* A line of the board answers the pointer: a little of its pen colour washes in. */
+/* A line of the board answers the pointer: a little of its course colour washes in. */
 .pen-edge {
   transition: background-color var(--dur-fast) ease;
 }

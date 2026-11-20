@@ -4,6 +4,16 @@ import { localePath, type Locale } from "@/i18n/config";
 import { teacherPhoto } from "@/lib/brand";
 import type { PublicTeacher } from "@/lib/public-data";
 
+// The first letters of the first two words of a name, for the picture a teacher has not supplied.
+function initialsOf(name: string) {
+  return name
+    .split(/\s+/)
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((word) => Array.from(word)[0].toUpperCase())
+    .join("");
+}
+
 // `level` is the heading level of each name: h3 under a section heading (the home page), h2 straight under the page title.
 export function TeacherList({
   teachers,
@@ -17,14 +27,15 @@ export function TeacherList({
   level?: "h2" | "h3";
 }) {
   return (
-    <ul className="rows grid gap-x-12 sm:grid-cols-2 [&>li:nth-last-child(2)]:sm:border-b [&>li:nth-last-child(2)]:sm:border-line [&>li:last-child]:border-b [&>li:last-child]:border-line">
+    <ul className="teacher-grid">
       {teachers.map((teacher) => {
         const courses = [...new Set(teacher.groups.map((g) => g.course.title))];
         const photo = teacherPhoto(teacher.id);
+        const initials = initialsOf(teacher.name);
         return (
-          <li key={teacher.id} className={`person ${photo ? "has-photo" : ""}`}>
+          <li key={teacher.id} className={`person ${photo || initials ? "has-avatar" : ""}`}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            {photo && <img src={photo} alt="" width={72} height={72} className="photo" />}
+            {photo ? <img src={photo} alt="" width={64} height={64} className="photo" /> : initials && <span className="avatar" aria-hidden>{initials}</span>}
             <div className="min-w-0">
               <Heading>
                 <Link href={localePath(locale, `/teachers/${teacher.id}`)} className="link tap">

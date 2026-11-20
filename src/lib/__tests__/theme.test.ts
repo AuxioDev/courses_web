@@ -42,6 +42,14 @@ describe("website colours", () => {
     }
   });
 
+  it.each([
+    ["accent-chip", "accent-soft"], ["accent-chip", "surface"], ["accent-chip", "surface-2"],
+    ["accent-ink", "accent"], ["accent-ink", "accent-hover"], ["accent", "surface-2"], ["accent", "accent-soft"],
+    ["body", "bg"], ["body", "surface-2"], ["muted", "surface-2"],
+  ])("--%s on --%s is at least 4.5:1 (chips, tinted panels, the berry action panel)", (fg, bg) => {
+    expect(contrast(c[fg], c[bg])).toBeGreaterThanOrEqual(4.5);
+  });
+
   it("text on the yellow marker is readable (4.5:1)", () => {
     expect(contrast(c["marker-ink"], c.marker)).toBeGreaterThanOrEqual(4.5);
   });

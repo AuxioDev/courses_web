@@ -9,7 +9,7 @@ import { hueOf } from "@/lib/schedule";
 import { contacts, SCHOOL_NAME, siteUrl } from "@/lib/site";
 import { CourseIndex } from "@/components/course-index";
 import { Seats, WeeklyHours } from "@/components/group-list";
-import { ArrowRight } from "@/components/icons";
+import { ArrowRight, Notebook, People, Video } from "@/components/icons";
 import { Section } from "@/components/section";
 import { TeacherList } from "@/components/teacher-list";
 import { Timetable } from "@/components/timetable";
@@ -62,7 +62,7 @@ function ContactRows({ t, withWhatsapp = true }: { t: Dictionary; withWhatsapp?:
 function OpenNow({ groups, locale, t }: { groups: PublicGroup[]; locale: Locale; t: Dictionary }) {
   if (groups.length === 0) {
     return (
-      <div className="open-now">
+      <div className="open-now open-now-empty">
         <h2>{t.home.noGroupsTitle}</h2>
         <p className="mt-3 text-muted">{t.home.noGroupsBody}</p>
         <div className="mt-5">
@@ -101,6 +101,11 @@ export default async function HomePage() {
   const c = contacts();
   const rows = courseRows(groups);
   const shots = diaryShots();
+  const features = [
+    [Video, h.lessons.liveTitle, h.lessons.liveBody],
+    [Notebook, h.lessons.diaryTitle, h.lessons.diaryBody],
+    [People, h.lessons.groupTitle, h.lessons.groupBody],
+  ] as const;
   const steps = [
     [h.steps.chooseTitle, h.steps.chooseBody],
     [h.steps.applyTitle, h.steps.applyBody],
@@ -128,11 +133,17 @@ export default async function HomePage() {
           <h1>{h.title}</h1>
           <p className="hero-lead">{h.lead}</p>
           <div className="hero-actions">
-            <Link href={localePath(locale, "/apply")} className="btn btn-lg">
+            {/* With nothing open the way to reach the school is the main action, so Apply steps back to a quiet button. */}
+            <Link href={localePath(locale, "/apply")} className={groups.length > 0 ? "btn btn-lg" : "btn-ghost"}>
               {t.group.apply}
             </Link>
             {groups.length > 0 && (
-              <a href="#courses" className="btn-ghost">
+              <Link href={localePath(locale, "/apply?trial=1")} className="btn-ghost">
+                {t.group.trial}
+              </Link>
+            )}
+            {groups.length > 0 && (
+              <a href="#courses" className="btn-link">
                 {h.seeGroups}
                 <ArrowRight width={18} height={18} />
               </a>
@@ -141,6 +152,20 @@ export default async function HomePage() {
         </div>
         <OpenNow groups={groups} locale={locale} t={t} />
       </section>
+
+      <Section id="lessons" title={h.lessonsTitle}>
+        <ul className="features">
+          {features.map(([Icon, title, body]) => (
+            <li key={title}>
+              <span className="feature-icon" aria-hidden>
+                <Icon />
+              </span>
+              <h3>{title}</h3>
+              <p className="mt-1 text-muted">{body}</p>
+            </li>
+          ))}
+        </ul>
+      </Section>
 
       <Section id="join" title={h.howTitle}>
         <ol className="steps">

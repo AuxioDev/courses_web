@@ -37,15 +37,15 @@ export function seatsText(seatsLeft: number | null, locale: Locale, t: Text) {
 export function Seats({ seatsLeft, locale, t }: { seatsLeft: number | null; locale: Locale; t: Text }) {
   const text = seatsText(seatsLeft, locale, t);
   if (seatsLeft === null) return <span className="text-sm text-muted">{text}</span>;
-  if (seatsLeft === 0) return <span className="ui-label rounded-[3px] bg-surface-2 px-1.5 py-0.5 font-semibold text-muted">{text}</span>;
+  if (seatsLeft === 0) return <span className="ui-label rounded-full border border-line bg-surface-2 px-2.5 py-0.5 font-semibold text-muted">{text}</span>;
   // The marker is for the last few seats, where it changes what a person does.
-  return <span className={`num ui-label rounded-[3px] px-1.5 py-0.5 font-semibold ${seatsLeft <= 3 ? "marked" : "bg-surface-2"}`}>{text}</span>;
+  return <span className={`num ui-label rounded-full px-2.5 py-0.5 font-semibold ${seatsLeft <= 3 ? "marked" : "bg-accent-soft text-[color:var(--accent-chip)]"}`}>{text}</span>;
 }
 
 // One line of the board per group: what, when, who, how much, and the way in.
 export function GroupList({ groups, locale, t, showCourse = true }: { groups: PublicGroup[]; locale: Locale; t: Text; showCourse?: boolean }) {
   return (
-    <ul className="group-board divide-y divide-line overflow-hidden rounded-[3px] border border-line bg-surface">
+    <ul className="group-board divide-y divide-line overflow-hidden rounded-xl border border-line bg-surface">
       {groups.map((group) => {
         const href = localePath(locale, `/groups/${group.id}`);
         const title = showCourse ? group.course.title : group.name;

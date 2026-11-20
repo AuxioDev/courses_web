@@ -21,13 +21,13 @@ export default async function SentPage() {
   return (
     <div className="max-w-2xl">
       <h1>{s.title}</h1>
-      <p role="status" className="mt-4 rounded-[3px] bg-good-soft px-4 py-3 text-good">
+      <p role="status" className="mt-4 rounded-lg bg-good-soft px-4 py-3 text-good">
         {s.body}
       </p>
       <ol className="mt-8 space-y-5">
         {steps.map(([title, body], i) => (
           <li key={title} className="flex gap-3">
-            <span className="marked display num flex h-9 w-9 shrink-0 items-center justify-center rounded-lg text-sm font-semibold" aria-hidden>
+            <span className="display num flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-accent text-sm font-extrabold text-accent-ink" aria-hidden>
               {i + 1}
             </span>
             <div>

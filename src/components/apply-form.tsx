@@ -135,11 +135,11 @@ export function ApplyForm({ locale, courses, chosen, trial, labels }: Props) {
       </div>
 
       <label className="check-label">
-        <input type="checkbox" name="isMinor" checked={isMinor} onChange={(event) => setIsMinor(event.target.checked)} className="h-5 w-5 shrink-0 accent-[var(--accent)]" />
+        <input type="checkbox" name="isMinor" checked={isMinor} onChange={(event) => setIsMinor(event.target.checked)} className="h-6 w-6 shrink-0 accent-[var(--accent)]" />
         {labels.minor}
       </label>
       {isMinor && (
-        <div className="grid gap-5 rounded-[3px] border border-line p-4 sm:grid-cols-2">
+        <div className="grid gap-5 rounded-xl border border-line bg-surface-2 p-4 sm:grid-cols-2">
           <div>
             <label htmlFor="guardianName" className="form-label">
               {labels.guardianName}
@@ -170,7 +170,7 @@ export function ApplyForm({ locale, courses, chosen, trial, labels }: Props) {
 
       <div>
         <label className="check-label">
-          <input type="checkbox" name="trial" defaultChecked={trial} aria-describedby="trial-hint" className="h-5 w-5 shrink-0 accent-[var(--accent)]" />
+          <input type="checkbox" name="trial" defaultChecked={trial} aria-describedby="trial-hint" className="h-6 w-6 shrink-0 accent-[var(--accent)]" />
           {labels.trial}
         </label>
         <span id="trial-hint" className="form-hint">
@@ -187,7 +187,7 @@ export function ApplyForm({ locale, courses, chosen, trial, labels }: Props) {
 
       <div>
         <div className="flex items-start gap-3 text-[0.9375rem]">
-          <input id="privacy" type="checkbox" name="privacy" required aria-invalid={errors.privacy ? true : undefined} aria-describedby={describe("privacy")} className="mt-0.5 h-5 w-5 shrink-0 accent-[var(--accent)]" />
+          <input id="privacy" type="checkbox" name="privacy" required aria-invalid={errors.privacy ? true : undefined} aria-describedby={describe("privacy")} className="mt-0.5 h-6 w-6 shrink-0 accent-[var(--accent)]" />
           <label htmlFor="privacy">
             {labels.privacyBefore}{" "}
             <Link href={localePath(locale, "/privacy")} target="_blank" className="link font-semibold">
@@ -200,7 +200,7 @@ export function ApplyForm({ locale, courses, chosen, trial, labels }: Props) {
       </div>
 
       {hasErrors && (
-        <p ref={summary} tabIndex={-1} role="alert" className="rounded-[3px] bg-bad-soft px-3 py-2 text-sm text-bad">
+        <p ref={summary} tabIndex={-1} role="alert" className="rounded-lg bg-bad-soft px-3 py-2 text-sm text-bad">
           {state?.formError ? labels.errors[state.formError] : labels.errors.summary}
         </p>
       )}
